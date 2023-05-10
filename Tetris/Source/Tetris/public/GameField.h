@@ -26,4 +26,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+public:
+	UPROPERTY(EditAnywhere, Category = "TetrisShape")
+		UStaticMeshComponent* StaticMeshComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
+		UMaterialInterface* PrimaryMaterial = nullptr;
+
 };

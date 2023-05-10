@@ -23,4 +23,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+public:
+	UPROPERTY(EditAnywhere, Category="TetrisShape")
+		UStaticMeshComponent* StaticMeshComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, Transient, Category="TetrisShape")
+		UMaterialInterface* PrimaryMaterial = nullptr;
+
+	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
+		UMaterialInterface* SecondaryMaterial = nullptr;
+
+	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
+		UMaterialInterface* ExtraMaterial = nullptr;
 };

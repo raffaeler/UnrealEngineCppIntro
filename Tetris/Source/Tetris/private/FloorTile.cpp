@@ -7,8 +7,15 @@
 AFloorTile::AFloorTile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(
+		TEXT("StaticMeshComponent"));
+	RootComponent = StaticMeshComponent;
+
+	PrimaryMaterial = nullptr;
+	SecondaryMaterial = nullptr;
+	ExtraMaterial = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -18,10 +25,9 @@ void AFloorTile::BeginPlay()
 	
 }
 
-// Called every frame
+// Disabled
 void AFloorTile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
