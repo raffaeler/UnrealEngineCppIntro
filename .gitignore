@@ -72,3 +72,14 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+
+
+# Raf: ignore Intermediate folder and pdbs (not in the binary folder)
+Intermediate/
+Debug/
+Saved/
+Collections/
+Developers/
+Binaries/
+*.pdb
