@@ -11,6 +11,9 @@ class TETRIS_API AGameField : public APawn
 {
 	GENERATED_BODY()
 
+private:
+	void DbgDraw();
+
 public:
 	// Sets default values for this pawn's properties
 	AGameField();
