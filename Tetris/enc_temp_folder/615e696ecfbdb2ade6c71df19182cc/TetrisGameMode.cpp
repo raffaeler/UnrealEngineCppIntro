@@ -77,9 +77,8 @@ void ATetrisGameMode::OnItemDropTimer()
     UE_LOG(LogTemp, Display, TEXT("ATetrisGameMode::OnItemDropTimer()"));
 
     auto world = GetWorld();
-    FVector Pos(20*100, 10*100/2, 122);
-    //auto ItemClass = ItemClasses[FString("T")];
-    auto ItemClass = ItemClasses[FString("I")];
+    FVector Pos(20*100, 10*100/2, 102);
+    auto ItemClass = ItemClasses[FString("T")];
     CurrentItem = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos));
     CurrentItem->SetTileStatus();
 }

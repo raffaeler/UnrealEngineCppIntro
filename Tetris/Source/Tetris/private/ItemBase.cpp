@@ -10,6 +10,11 @@ AItemBase::AItemBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//auto MeshName = GetName() + TEXT("Mesh");
+	//auto mesh = CreateDefaultSubobject<UPrimitiveComponent>(*MeshName);
+	//SetRootComponent(mesh);
+	//GetMesh
+
 	PrimaryMaterial = nullptr;
 	SecondaryMaterial = nullptr;
 	ExtraMaterial = nullptr;
@@ -27,7 +32,9 @@ void AItemBase::SetTileStatus()
 	UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Primary material:%s"),
 		*(PrimaryMaterial->GetFName().ToString()));
 
-	auto mesh = Helpers::GetRootMeshComponent(this);// Cast<UStaticMeshComponent>(GetRootComponent());
+	//auto mesh = Helpers::GetRootMeshComponent(this);
+
+	auto mesh = Cast<UStaticMeshComponent>(GetComponentByClass(UStaticMeshComponent::StaticClass()));
 	mesh->SetMaterial(0, PrimaryMaterial);
 
 	/*

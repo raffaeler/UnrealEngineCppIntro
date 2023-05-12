@@ -24,11 +24,8 @@ public:
 			//mesh = element->CreateDefaultSubobject<UStaticMeshComponent>(*MeshName);
 			//element->SetRootComponent(mesh);
 
-			//TArray<TObjectPtr<USceneComponent>> AllChildren;
-			//root->GetChildrenComponents(true, AllChildren);
-			auto myComp = element->GetComponentByClass(UStaticMeshComponent::StaticClass());
-			UE_LOG(LogTemp, Display, TEXT("Tetris> THE Child: %s"), *myComp->GetName());
-			auto AllChildren = element->GetComponents();
+			TArray<TObjectPtr<USceneComponent>> AllChildren;
+			root->GetChildrenComponents(true, AllChildren);
 			for (const auto& item : AllChildren)
 			{
 				UE_LOG(LogTemp, Display, TEXT("Tetris> Root Children: %s"), *item->GetName());

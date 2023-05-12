@@ -2,7 +2,7 @@
 
 
 #include "ItemBase.h"
-//#include "./Ga"
+#include "Helpers.h"
 
 // Sets default values
 AItemBase::AItemBase()
@@ -27,8 +27,9 @@ void AItemBase::SetTileStatus()
 	UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Primary material:%s"),
 		*(PrimaryMaterial->GetFName().ToString()));
 
-	auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
-	mesh->SetMaterial(0, PrimaryMaterial);
+	auto mesh = Helpers::GetRootMeshComponent(this);
+
+	//mesh->SetMaterial(0, PrimaryMaterial);
 
 	/*
 	//StaticMeshComponent->SetMaterial(0, PrimaryMaterial);

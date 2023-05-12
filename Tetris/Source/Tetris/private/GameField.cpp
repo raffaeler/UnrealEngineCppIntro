@@ -41,17 +41,8 @@ void AGameField::BeginPlay()
     UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField Primary material:%s"),
         *(PrimaryMaterial->GetFName().ToString()));
 
-    //auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
-    auto mesh = Helpers::GetRootMeshComponent(this);// Cast<UStaticMeshComponent>(GetRootComponent());
-
-    mesh->SetMaterial(0, PrimaryMaterial);
-
-
-    //UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField::BeginPlay() RootComponent is %s"), RootComponent == nullptr ? *FString("null") : *FString("ok"));
-
-    //auto mesh = Cast<UStaticMeshComponent>(RootComponent);
-    //if (mesh != nullptr)
-    //    mesh->SetMaterial(0, PrimaryMaterial);
+    //auto mesh = Helpers::GetRootMeshComponent(this);
+    //mesh->SetMaterial(0, PrimaryMaterial);
 }
 
 // Called every frame
