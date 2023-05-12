@@ -31,8 +31,8 @@ public:
 
 
 public:
-	UPROPERTY(EditAnywhere, Category = "TetrisShape")
-		UStaticMeshComponent* StaticMeshComponent = nullptr;
+	//UPROPERTY(EditAnywhere, Category = "TetrisShape")
+	//	UStaticMeshComponent* StaticMeshComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
 		UMaterialInterface* PrimaryMaterial = nullptr;

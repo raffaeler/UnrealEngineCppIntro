@@ -30,8 +30,8 @@ void ATetrisGameMode::BeginPlay()
     StartGameDelegate.BindUFunction(this, "OnStartGameTimer");
     IntervalIndex = 0;
     StartGameIntervals.Push(1);
-    StartGameIntervals.Push(0.9);
-    StartGameIntervals.Push(0.9);
+    //StartGameIntervals.Push(0.9);
+    //StartGameIntervals.Push(0.9);
     SetupStartGameTimer();
 }
 
@@ -77,9 +77,9 @@ void ATetrisGameMode::OnItemDropTimer()
     UE_LOG(LogTemp, Display, TEXT("ATetrisGameMode::OnItemDropTimer()"));
 
     auto world = GetWorld();
-    FVector Pos(20*100, 10*100/2, 100);
+    FVector Pos(20*100, 10*100/2, 200);
     auto ItemClass = ItemClasses[FString("I")];
     CurrentItem = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos));
-
+    CurrentItem->SetTileStatus();
 }
 

@@ -10,9 +10,19 @@ AGameField::AGameField()
     // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = false;
 
-    StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(
-        TEXT("StaticMeshComponent"));
-    RootComponent = StaticMeshComponent;
+    auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
+    if (mesh == nullptr)
+    {
+        mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GameFieldMesh"));
+        SetRootComponent(mesh);
+    }
+    //StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(
+    //    TEXT("GameFieldMesh"));
+
+    //UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField::AGameField() StaticMesh is %s"), StaticMeshComponent == nullptr ? *FString("null") : *FString("ok"));
+
+    //SetRootComponent(StaticMeshComponent);
+    //RootComponent = StaticMeshComponent;
 
     PrimaryMaterial = nullptr;
 
@@ -24,6 +34,19 @@ void AGameField::BeginPlay()
     Super::BeginPlay();
 
     DbgDraw();
+
+    UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField Primary material:%s"),
+        *(PrimaryMaterial->GetFName().ToString()));
+
+    auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
+    mesh->SetMaterial(0, PrimaryMaterial);
+
+
+    //UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField::BeginPlay() RootComponent is %s"), RootComponent == nullptr ? *FString("null") : *FString("ok"));
+
+    //auto mesh = Cast<UStaticMeshComponent>(RootComponent);
+    //if (mesh != nullptr)
+    //    mesh->SetMaterial(0, PrimaryMaterial);
 }
 
 // Called every frame
