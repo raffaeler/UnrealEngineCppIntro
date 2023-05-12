@@ -13,18 +13,6 @@ public:
 	Helpers();
 	~Helpers();
 
-	static UStaticMeshComponent* GetRootMeshComponent(AActor* element)
-	{
-		auto mesh = Cast<UStaticMeshComponent>(element->GetRootComponent());
-		if (mesh == nullptr)
-		{
-			auto MeshName = element->GetName() + TEXT("Mesh");
-			mesh = element->CreateDefaultSubobject<UStaticMeshComponent>(*MeshName);
-			element->SetRootComponent(mesh);
-		}
-
-		return mesh;
-	}
 
 	static UMaterialInterface* CreateTileMaterialByName(const FString& MaterialName)
 	{
@@ -38,5 +26,4 @@ public:
 
 		return material;
 	}
-
 };

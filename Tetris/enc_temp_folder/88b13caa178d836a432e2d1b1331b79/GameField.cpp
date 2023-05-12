@@ -3,7 +3,6 @@
 
 #include "GameField.h"
 #include "DrawDebugHelpers.h"
-#include "Helpers.h"
 
 // Sets default values
 AGameField::AGameField()
@@ -11,14 +10,12 @@ AGameField::AGameField()
     // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = false;
 
-    //auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
-    //if (mesh == nullptr)
-    //{
-    //    mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GameFieldMesh"));
-    //    SetRootComponent(mesh);
-    //}
-
-
+    auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
+    if (mesh == nullptr)
+    {
+        mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GameFieldMesh"));
+        SetRootComponent(mesh);
+    }
     //StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(
     //    TEXT("GameFieldMesh"));
 
@@ -41,9 +38,7 @@ void AGameField::BeginPlay()
     UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField Primary material:%s"),
         *(PrimaryMaterial->GetFName().ToString()));
 
-    //auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
-    auto mesh = Helpers::GetRootMeshComponent(this);// Cast<UStaticMeshComponent>(GetRootComponent());
-
+    auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
     mesh->SetMaterial(0, PrimaryMaterial);
 
 
