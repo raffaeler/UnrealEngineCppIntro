@@ -25,7 +25,6 @@ AItemBase::AItemBase()
 void AItemBase::BeginPlay()
 {
     Super::BeginPlay();
-
 }
 
 void AItemBase::ApplyMaterial(UMaterialInterface* material)
@@ -54,6 +53,7 @@ void AItemBase::ApplyMaterial(UMaterialInterface* material)
 
 bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
 {
+    // GetComponentsByClass is obsolete and can be replaced as follows
     //auto AllChildren = GetComponentsByClass(UChildActorComponent::StaticClass());
     TArray<UChildActorComponent*> AllChildren;
     GetComponents<UChildActorComponent>(AllChildren);
@@ -70,51 +70,6 @@ bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
     }
 
     Destroy();
-    return true;
-}
-
-bool AItemBase::Ungroup2(AActor* NewParent, TArray<AActor*>& detachedActors)
-{
-    //TArray<AActor*> AllChildren;
-    //GetAllChildActors(AllChildren);
-    auto AllChildren = GetComponentsByClass(UChildActorComponent::StaticClass());
-
-    if (AllChildren.IsEmpty()) return false;
-
-    for (const auto& actorComponent : AllChildren)
-    {
-        auto childActorComponent = Cast<UChildActorComponent>(actorComponent);
-        //childActorComponent->DetachFromParent(true, true);// RemoveFromRoot();
-        //childActorComponent->SetActive(false);
-        auto child = childActorComponent->GetChildActor();
-        child->AttachToActor(NewParent, FAttachmentTransformRules::KeepRelativeTransform);
-        
-        //UChildActorComponent* newComponent = NewObject<UChildActorComponent>(NewParent);
-        //child->Atta
-        //newComponent->Actor;
-        //newComponent->RegisterComponent();
-        //NewParent->
-
-        //childActorComponent->UnregisterComponent();
-        
-
-        ////RemoveInstanceComponent(ChildActorComponents);
-        ////child->RemoveFromRoot();
-        ////child->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-        detachedActors.Push(child);
-    }
-
-    TArray<AActor*> AllChildren2;
-    AllChildren2.Empty();
-    GetAllChildActors(AllChildren2);
-    for (const auto& actor : AllChildren2)
-    {
-        const auto& item = Cast<AItemBase>(actor);
-        UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase After detach:%s"),
-            *(actor->GetFName().ToString()));
-    }
-    UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Detached!"));
-    //Destroy();
     return true;
 }
 
