@@ -10,10 +10,16 @@ UCLASS()
 class TETRIS_API AItemBase : public AActor
 {
 	GENERATED_BODY()
+
+private:
 	
 public:	
 	// Sets default values for this actor's properties
 	AItemBase();
+
+	void ApplyMaterial(UMaterialInterface* material);
+	bool Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors);
+	bool Ungroup2(AActor* NewParent, TArray<AActor*>& detachedActors);
 
 protected:
 	// Called when the game starts or when spawned

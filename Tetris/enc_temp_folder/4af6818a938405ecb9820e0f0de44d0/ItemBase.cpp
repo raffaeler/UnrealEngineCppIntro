@@ -58,13 +58,22 @@ bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
     TArray<UChildActorComponent*> AllChildren;
     GetComponents<UChildActorComponent>(AllChildren);
     if (AllChildren.IsEmpty()) return false;
-
     auto world = GetWorld();
     for (const auto& actorComponent : AllChildren)
     {
         auto childActorComponent = Cast<UChildActorComponent>(actorComponent);
         auto child = Cast<AItemBase>(childActorComponent->GetChildActor());
 
+        //auto childClass = child->GetClass();
+        //auto location = child->GetActorLocation();
+        //auto transform = child->GetTransform();
+        //auto mesh = Cast<UStaticMeshComponent>(
+        //    child->GetComponentByClass(UStaticMeshComponent::StaticClass()));
+        //auto material = mesh->GetMaterial(0);
+
+        //auto newChild = Cast<AItemBase>(world->SpawnActor(childClass, &location));
+        //newChild->SetActorTransform(transform);
+        //newChild->ApplyMaterial(material);
         AItemBase* newChild = Helpers::CloneActor<AItemBase>(world, child);
         detachedActors.Push(newChild);
     }

@@ -13,6 +13,22 @@ public:
 	Helpers();
 	~Helpers();
 
+	template<typename TActor>
+	static TActor* CloneActor(UWorld* world, TActor* actor)
+	{
+		auto actorClass = actor->GetClass();
+		auto location = actor->GetActorLocation();
+		auto transform = actor->GetTransform();
+		auto mesh = Cast<UStaticMeshComponent>(
+			actor->GetComponentByClass(UStaticMeshComponent::StaticClass()));
+		auto material = mesh->GetMaterial(0);
+
+		auto clone = Cast<TActor>(world->SpawnActor(actorClass, &location));
+		clone->SetActorTransform(transform);
+		clone->ApplyMaterial(material);
+		return clone;
+	}
+
 	static UStaticMeshComponent* GetRootMeshComponent(AActor* element)
 	{
 		auto root = element->GetRootComponent();

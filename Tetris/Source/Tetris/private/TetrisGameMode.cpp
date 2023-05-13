@@ -47,6 +47,8 @@ void ATetrisGameMode::SetupStartGameTimer()
 
 void ATetrisGameMode::OnStartGameTimer()
 {
+    PreStartGame(IntervalIndex, StartGameIntervals.Num());
+
     if (++IntervalIndex < StartGameIntervals.Num())
     {
         // TODO: Show graphics with counter
@@ -76,11 +78,28 @@ void ATetrisGameMode::OnItemDropTimer()
 {
     UE_LOG(LogTemp, Display, TEXT("ATetrisGameMode::OnItemDropTimer()"));
 
-    auto world = GetWorld();
-    FVector Pos(20*100, 10*100/2, 122);
-    //auto ItemClass = ItemClasses[FString("T")];
-    auto ItemClass = ItemClasses[FString("I")];
-    CurrentItem = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos));
-    CurrentItem->SetTileStatus();
+    StartGame();
 }
+
+void ATetrisGameMode::PreStartGame(int32 count, int32 maxCount)
+{
+    if (count == 0)
+    {
+        auto world = GetWorld();
+        FVector Pos(20 * 100, 10 * 100 / 2, 122);
+        //auto ItemClass = ItemClasses[FString("T")];
+        auto ItemClass = ItemClasses[FString("O")];
+        CurrentItem = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos));
+        CurrentItem->SetTileStatus();
+    }
+}
+
+void ATetrisGameMode::StartGame()
+{
+    TArray<AActor*> detachedActors;
+    CurrentItem->Ungroup(GameField, detachedActors);
+    DetachedActors = detachedActors;
+    DetachedActors[0]->SetActorLocation(DetachedActors[0]->GetActorLocation() + FVector(10, 10, 10));
+}
+
 

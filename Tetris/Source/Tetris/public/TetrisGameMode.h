@@ -23,6 +23,8 @@ private:
     FTimerHandle StartGameTimer;
     FTimerDelegate StartGameDelegate;
     UFUNCTION() void OnStartGameTimer();
+    void PreStartGame(int32 count, int32 maxCount);
+    void StartGame();
     TArray<float> StartGameIntervals;
     int32 IntervalIndex = 0;
 
@@ -52,6 +54,7 @@ public:
     UPROPERTY(Transient)
         AItemBase* CurrentItem = nullptr;
 
+    TArray<AActor*> DetachedActors;
 
 public:
 };
