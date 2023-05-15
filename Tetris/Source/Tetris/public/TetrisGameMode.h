@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
+#include "EngineUtils.h"
 #include "GameField.h"
 #include "ItemBase.h"
 

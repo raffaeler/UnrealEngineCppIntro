@@ -27,11 +27,11 @@ AGameField::AGameField()
     ArmComponent->SetupAttachment(StaticMeshComponent);
     CameraComponent->SetupAttachment(ArmComponent, USpringArmComponent::SocketName);
 
-    //ArmComponent->SetRelativeLocationAndRotation(
-    //    FVector(0.0f, 0.0f, 50.0f),
-    //    FRotator(0.0f, 90.0f, 0.0f));
-    //ArmComponent->TargetArmLength = 400.f;
-    //ArmComponent->bEnableCameraLag = false;
+    ArmComponent->SetRelativeLocationAndRotation(
+        FVector(0.0f, 0.0f, 50.0f),
+        FRotator(0.0f, 90.0f, 0.0f));
+    ArmComponent->TargetArmLength = 400.f;
+    ArmComponent->bEnableCameraLag = false;
     //ArmComponent->CameraLagSpeed = 3.0f;
     
     /*
@@ -133,41 +133,41 @@ void AGameField::DbgDraw()
 void AGameField::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
-    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::SetupPlayerInputComponent()"));
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::SetupPlayerInputComponent()"));
 
 
-    //// Get the player controller
-    //APlayerController* PC = Cast<APlayerController>(GetController());
+    // Get the player controller
+    APlayerController* PC = Cast<APlayerController>(GetController());
 
-    ////// Get the local player subsystem
-    //UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
-    ////// Clear out existing mapping, and add our mapping
-    //Subsystem->ClearAllMappings();
-    //Subsystem->AddMappingContext(InputMapping, 0);
+    //// Get the local player subsystem
+    UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
+    //// Clear out existing mapping, and add our mapping
+    Subsystem->ClearAllMappings();
+    Subsystem->AddMappingContext(InputMapping, 0);
 
-    //// Get the EnhancedInputComponent
-    //UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-    //// Bind the actions
-    //PEI->BindAction(InputNewItem, ETriggerEvent::Triggered, this, &AGameField::OnNewItem);
+    // Get the EnhancedInputComponent
+    UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+    // Bind the actions
+    PEI->BindAction(InputNewItem, ETriggerEvent::Triggered, this, &AGameField::OnNewItem);
 
 }
 
 void AGameField::OnNewItem(const FInputActionValue& Value)
 {
-    //if (Controller == nullptr)
-    //{
-    //    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Controller is null"));
-    //    return;
-    //}
+    if (Controller == nullptr)
+    {
+        UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Controller is null"));
+        return;
+    }
 
-    //if (Value.GetValueType() != EInputActionValueType::Boolean)
-    //{
-    //    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value is not boolean"));
-    //    return;
-    //}
+    if (Value.GetValueType() != EInputActionValueType::Boolean)
+    {
+        UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value is not boolean"));
+        return;
+    }
 
-    //bool value = Value.GetMagnitude() != 0;
-    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value:%s"),
-    //    value ? TEXT("On") : TEXT("Off"));
+    bool value = Value.GetMagnitude() != 0;
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value:%s"),
+        value ? TEXT("On") : TEXT("Off"));
 
 }

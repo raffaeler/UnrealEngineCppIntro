@@ -22,8 +22,6 @@ void ATetrisGameMode::BeginPlay()
     //GameField = Cast<AGameField>(world->SpawnActor(GameFieldClass, &GameFieldPos));
     //GameField = Cast<AGameField>(DefaultPawnClass.GetDefaultObject());
     GameField = Cast<AGameField>(*TActorIterator<AGameField>(GetWorld()));
-    GameField->SetActorLocation(GameFieldPos);
-    GameField->SetActorRotation(FRotator());
 
     //DrawDebugDirectionalArrow(world,
     //    FVector(0, 0, 100), FVector(0, 0, 600), 50, FColor::Orange, true, -1, 0, 10);
