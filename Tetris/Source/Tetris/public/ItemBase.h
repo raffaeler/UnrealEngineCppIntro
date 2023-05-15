@@ -41,4 +41,10 @@ public:
 		UMaterialInterface* ExtraMaterial = nullptr;
 
 	void SetTileStatus();
+
+public:
+	// Movements
+
+
+
 };

@@ -38,44 +38,41 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	//UPROPERTY(EditAnywhere, Category = "TetrisInput")
-	//	TSoftObjectPtr<UInputMappingContext> InputMapping;
+#pragma region Enhanced Input managed inside the Pawn
+//protected:
+//	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+//		class UInputMappingContext* InputMapping;
+//
+//	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+//		UInputAction* InputNewItem;
+//
+//	void OnNewItem(const FInputActionValue& Value);
+#pragma endregion
 
-protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		class UInputMappingContext* InputMapping;
+public:
+	UPROPERTY(EditAnywhere, Category = "Tetris Components")
+		UStaticMeshComponent* StaticMeshComponent = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputNewItem;
+	// Camera related settings
+	UPROPERTY(EditAnywhere, Category = "Tetris Components")
+		UCameraComponent* CameraComponent = nullptr;
 
-	void OnNewItem(const FInputActionValue& Value);
+	UPROPERTY(EditAnywhere, Category = "Tetris Components")
+		USpringArmComponent* ArmComponent = nullptr;
+
+public:
+	// Input Commands:
+	void OnLeft();
+	void OnRight();
+	void OnRotate();
+	void OnDrawNext();
+	void OnSpeedUp();
+	void OnDrop();
 
 
 public:
-	UPROPERTY(EditAnywhere, Category = "TetrisShape")
-		UStaticMeshComponent* StaticMeshComponent = nullptr;
-
 	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
 		UMaterialInterface* PrimaryMaterial = nullptr;
 
-public:
-	// Camera related settings
-	UPROPERTY(EditAnywhere, Category = "TetrisCamera")
-		UCameraComponent* CameraComponent = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "TetrisCamera")
-		USpringArmComponent* ArmComponent = nullptr;
-
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TetrisCamera")
-	//	FVector ArmLocation;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TetrisCamera")
-	//	FRotator ArmRotation;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TetrisCamera")
-	//	float ArmLength = 400.0f;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TetrisCamera")
-	//	float OrthWidth = 2400.0f;
 };

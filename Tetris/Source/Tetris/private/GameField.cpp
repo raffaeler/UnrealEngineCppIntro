@@ -129,45 +129,80 @@ void AGameField::DbgDraw()
     }
 }
 
+#pragma region Enhanced Input managed inside the Pawn
 // Called to bind functionality to input
 void AGameField::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
-    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::SetupPlayerInputComponent()"));
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::SetupPlayerInputComponent()"));
 
-
-    //// Get the player controller
+    //// Get the player controller (either the default or the user-defined)
     //APlayerController* PC = Cast<APlayerController>(GetController());
 
     ////// Get the local player subsystem
     //UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
-    ////// Clear out existing mapping, and add our mapping
-    //Subsystem->ClearAllMappings();
+
+    //Subsystem->ClearAllMappings();    // remove existing bindings
     //Subsystem->AddMappingContext(InputMapping, 0);
 
-    //// Get the EnhancedInputComponent
+    //// Define the new bindings using the EnhancedInput
     //UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(PlayerInputComponent);
     //// Bind the actions
     //PEI->BindAction(InputNewItem, ETriggerEvent::Triggered, this, &AGameField::OnNewItem);
-
 }
 
-void AGameField::OnNewItem(const FInputActionValue& Value)
+//void AGameField::OnNewItem(const FInputActionValue& Value)
+//{
+//    if (Controller == nullptr)
+//    {
+//        UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Controller is null"));
+//        return;
+//    }
+//
+//    if (Value.GetValueType() != EInputActionValueType::Boolean)
+//    {
+//        UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value must be a boolean"));
+//        return;
+//    }
+//
+//    bool value = Value.GetMagnitude() != 0;
+//    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value:%s"),
+//        value ? TEXT("On") : TEXT("Off"));
+//}
+
+#pragma endregion
+
+
+void AGameField::OnLeft()
 {
-    //if (Controller == nullptr)
-    //{
-    //    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Controller is null"));
-    //    return;
-    //}
-
-    //if (Value.GetValueType() != EInputActionValueType::Boolean)
-    //{
-    //    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value is not boolean"));
-    //    return;
-    //}
-
-    //bool value = Value.GetMagnitude() != 0;
-    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value:%s"),
-    //    value ? TEXT("On") : TEXT("Off"));
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
 
 }
+
+void AGameField::OnRight()
+{
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
+}
+
+void AGameField::OnRotate()
+{
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
+}
+
+void AGameField::OnDrawNext()
+{
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
+
+}
+
+void AGameField::OnSpeedUp()
+{
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnSpeedUp()"));
+}
+
+void AGameField::OnDrop()
+{
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrop()"));
+}
+
+

@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "InputActionValue.h"
 #include "InputAction.h"
+#include "GameField.h"
 
 #include "TetrisPlayerController.generated.h"
 
@@ -27,7 +28,31 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
 		UInputAction* InputNewItem;
 
-	//void OnNewItem();
-	void OnNewItem(const FInputActionValue& Value);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+		UInputAction* InputLeft;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+		UInputAction* InputRight;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+		UInputAction* InputRotate;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+		UInputAction* InputDrawNext;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+		UInputAction* InputSpeedUp;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+		UInputAction* InputDrop;
+
+	bool ValidateInput(const FInputActionValue& InputValue);
+	void OnNewItem(const FInputActionValue& InputValue);
+
+	void OnLeft(const FInputActionValue& InputValue);
+	void OnRight(const FInputActionValue& InputValue);
+	void OnRotate(const FInputActionValue& InputValue);
+	void OnDrawNext(const FInputActionValue& InputValue);
+	void OnSpeedUp(const FInputActionValue& InputValue);
+	void OnDrop(const FInputActionValue& InputValue);
 };

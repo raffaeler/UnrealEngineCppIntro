@@ -7,6 +7,17 @@
 #include "InputMappingContext.h"
 #include "EnhancedInputComponent.h"
 
+/*
+Tetris original key mappings
+7       Left
+9       Right
+8       Rotate
+1       Draw Next
+6       Speed Up
+4       Drop
+Space   Drop
+*/
+
 
 void ATetrisPlayerController::SetupInputComponent()
 {
@@ -27,6 +38,13 @@ void ATetrisPlayerController::SetupInputComponent()
     UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(InputComponent);
     PEI->BindAction(InputNewItem, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnNewItem);
 
+    PEI->BindAction(InputLeft, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnLeft);
+    PEI->BindAction(InputRight, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnRight);
+    PEI->BindAction(InputRotate, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnRotate);
+    PEI->BindAction(InputDrawNext, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnDrawNext);
+    PEI->BindAction(InputSpeedUp, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnSpeedUp);
+    PEI->BindAction(InputDrop, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnDrop);
+
     //// Get the player controller
     //APlayerController* PC = Cast<APlayerController>(GetController());
 
@@ -43,30 +61,77 @@ void ATetrisPlayerController::SetupInputComponent()
 
 }
 
-void ATetrisPlayerController::OnNewItem(const FInputActionValue& Value)
+bool ATetrisPlayerController::ValidateInput(const FInputActionValue& InputValue)
 {
-    //if (Controller == nullptr)
-    //{
-    //    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Controller is null"));
-    //    return;
-    //}
-
-    AActor* someone = GetPawn();
-    //AActor* someone = GetParentActor();
-    if(someone != nullptr)
-        UE_LOG(LogTemp, Log, TEXT("Tetris> ATetrisPlayerController - Pawn is %s"), *someone->GetName());
-
-    if (Value.GetValueType() != EInputActionValueType::Boolean)
+    if (InputValue.GetValueType() != EInputActionValueType::Boolean)
     {
-        UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value is not boolean"));
-        return;
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ATetrisPlayerController::OnNewItem() - Value must be a boolean"));
+        return false;
     }
 
-    bool value = Value.GetMagnitude() != 0;
+    return InputValue.GetMagnitude() != 0;
+}
+
+void ATetrisPlayerController::OnNewItem(const FInputActionValue& InputValue)
+{
+    bool value = ValidateInput(InputValue);
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnNewItem() - Value:%s"),
         value ? TEXT("On") : TEXT("Off"));
 
+    AActor* someone = GetPawn();
+    if(someone != nullptr)
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ATetrisPlayerController - Pawn is %s"), *someone->GetName());
 }
+
+void ATetrisPlayerController::OnLeft(const FInputActionValue& InputValue)
+{
+    bool Value = ValidateInput(InputValue);
+
+    auto GameField = Cast<AGameField>(GetPawn());
+    if (Value) GameField->OnLeft();
+}
+
+void ATetrisPlayerController::OnRight(const FInputActionValue& InputValue)
+{
+    bool Value = ValidateInput(InputValue);
+
+    auto GameField = Cast<AGameField>(GetPawn());
+    if (Value) GameField->OnRight();
+}
+
+void ATetrisPlayerController::OnRotate(const FInputActionValue& InputValue)
+{
+    bool Value = ValidateInput(InputValue);
+
+    auto GameField = Cast<AGameField>(GetPawn());
+    if (Value) GameField->OnRotate();
+}
+
+void ATetrisPlayerController::OnDrawNext(const FInputActionValue& InputValue)
+{
+    bool Value = ValidateInput(InputValue);
+
+    auto GameField = Cast<AGameField>(GetPawn());
+    if (Value) GameField->OnDrawNext();
+}
+
+void ATetrisPlayerController::OnSpeedUp(const FInputActionValue& InputValue)
+{
+    bool Value = ValidateInput(InputValue);
+
+    auto GameField = Cast<AGameField>(GetPawn());
+    if (Value) GameField->OnSpeedUp();
+}
+
+void ATetrisPlayerController::OnDrop(const FInputActionValue& InputValue)
+{
+    bool Value = ValidateInput(InputValue);
+
+    auto GameField = Cast<AGameField>(GetPawn());
+    if (Value) GameField->OnDrop();
+}
+
+
 
 //void ATetrisPlayerController::OnNewItem()
 //{
