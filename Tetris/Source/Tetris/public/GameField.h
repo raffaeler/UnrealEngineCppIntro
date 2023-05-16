@@ -13,6 +13,8 @@
 #include <GameFramework/SpringArmComponent.h>
 #include "Camera/CameraComponent.h"
 
+#include "Helpers.h"
+
 #include "GameField.generated.h"
 
 UCLASS()
@@ -69,10 +71,34 @@ public:
 	void OnSpeedUp();
 	void OnDrop();
 
-
 public:
 	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
 		UMaterialInterface* PrimaryMaterial = nullptr;
+
+private:
+	// The floor tiles are stored as a matrix
+	// 0,0 is the upper left tile
+	TArray<int32> Floor;
+	const int32 Rows = 20;
+	const int32 Columns = 10;
+	const int32 ItemSize = 4;	// 4x4
+	__forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;
+	void ResetFloor();
+	bool UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind);
+	void DumpFloor();
+
+public:
+
+	TArray<FMatrix44f> L;
+	TArray<FMatrix44f> J;
+	TArray<FMatrix44f> I;
+	TArray<FMatrix44f> O;
+	TArray<FMatrix44f> Z;
+	TArray<FMatrix44f> S;
+	TArray<FMatrix44f> T;
+
+	int32 XC = 3, YC = 0;
+	int32 Rot = 0;
 
 
 };

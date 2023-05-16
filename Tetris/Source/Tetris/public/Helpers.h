@@ -4,6 +4,19 @@
 
 #include "CoreMinimal.h"
 
+// the ordering numbers are important to index AfterWays variable
+enum class EShapeKind : uint8
+{
+	None = 0,
+	L = 1,
+	J = 2,
+	Z = 3,
+	S = 4,
+	I = 5,
+	O = 6,
+	T = 7,
+};
+
 /**
  * 
  */
@@ -67,5 +80,39 @@ public:
 
 		return material;
 	}
+
+	static FString ToString(const EShapeKind ShapeKind)
+	{
+		switch (ShapeKind)
+		{
+		case EShapeKind::None:
+			return TEXT(" ");
+
+		case EShapeKind::L:
+			return TEXT("L");
+
+		case EShapeKind::J:
+			return TEXT("J");
+
+		case EShapeKind::Z:
+			return TEXT("Z");
+
+		case EShapeKind::S:
+			return TEXT("S");
+
+		case EShapeKind::I:
+			return TEXT("I");
+
+		case EShapeKind::O:
+			return TEXT("O");
+
+		case EShapeKind::T:
+			return TEXT("T");
+
+		default:
+			return TEXT(" ");
+		}
+	}
+
 
 };

@@ -25,6 +25,7 @@ AItemBase::AItemBase()
 void AItemBase::BeginPlay()
 {
     Super::BeginPlay();
+
 }
 
 void AItemBase::ApplyMaterial(UMaterialInterface* material)

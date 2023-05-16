@@ -43,6 +43,13 @@ public:
 	void SetTileStatus();
 
 public:
+	FMatrix44f Shape;
+	FIntVector2 Center;
+	int32 ExtentLeft;
+	int32 ExtentBottom;
+	int32 ExtentRight;
+
+public:
 	// Movements
 
 

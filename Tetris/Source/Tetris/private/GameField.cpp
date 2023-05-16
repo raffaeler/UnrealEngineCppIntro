@@ -2,13 +2,11 @@
 
 
 #include "GameField.h"
-#include "InputMappingContext.h"
-#include "EnhancedInputSubsystems.h"
-#include "InputMappingContext.h"
-#include "EnhancedInputComponent.h"
+//#include "InputMappingContext.h"
+//#include "EnhancedInputSubsystems.h"
+//#include "InputMappingContext.h"
+//#include "EnhancedInputComponent.h"
 #include "DrawDebugHelpers.h"
-
-#include "Helpers.h"
 
 // Sets default values
 AGameField::AGameField()
@@ -16,7 +14,7 @@ AGameField::AGameField()
     // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = false;
 
-    
+
     // Camera settings
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootSceneComponent"));
     StaticMeshComponent = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("StaticMeshComponent"));
@@ -33,7 +31,7 @@ AGameField::AGameField()
     //ArmComponent->TargetArmLength = 400.f;
     //ArmComponent->bEnableCameraLag = false;
     //ArmComponent->CameraLagSpeed = 3.0f;
-    
+
     /*
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
     ArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArm"));
@@ -82,6 +80,217 @@ void AGameField::BeginPlay()
 
     //auto mesh = Helpers::GetRootMeshComponent(this);
     //mesh->SetMaterial(0, PrimaryMaterial);
+
+    FMatrix44f La = FMatrix44f(
+        FPlane4f(1, 1, 1, 0),
+        FPlane4f(1, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Lb = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Lc = FMatrix44f(
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(1, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Ld = FMatrix44f(
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+
+    FMatrix44f Ja = FMatrix44f(
+        FPlane4f(1, 1, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Jb = FMatrix44f(
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Jc = FMatrix44f(
+        FPlane4f(1, 0, 0, 0),
+        FPlane4f(1, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Jd = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+
+    FMatrix44f Ia = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(1, 1, 1, 1),
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Ib = FMatrix44f(
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0));
+
+    FMatrix44f Ic = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(1, 1, 1, 1),
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Id = FMatrix44f(
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0));
+
+
+    FMatrix44f Oa = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Ob = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Oc = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Od = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+
+    FMatrix44f Za = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Zb = FMatrix44f(
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Zc = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Zd = FMatrix44f(
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+
+    FMatrix44f Sa = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Sb = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Sc = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Sd = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+
+
+    FMatrix44f Ta = FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(1, 1, 1, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Tb = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Tc = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(1, 1, 1, 0),
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    FMatrix44f Td = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(0, 0, 0, 0));
+
+    L.Push(La);
+    L.Push(Lb);
+    L.Push(Lc);
+    L.Push(Ld);
+
+    J.Push(Ja);
+    J.Push(Jb);
+    J.Push(Jc);
+    J.Push(Jd);
+
+    I.Push(Ia);
+    I.Push(Ib);
+    I.Push(Ic);
+    I.Push(Id);
+
+    O.Push(Oa);
+    O.Push(Ob);
+    O.Push(Oc);
+    O.Push(Od);
+
+    Z.Push(Za);
+    Z.Push(Zb);
+    Z.Push(Zc);
+    Z.Push(Zd);
+
+    S.Push(Sa);
+    S.Push(Sb);
+    S.Push(Sc);
+    S.Push(Sd);
+
+    T.Push(Ta);
+    T.Push(Tb);
+    T.Push(Tc);
+    T.Push(Td);
+
+    ResetFloor();
 }
 
 // Called every frame
@@ -97,7 +306,7 @@ void AGameField::DbgDraw()
     FVector Location1(0.1, 0.1, 100);
     FVector Location2(0.5, 0.5, 100);
     FVector Location3(0.1, 100, 100);
-    FVector Z(0, 0, 100);
+    FVector ZZ(0, 0, 100);
 
     //DrawDebugPoint(world, Location1, 50, FColor(0, 200, 200), true);
 
@@ -105,16 +314,16 @@ void AGameField::DbgDraw()
     DrawDebugCylinder(world, center, center + FVector(0, 0, 400), 10, 100, FColor::Blue, true, -1, 0, 2);
 
     //DrawDebugDirectionalArrow(world,
-    //    Location1, Location1 + Z, 50, FColor::Red, true, -1, 0, 2);
+    //    Location1, Location1 + ZZ, 50, FColor::Red, true, -1, 0, 2);
     //DrawDebugDirectionalArrow(world,
-    //    Location2, Location2 + Z, 50, FColor::Green, true, -1, 0, 2);
+    //    Location2, Location2 + ZZ, 50, FColor::Green, true, -1, 0, 2);
 
     for (int j = 0; j < 20; j++)
     {
         for (int i = 0; i < 10; i++)
         {
             FVector From(j * 100, i * 100, 100);
-            FVector To = From + Z;
+            FVector To = From + ZZ;
 
             DrawDebugDirectionalArrow(world,
                 From, To, 50, FColor::Blue, true, -1, 0, 2);
@@ -172,37 +381,218 @@ void AGameField::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 #pragma endregion
 
+int32 AGameField::GetFloorIndexByXY(int32 x, int32 y) const
+{
+    return y * Columns + x;
+}
+
+void AGameField::ResetFloor()
+{
+    Floor.Empty();
+    auto count = Rows * Columns;
+    Floor.Reserve(count);
+    for (int i = 0; i < count; i++)
+    {
+        Floor.Push(0);
+    }
+}
+
+// X can span to negative beyond the field (negative values) because the
+// matrix may have zeroes on the left and the leftmost tile of the item
+// must be able to reach the 0 column.
+// TileKind is a number < 100 representing the shape
+// The matrix add 100 to the Tile Kind to represent the shape that is moving
+bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind)
+{
+    //int32 ix = 0;   // x coordinate -> Floor
+    //int32 iy = 0;   // y coordinate -> Floor
+    int32 mx = 0;   // x coordinate of the shape matrix
+    int32 my = 0;   // y coordinate of the shape matrix
+    int32 mxF = 0;
+    int32 myF = 0;
+
+    TArray<TTuple<int32, int32>> Changes;
+    Changes.Reserve(16);
+
+    if (X < 0)
+    {
+        mxF = FMath::Abs(X);
+        X = 0;
+        if (mxF >= ItemSize) return false;
+
+        // check if the Shape would collide with the left margin
+        for (int r = 0; r < 4; r++)
+        {
+            for (int c = 0; c < mxF; c++)
+            {
+                if (Shape.M[r][c] != 0) return false;
+            }
+        }
+    }
+
+    if (Y < 0)
+    {
+        myF = FMath::Abs(Y);
+        Y = 0;
+        if (myF >= ItemSize) return false;
+
+        // TODO: check
+        // check if the Shape would collide with the bottom margin
+        for (int c = ItemSize-1; c >= myF; c--)
+        {
+            for (int r = 0; r < 4; r++)
+            {
+                if (Shape.M[r][c] != 0) return false;
+            }
+        }
+    }
+
+    my = myF;
+    for (int j = Y; j < Y + ItemSize && my < ItemSize; j++)
+    {
+        mx = mxF;
+        for (int i = X; i < X + ItemSize && mx < ItemSize; i++)
+        {
+            int32 index = GetFloorIndexByXY(i, j);
+            bool isFilled = Shape.M[my][mx] != 0;
+
+            if (isFilled)
+            {
+                if (i >= Columns) return false;    // found a tile beyond the right margin
+                const int32 content = Floor[index];
+                if (content > 0 && content < 100) return false;    // tile is already busy
+                Changes.Push({ index, (int32)ShapeKind });
+            }
+
+            mx++;
+        }
+
+        my++;
+    }
+
+    // If there are overlaps, the function already returned false
+    // Otherwise Changes contains the list of indices to be overwritten
+
+    // delete the current shape that is moving
+    for (int i = 0; i < Floor.Num(); i++)
+    {
+        if (Floor[i] >= 100) Floor[i] = 0;
+    }
+
+    // draw the current shape in the updated position
+    for (const auto& tp : Changes)
+    {
+        Floor[tp.Get<0>()] = tp.Get<1>() + 100;
+    }
+
+    return true;
+}
+
+void AGameField::DumpFloor()
+{
+    FString dump = " \n  |0123456789|\n";
+    dump.Reserve(Rows * Columns + 200);
+    for (int j = 0; j < Rows; j++)
+    {
+        auto line = FString::FromInt(j);
+        if (line.Len() == 1) dump += FString(" ");
+        dump += line;
+        dump += FString("|");
+
+        for (int i = 0; i < Columns; i++)
+        {
+            int32 index = GetFloorIndexByXY(i, j);
+            int32 value = Floor[index];
+            if (value >= 100)
+            {
+                dump += TEXT("*");
+            }
+            else
+            {
+                dump += Helpers::ToString((EShapeKind)value);
+            }
+        }
+
+        dump += TEXT("|\n");
+    }
+
+    dump += "  |0123456789|";
+    UE_LOG(LogTemp, Log, TEXT("%s"), *dump);
+
+}
+
 
 void AGameField::OnLeft()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
-
+    //XC--;
+    //if (XC < -2) XC = -2;
+    XC--;
+    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
+    {
+        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+        DumpFloor();
+    }
+    else
+    {
+        XC++;
+    }
 }
 
 void AGameField::OnRight()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
+    //XC++;
+    //if (XC > Columns + 1) XC = Columns + 1;
+
+    XC++;
+    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
+    {
+        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+        DumpFloor();
+    }
+    else
+    {
+        XC--;
+    }
 }
 
 void AGameField::OnRotate()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
+    Rot++;
+    if (Rot == 4) Rot = 0;
+    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
+    {
+        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+        DumpFloor();
+    }
+    else
+    {
+        Rot--;
+        if (Rot < 0) Rot = 4;
+    }
 }
 
 void AGameField::OnDrawNext()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
-
+    YC++;
+    if (YC == Rows) YC = 0;
 }
 
 void AGameField::OnSpeedUp()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnSpeedUp()"));
+
+
 }
 
 void AGameField::OnDrop()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrop()"));
+
+    ResetFloor();
 }
 
 
