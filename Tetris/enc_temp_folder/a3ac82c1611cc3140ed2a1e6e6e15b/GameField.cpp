@@ -459,7 +459,6 @@ bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKi
             if (isFilled)
             {
                 if (i >= Columns) return false;    // found a tile beyond the right margin
-                if (j >= Rows) return false;
                 const int32 content = Floor[index];
                 if (content > 0 && content < 100) return false;    // tile is already busy
                 Changes.Push({ index, (int32)ShapeKind });
@@ -579,16 +578,7 @@ void AGameField::OnDrawNext()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
     YC++;
-    //if (YC == Rows) YC = 0;
-    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
-    {
-        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
-        DumpFloor();
-    }
-    else
-    {
-        YC--;
-    }
+    if (YC == Rows) YC = 0;
 }
 
 void AGameField::OnSpeedUp()
