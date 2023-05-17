@@ -50,6 +50,8 @@ public:
 	int32 ExtentBottom;
 	int32 ExtentRight;
 
+	virtual FMatrix44f GetShape(int Rotation);
+
 public:
 	// Movements
 

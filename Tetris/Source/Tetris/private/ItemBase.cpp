@@ -28,6 +28,17 @@ void AItemBase::BeginPlay()
 
 }
 
+// This function must be overridden
+// but cannot be declarated as abstract
+FMatrix44f AItemBase::GetShape(int Rotation)
+{
+    return FMatrix44f(
+        FPlane4f(0, 0, 0, 0),
+        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 0, 0));
+}
+
 void AItemBase::ApplyMaterial(UMaterialInterface* material)
 {
     TArray<AActor*> AllChildren;
