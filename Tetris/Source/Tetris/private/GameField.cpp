@@ -404,12 +404,10 @@ void AGameField::ResetFloor()
 // The matrix add 100 to the Tile Kind to represent the shape that is moving
 bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind)
 {
-    //int32 ix = 0;   // x coordinate -> Floor
-    //int32 iy = 0;   // y coordinate -> Floor
     int32 mx = 0;   // x coordinate of the shape matrix
     int32 my = 0;   // y coordinate of the shape matrix
-    int32 mxF = 0;
-    int32 myF = 0;
+    int32 mxF = 0;  // x offset of the shape matrix
+    int32 myF = 0;  // y offset of the shape matrix
 
     TArray<TTuple<int32, int32>> Changes;
     Changes.Reserve(16);
@@ -436,7 +434,6 @@ bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKi
         Y = 0;
         if (myF >= ItemSize) return false;
 
-        // TODO: check
         // check if the Shape would collide with the bottom margin
         for (int c = ItemSize-1; c >= myF; c--)
         {
@@ -474,13 +471,13 @@ bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKi
     // If there are overlaps, the function already returned false
     // Otherwise Changes contains the list of indices to be overwritten
 
-    // delete the current shape that is moving
+    // delete the current moving shape
     for (int i = 0; i < Floor.Num(); i++)
     {
         if (Floor[i] >= 100) Floor[i] = 0;
     }
 
-    // draw the current shape in the updated position
+    // draw the current moving shape in the updated position
     for (const auto& tp : Changes)
     {
         Floor[tp.Get<0>()] = tp.Get<1>() + 100;
@@ -526,8 +523,6 @@ void AGameField::DumpFloor()
 void AGameField::OnLeft()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
-    //XC--;
-    //if (XC < -2) XC = -2;
     XC--;
     if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
     {
@@ -543,8 +538,6 @@ void AGameField::OnLeft()
 void AGameField::OnRight()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
-    //XC++;
-    //if (XC > Columns + 1) XC = Columns + 1;
 
     XC++;
     if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
@@ -579,7 +572,6 @@ void AGameField::OnDrawNext()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
     YC++;
-    //if (YC == Rows) YC = 0;
     if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);

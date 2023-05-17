@@ -19,7 +19,8 @@ public:
 
 	void ApplyMaterial(UMaterialInterface* material);
 	bool Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors);
-	bool Ungroup2(AActor* NewParent, TArray<AActor*>& detachedActors);
+	//bool Ungroup2(AActor* NewParent, TArray<AActor*>& detachedActors);
+	void Rotate();
 
 protected:
 	// Called when the game starts or when spawned

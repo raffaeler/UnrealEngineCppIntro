@@ -74,6 +74,11 @@ bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
     return true;
 }
 
+void AItemBase::Rotate()
+{
+
+}
+
 void AItemBase::SetTileStatus()
 {
     UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Primary material:%s"),

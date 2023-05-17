@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "ItemBase.h"
-#include "ItemL1.generated.h"
+#include "ItemL.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API AItemL1 : public AItemBase
+class TETRIS_API AItemL : public AItemBase
 {
 	GENERATED_BODY()
 	
