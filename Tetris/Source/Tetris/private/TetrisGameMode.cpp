@@ -16,9 +16,9 @@ void ATetrisGameMode::BeginPlay()
 
     auto world = GetWorld();
     //world->OriginLocation = FIntVector(730, 500, 100);
-    
-    //FVector GameFieldPos(0, 0, 0);
-    FVector GameFieldPos(730, 500, 100);
+
+    FVector GameFieldPos(0, 0, 100);
+    //FVector GameFieldPos(730, 500, 100);
     //GameField = Cast<AGameField>(world->SpawnActor(GameFieldClass, &GameFieldPos));
     //GameField = Cast<AGameField>(DefaultPawnClass.GetDefaultObject());
     GameField = Cast<AGameField>(*TActorIterator<AGameField>(GetWorld()));
@@ -90,21 +90,24 @@ void ATetrisGameMode::PreStartGame(int32 count, int32 maxCount)
 {
     if (count == 0)
     {
-        auto world = GetWorld();
-        FVector Pos(20 * 100, 10 * 100 / 2, 122);
-        //auto ItemClass = ItemClasses[FString("T")];
-        auto ItemClass = ItemClasses[FString("L")];
-        CurrentItem = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos));
-        CurrentItem->SetTileStatus();
+        GameField->StartGame();
+
+        //auto world = GetWorld();
+        //FVector Pos(150, 50, 122);
+        //FRotator Rotator(0, -90, 0);
+        ////auto ItemClass = ItemClasses[FString("T")];
+        //auto ItemClass = ItemClasses[FString("L")];
+        //CurrentItem = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos, &Rotator));
+        //CurrentItem->SetTileStatus();
     }
 }
 
 void ATetrisGameMode::StartGame()
 {
-    TArray<AActor*> detachedActors;
-    CurrentItem->Ungroup(GameField, detachedActors);
-    DetachedActors = detachedActors;
-    DetachedActors[0]->SetActorLocation(DetachedActors[0]->GetActorLocation() + FVector(10, 10, 10));
+    //TArray<AActor*> detachedActors;
+    //CurrentItem->Ungroup(GameField, detachedActors);
+    //DetachedActors = detachedActors;
+    //DetachedActors[0]->SetActorLocation(DetachedActors[0]->GetActorLocation() + FVector(10, 10, 10));
 }
 
 

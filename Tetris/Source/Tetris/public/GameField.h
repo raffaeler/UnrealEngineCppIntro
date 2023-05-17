@@ -13,6 +13,7 @@
 #include <GameFramework/SpringArmComponent.h>
 #include "Camera/CameraComponent.h"
 
+#include "ItemBase.h"
 #include "Helpers.h"
 
 #include "GameField.generated.h"
@@ -74,6 +75,10 @@ public:
 public:
 	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
 		UMaterialInterface* PrimaryMaterial = nullptr;
+
+public:
+	void StartGame();
+	UPROPERTY() AItemBase* Current;
 
 private:
 	// The floor tiles are stored as a matrix

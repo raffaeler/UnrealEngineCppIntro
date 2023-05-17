@@ -6,6 +6,8 @@
 //#include "EnhancedInputSubsystems.h"
 //#include "InputMappingContext.h"
 //#include "EnhancedInputComponent.h"
+
+#include "TetrisGameMode.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -310,7 +312,7 @@ void AGameField::DbgDraw()
 
     //DrawDebugPoint(world, Location1, 50, FColor(0, 200, 200), true);
 
-    FVector center(2000 / 2, 1000 / 2, 100);
+    FVector center(1000 / 2, 2000 / 2, 100);
     DrawDebugCylinder(world, center, center + FVector(0, 0, 400), 10, 100, FColor::Blue, true, -1, 0, 2);
 
     //DrawDebugDirectionalArrow(world,
@@ -322,7 +324,7 @@ void AGameField::DbgDraw()
     {
         for (int i = 0; i < 10; i++)
         {
-            FVector From(j * 100, i * 100, 100);
+            FVector From(i * 100, j * 100, 100);
             FVector To = From + ZZ;
 
             DrawDebugDirectionalArrow(world,
@@ -380,6 +382,20 @@ void AGameField::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 //}
 
 #pragma endregion
+
+void AGameField::StartGame()
+{
+    ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
+    auto world = GetWorld();
+    FVector Pos(150, 50, 122);
+    FRotator Rotator(0, -90, 0);
+    //auto ItemClass = ItemClasses[FString("T")];
+    auto ItemClass = GameMode->ItemClasses[FString("L")];
+    Current = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos, &Rotator));
+    Current->SetTileStatus();
+
+    Current->SetActorLocationAndRotation(Pos, Rotator);
+}
 
 int32 AGameField::GetFloorIndexByXY(int32 x, int32 y) const
 {
