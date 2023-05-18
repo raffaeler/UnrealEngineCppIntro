@@ -51,6 +51,7 @@ public:
 	int32 ExtentRight;
 
 	virtual FMatrix44f GetShape(int Rotation);
+	virtual bool GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator);
 
 public:
 	// Movements

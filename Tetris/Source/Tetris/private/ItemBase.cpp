@@ -39,6 +39,14 @@ FMatrix44f AItemBase::GetShape(int Rotation)
         FPlane4f(0, 0, 0, 0));
 }
 
+bool AItemBase::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
+{
+    if (Location == nullptr) return false;
+    *Location = FVector();
+    *Rotator = FRotator();
+    return true;
+}
+
 void AItemBase::ApplyMaterial(UMaterialInterface* material)
 {
     TArray<AActor*> AllChildren;

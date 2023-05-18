@@ -21,3 +21,33 @@ FMatrix44f AItemT::GetShape(int Rotation)
         return Ta;
     }
 }
+
+bool AItemT::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
+{
+    if (Location == nullptr || Rotator == nullptr) return false;
+    switch (Rotation)
+    {
+    case 0:
+        *Location = LocationA;
+        *Rotator = RotatorA;
+        break;
+    case 1:
+        *Location = LocationB;
+        *Rotator = RotatorB;
+        break;
+    case 2:
+        *Location = LocationC;
+        *Rotator = RotatorC;
+        break;
+    case 3:
+        *Location = LocationD;
+        *Rotator = RotatorD;
+        break;
+
+    default:
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemT::GetLocationAndRotatorbyRotation - Bad rotation"));
+        return false;
+    }
+
+    return true;
+}

@@ -388,13 +388,17 @@ void AGameField::StartGame()
     ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
     auto world = GetWorld();
     FVector Pos(150, 50, 122);
-    FRotator Rotator(0, -90, 0);
-    //auto ItemClass = ItemClasses[FString("T")];
-    auto ItemClass = GameMode->ItemClasses[FString("L")];
+    FRotator Rotator;// (0, -90, 0);
+    //auto ItemClass = GameMode->ItemClasses[FString("I")];
+    //auto ItemClass = GameMode->ItemClasses[FString("J")];
+    //auto ItemClass = GameMode->ItemClasses[FString("L")];
+    //auto ItemClass = GameMode->ItemClasses[FString("O")];
+    //auto ItemClass = GameMode->ItemClasses[FString("S")];
+    //auto ItemClass = GameMode->ItemClasses[FString("T")];
+    auto ItemClass = GameMode->ItemClasses[FString("Z")];
     Current = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos, &Rotator));
     Current->SetTileStatus();
 
-    Current->SetActorLocationAndRotation(Pos, Rotator);
 }
 
 int32 AGameField::GetFloorIndexByXY(int32 x, int32 y) const
@@ -451,7 +455,7 @@ bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKi
         if (myF >= ItemSize) return false;
 
         // check if the Shape would collide with the bottom margin
-        for (int c = ItemSize-1; c >= myF; c--)
+        for (int c = ItemSize - 1; c >= myF; c--)
         {
             for (int r = 0; r < 4; r++)
             {
@@ -576,6 +580,12 @@ void AGameField::OnRotate()
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
+
+        FVector Location;
+        FRotator Rotator;
+        Current->GetLocationAndRotatorbyRotation(Rot, &Location, &Rotator);
+        Location += Current->GetActorLocation();
+        Current->SetActorLocationAndRotation(Location, Rotator);
     }
     else
     {
