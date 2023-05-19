@@ -22,6 +22,11 @@ FMatrix44f AItemI::GetShape(int Rotation)
     }
 }
 
+EShapeKind AItemI::GetShapeKind()
+{
+    return EShapeKind::I;
+}
+
 bool AItemI::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
 {
     if (Location == nullptr || Rotator == nullptr) return false;

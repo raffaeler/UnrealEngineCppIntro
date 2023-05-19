@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Helpers.h"
 #include "ItemBase.generated.h"
 
 UCLASS()
@@ -51,6 +52,7 @@ public:
 	int32 ExtentRight;
 
 	virtual FMatrix44f GetShape(int Rotation);
+	virtual EShapeKind GetShapeKind();
 	virtual bool GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator);
 
 public:

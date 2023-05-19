@@ -387,7 +387,7 @@ void AGameField::StartGame()
 {
     ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
     auto world = GetWorld();
-    FVector Pos(150, 50, 122);
+    FVector Pos(350, 50, 122);
     FRotator Rotator;// (0, -90, 0);
     //auto ItemClass = GameMode->ItemClasses[FString("I")];
     //auto ItemClass = GameMode->ItemClasses[FString("J")];
@@ -544,10 +544,12 @@ void AGameField::OnLeft()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
     XC--;
-    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
+    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
+        auto Location = Current->GetActorLocation();
+        Current->SetActorLocation(Location - FVector(100, 0, 0));
     }
     else
     {
@@ -560,10 +562,12 @@ void AGameField::OnRight()
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
 
     XC++;
-    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
+    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
+        auto Location = Current->GetActorLocation();
+        Current->SetActorLocation(Location + FVector(100, 0, 0));
     }
     else
     {
@@ -576,7 +580,7 @@ void AGameField::OnRotate()
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
     Rot++;
     if (Rot == 4) Rot = 0;
-    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
+    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
@@ -598,7 +602,7 @@ void AGameField::OnDrawNext()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
     YC++;
-    if (UpdateFloor(XC, YC, L[Rot], EShapeKind::L))
+    if (UpdateFloor(XC, YC, L[Rot], Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();

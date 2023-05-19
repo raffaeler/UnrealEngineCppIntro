@@ -52,6 +52,7 @@ private:
 
 public:
 	FMatrix44f GetShape(int Rotation) override;
+    EShapeKind GetShapeKind() override;
     bool GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator) override;
 
 
