@@ -83,214 +83,214 @@ void AGameField::BeginPlay()
     //auto mesh = Helpers::GetRootMeshComponent(this);
     //mesh->SetMaterial(0, PrimaryMaterial);
 
-    FMatrix44f La = FMatrix44f(
-        FPlane4f(1, 1, 1, 0),
-        FPlane4f(1, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f La = FMatrix44f(
+    //    FPlane4f(1, 1, 1, 0),
+    //    FPlane4f(1, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Lb = FMatrix44f(
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Lb = FMatrix44f(
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Lc = FMatrix44f(
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(1, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Lc = FMatrix44f(
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(1, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Ld = FMatrix44f(
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
-
-
-    FMatrix44f Ja = FMatrix44f(
-        FPlane4f(1, 1, 1, 0),
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Jb = FMatrix44f(
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Jc = FMatrix44f(
-        FPlane4f(1, 0, 0, 0),
-        FPlane4f(1, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Jd = FMatrix44f(
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Ld = FMatrix44f(
+    //    FPlane4f(1, 1, 0, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
 
-    FMatrix44f Ia = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(1, 1, 1, 1),
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Ja = FMatrix44f(
+    //    FPlane4f(1, 1, 1, 0),
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Ib = FMatrix44f(
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 1, 0));
+    //FMatrix44f Jb = FMatrix44f(
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Ic = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(1, 1, 1, 1),
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Jc = FMatrix44f(
+    //    FPlane4f(1, 0, 0, 0),
+    //    FPlane4f(1, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Id = FMatrix44f(
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 1, 0));
-
-
-    FMatrix44f Oa = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Ob = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Oc = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Od = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Jd = FMatrix44f(
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(1, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
 
-    FMatrix44f Za = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Ia = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(1, 1, 1, 1),
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Zb = FMatrix44f(
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Ib = FMatrix44f(
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 1, 0));
 
-    FMatrix44f Zc = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Ic = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(1, 1, 1, 1),
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Zd = FMatrix44f(
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
-
-
-    FMatrix44f Sa = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Sb = FMatrix44f(
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Sc = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
-
-    FMatrix44f Sd = FMatrix44f(
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Id = FMatrix44f(
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 1, 0));
 
 
-    FMatrix44f Ta = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(1, 1, 1, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Oa = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Tb = FMatrix44f(
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Ob = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Tc = FMatrix44f(
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(1, 1, 1, 0),
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Oc = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    FMatrix44f Td = FMatrix44f(
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+    //FMatrix44f Od = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    L.Push(La);
-    L.Push(Lb);
-    L.Push(Lc);
-    L.Push(Ld);
 
-    J.Push(Ja);
-    J.Push(Jb);
-    J.Push(Jc);
-    J.Push(Jd);
+    //FMatrix44f Za = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(1, 1, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    I.Push(Ia);
-    I.Push(Ib);
-    I.Push(Ic);
-    I.Push(Id);
+    //FMatrix44f Zb = FMatrix44f(
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    O.Push(Oa);
-    O.Push(Ob);
-    O.Push(Oc);
-    O.Push(Od);
+    //FMatrix44f Zc = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(1, 1, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    Z.Push(Za);
-    Z.Push(Zb);
-    Z.Push(Zc);
-    Z.Push(Zd);
+    //FMatrix44f Zd = FMatrix44f(
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
 
-    S.Push(Sa);
-    S.Push(Sb);
-    S.Push(Sc);
-    S.Push(Sd);
 
-    T.Push(Ta);
-    T.Push(Tb);
-    T.Push(Tc);
-    T.Push(Td);
+    //FMatrix44f Sa = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(1, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+    //FMatrix44f Sb = FMatrix44f(
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+    //FMatrix44f Sc = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(1, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+    //FMatrix44f Sd = FMatrix44f(
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 0, 1, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+
+    //FMatrix44f Ta = FMatrix44f(
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(1, 1, 1, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+    //FMatrix44f Tb = FMatrix44f(
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 1, 1, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+    //FMatrix44f Tc = FMatrix44f(
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(1, 1, 1, 0),
+    //    FPlane4f(0, 0, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+    //FMatrix44f Td = FMatrix44f(
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(1, 1, 0, 0),
+    //    FPlane4f(0, 1, 0, 0),
+    //    FPlane4f(0, 0, 0, 0));
+
+    //L.Push(La);
+    //L.Push(Lb);
+    //L.Push(Lc);
+    //L.Push(Ld);
+
+    //J.Push(Ja);
+    //J.Push(Jb);
+    //J.Push(Jc);
+    //J.Push(Jd);
+
+    //I.Push(Ia);
+    //I.Push(Ib);
+    //I.Push(Ic);
+    //I.Push(Id);
+
+    //O.Push(Oa);
+    //O.Push(Ob);
+    //O.Push(Oc);
+    //O.Push(Od);
+
+    //Z.Push(Za);
+    //Z.Push(Zb);
+    //Z.Push(Zc);
+    //Z.Push(Zd);
+
+    //S.Push(Sa);
+    //S.Push(Sb);
+    //S.Push(Sc);
+    //S.Push(Sd);
+
+    //T.Push(Ta);
+    //T.Push(Tb);
+    //T.Push(Tc);
+    //T.Push(Td);
 
     ResetFloor();
 }
@@ -543,6 +543,13 @@ void AGameField::DumpFloor()
 void AGameField::OnLeft()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
+    if (IsRotationTimerRunning)
+    {
+        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+        IsRotationTimerRunning = false;
+    }
+
     XC--;
     if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
@@ -560,6 +567,12 @@ void AGameField::OnLeft()
 void AGameField::OnRight()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
+    if (IsRotationTimerRunning)
+    {
+        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+        IsRotationTimerRunning = false;
+    }
 
     XC++;
     if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
@@ -578,6 +591,11 @@ void AGameField::OnRight()
 void AGameField::OnRotate()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
+    if (GetWorld()->GetTimerManager().IsTimerActive(RotationTimer)) {
+        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+    }
+
     Rot++;
     if (Rot == 4) Rot = 0;
     if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
@@ -588,24 +606,61 @@ void AGameField::OnRotate()
         FVector Location;
         FRotator Rotator;
         Current->GetLocationAndRotatorbyRotation(Rot, &Location, &Rotator);
-        Location += Current->GetActorLocation();
-        Current->SetActorLocationAndRotation(Location, Rotator);
+
+        StartLocation = Current->GetActorLocation();
+        TargetLocation = StartLocation + Location;
+        StartRotation = Current->GetActorRotation();
+        TargetRotation = Rotator;
+        AnimationDuration = 0.3f;
+        CurrentTime = 0.0f;
+
+        UE_LOG(LogTemp, Log, TEXT("Tetris> StartLoc=(%f, %f, %f) - StartRot=(%f, %f, %f)"),
+            StartLocation.X, StartLocation.Y, StartLocation.Z,
+            StartRotation.Pitch, StartRotation.Yaw, StartRotation.Roll);
+
+        UE_LOG(LogTemp, Log, TEXT("Tetris> TargetLoc=(%f, %f, %f) - TargetRot=(%f, %f, %f)"),
+            TargetLocation.X, TargetLocation.Y, TargetLocation.Z,
+            TargetRotation.Pitch, TargetRotation.Yaw, TargetRotation.Roll);
+
+
+        IsRotationTimerRunning = true;
+        GetWorld()->GetTimerManager().SetTimer(
+            RotationTimer,
+            this,
+            &AGameField::OnAnimateRotation,
+            GetWorld()->GetDeltaSeconds(),
+            true);
+        
+        //FVector Location;
+        //FRotator Rotator;
+        //Current->GetLocationAndRotatorbyRotation(Rot, &Location, &Rotator);
+        //Location += Current->GetActorLocation();
+        //Current->SetActorLocationAndRotation(Location, Rotator);
     }
     else
     {
         Rot--;
-        if (Rot < 0) Rot = 4;
+        if (Rot < 0) Rot = 3;
     }
 }
 
 void AGameField::OnDrawNext()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
+    if (IsRotationTimerRunning)
+    {
+        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+        IsRotationTimerRunning = false;
+    }
+
     YC++;
-    if (UpdateFloor(XC, YC, L[Rot], Current->GetShapeKind()))
+    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
+        auto Location = Current->GetActorLocation();
+        Current->SetActorLocation(Location + FVector(0, 100, 0));
     }
     else
     {
@@ -616,6 +671,13 @@ void AGameField::OnDrawNext()
 void AGameField::OnSpeedUp()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnSpeedUp()"));
+    if (IsRotationTimerRunning)
+    {
+        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+        IsRotationTimerRunning = false;
+    }
+
 
 
 }
@@ -623,8 +685,39 @@ void AGameField::OnSpeedUp()
 void AGameField::OnDrop()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrop()"));
+    if (IsRotationTimerRunning)
+    {
+        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+        IsRotationTimerRunning = false;
+    }
+
 
     ResetFloor();
 }
 
+void AGameField::OnAnimateRotation()
+{
+    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnAnimateRotation()"));
 
+    CurrentTime += GetWorld()->GetDeltaSeconds();
+
+    float Alpha = FMath::Clamp(CurrentTime / AnimationDuration, 0.0f, 1.0f);
+    FVector NewLocation = FMath::Lerp(StartLocation, TargetLocation, Alpha);
+    FRotator NewRotation = FMath::Lerp(StartRotation, TargetRotation, Alpha);
+
+    UE_LOG(LogTemp, Log, TEXT("Tetris> NewLoc=(%f, %f, %f) - NewRot=(%f, %f, %f)"),
+        NewLocation.X, NewLocation.Y, NewLocation.Z,
+        NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
+
+    // Set the new rotation for the actor
+    Current->SetActorLocationAndRotation(NewLocation, NewRotation);
+
+    // Check if the animation is finished
+    if (CurrentTime >= AnimationDuration)
+    {
+        // Stop the animation timer
+        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+        IsRotationTimerRunning = false;
+    }
+}

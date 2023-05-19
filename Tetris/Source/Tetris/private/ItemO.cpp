@@ -17,7 +17,7 @@ FMatrix44f AItemO::GetShape(int Rotation)
         return Od;
 
     default:
-        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::GetShape - Bad rotation"));
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::GetShape - Bad rotation: %d"), Rotation);
         return Oa;
     }
 }
@@ -50,7 +50,7 @@ bool AItemO::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FR
         break;
 
     default:
-        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::GetLocationAndRotatorbyRotation - Bad rotation"));
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::GetLocationAndRotatorbyRotation - Bad rotation: %d"), Rotation);
         return false;
     }
 

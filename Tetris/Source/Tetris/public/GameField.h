@@ -92,15 +92,29 @@ private:
 	bool UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind);
 	void DumpFloor();
 
+private:
+	// Rotation animation
+	FTimerHandle RotationTimer;
+	void OnAnimateRotation();
+	FRotator StartRotation;
+	FRotator TargetRotation;
+	FVector StartLocation;
+	FVector TargetLocation;
+
+	float AnimationDuration;
+	float CurrentTime;
+	bool IsRotationTimerRunning;
+
 public:
 
-	TArray<FMatrix44f> L;
-	TArray<FMatrix44f> J;
-	TArray<FMatrix44f> I;
-	TArray<FMatrix44f> O;
-	TArray<FMatrix44f> Z;
-	TArray<FMatrix44f> S;
-	TArray<FMatrix44f> T;
+
+	//TArray<FMatrix44f> L;
+	//TArray<FMatrix44f> J;
+	//TArray<FMatrix44f> I;
+	//TArray<FMatrix44f> O;
+	//TArray<FMatrix44f> Z;
+	//TArray<FMatrix44f> S;
+	//TArray<FMatrix44f> T;
 
 	int32 XC = 3, YC = 0;
 	int32 Rot = 0;
