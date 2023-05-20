@@ -95,6 +95,7 @@ private:
 private:
 	// Rotation animation
 	FTimerHandle RotationTimer;
+	void StartItemAnimationTimer();
 	void OnAnimateRotation();
 	FRotator StartRotation;
 	FRotator TargetRotation;

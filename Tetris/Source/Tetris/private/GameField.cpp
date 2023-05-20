@@ -67,6 +67,7 @@ AGameField::AGameField()
     //RootComponent = StaticMeshComponent;
 
     PrimaryMaterial = nullptr;
+    AnimationDuration = 0.3f;
 
 }
 
@@ -398,7 +399,7 @@ void AGameField::StartGame()
     auto ItemClass = GameMode->ItemClasses[FString("Z")];
     Current = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos, &Rotator));
     Current->SetTileStatus();
-
+    TargetLocation = Current->GetActorLocation();
 }
 
 int32 AGameField::GetFloorIndexByXY(int32 x, int32 y) const
@@ -543,20 +544,27 @@ void AGameField::DumpFloor()
 void AGameField::OnLeft()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
-    if (IsRotationTimerRunning)
-    {
-        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
-        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-        IsRotationTimerRunning = false;
-    }
+    //if (IsRotationTimerRunning)
+    //{
+    //    GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+    //    IsRotationTimerRunning = false;
+    //}
 
     XC--;
     if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
-        auto Location = Current->GetActorLocation();
-        Current->SetActorLocation(Location - FVector(100, 0, 0));
+
+        CurrentTime = 0.0f;
+        StartLocation = Current->GetActorLocation();
+        StartRotation = Current->GetActorRotation();
+        TargetLocation = TargetLocation - FVector(100, 0, 0);
+        if (!IsRotationTimerRunning)
+        {
+            StartItemAnimationTimer();
+        }
     }
     else
     {
@@ -567,20 +575,27 @@ void AGameField::OnLeft()
 void AGameField::OnRight()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
-    if (IsRotationTimerRunning)
-    {
-        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
-        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-        IsRotationTimerRunning = false;
-    }
+    //if (IsRotationTimerRunning)
+    //{
+    //    GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+    //    IsRotationTimerRunning = false;
+    //}
 
     XC++;
     if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
-        auto Location = Current->GetActorLocation();
-        Current->SetActorLocation(Location + FVector(100, 0, 0));
+
+        CurrentTime = 0.0f;
+        StartLocation = Current->GetActorLocation();
+        StartRotation = Current->GetActorRotation();
+        TargetLocation = TargetLocation + FVector(100, 0, 0);
+        if (!IsRotationTimerRunning)
+        {
+            StartItemAnimationTimer();
+        }
     }
     else
     {
@@ -591,10 +606,10 @@ void AGameField::OnRight()
 void AGameField::OnRotate()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
-    if (GetWorld()->GetTimerManager().IsTimerActive(RotationTimer)) {
-        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
-        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-    }
+    //if (GetWorld()->GetTimerManager().IsTimerActive(RotationTimer)) {
+    //    GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+    //}
 
     Rot++;
     if (Rot == 4) Rot = 0;
@@ -607,30 +622,27 @@ void AGameField::OnRotate()
         FRotator Rotator;
         Current->GetLocationAndRotatorbyRotation(Rot, &Location, &Rotator);
 
-        StartLocation = Current->GetActorLocation();
-        TargetLocation = StartLocation + Location;
-        StartRotation = Current->GetActorRotation();
-        TargetRotation = Rotator;
-        AnimationDuration = 0.3f;
         CurrentTime = 0.0f;
+        StartLocation = Current->GetActorLocation();
+        StartRotation = Current->GetActorRotation();
+        TargetLocation = TargetLocation + Location;
+        TargetRotation = Rotator;
+        if (!IsRotationTimerRunning)
+        {
+            StartItemAnimationTimer();
+        }
 
-        UE_LOG(LogTemp, Log, TEXT("Tetris> StartLoc=(%f, %f, %f) - StartRot=(%f, %f, %f)"),
-            StartLocation.X, StartLocation.Y, StartLocation.Z,
-            StartRotation.Pitch, StartRotation.Yaw, StartRotation.Roll);
+        //UE_LOG(LogTemp, Log, TEXT("Tetris> StartLoc=(%f, %f, %f) - StartRot=(%f, %f, %f)"),
+        //    StartLocation.X, StartLocation.Y, StartLocation.Z,
+        //    StartRotation.Pitch, StartRotation.Yaw, StartRotation.Roll);
 
-        UE_LOG(LogTemp, Log, TEXT("Tetris> TargetLoc=(%f, %f, %f) - TargetRot=(%f, %f, %f)"),
-            TargetLocation.X, TargetLocation.Y, TargetLocation.Z,
-            TargetRotation.Pitch, TargetRotation.Yaw, TargetRotation.Roll);
+        //UE_LOG(LogTemp, Log, TEXT("Tetris> TargetLoc=(%f, %f, %f) - TargetRot=(%f, %f, %f)"),
+        //    TargetLocation.X, TargetLocation.Y, TargetLocation.Z,
+        //    TargetRotation.Pitch, TargetRotation.Yaw, TargetRotation.Roll);
 
 
-        IsRotationTimerRunning = true;
-        GetWorld()->GetTimerManager().SetTimer(
-            RotationTimer,
-            this,
-            &AGameField::OnAnimateRotation,
-            GetWorld()->GetDeltaSeconds(),
-            true);
-        
+        //StartItemAnimationTimer();
+
         //FVector Location;
         //FRotator Rotator;
         //Current->GetLocationAndRotatorbyRotation(Rot, &Location, &Rotator);
@@ -647,20 +659,26 @@ void AGameField::OnRotate()
 void AGameField::OnDrawNext()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
-    if (IsRotationTimerRunning)
-    {
-        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
-        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-        IsRotationTimerRunning = false;
-    }
+    //if (IsRotationTimerRunning)
+    //{
+    //    GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+    //    IsRotationTimerRunning = false;
+    //}
 
     YC++;
     if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         DumpFloor();
-        auto Location = Current->GetActorLocation();
-        Current->SetActorLocation(Location + FVector(0, 100, 0));
+        CurrentTime = 0.0f;
+        StartLocation = Current->GetActorLocation();
+        StartRotation = Current->GetActorRotation();
+        TargetLocation = TargetLocation + FVector(0, 100, 0);
+        if (!IsRotationTimerRunning)
+        {
+            StartItemAnimationTimer();
+        }
     }
     else
     {
@@ -671,12 +689,12 @@ void AGameField::OnDrawNext()
 void AGameField::OnSpeedUp()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnSpeedUp()"));
-    if (IsRotationTimerRunning)
-    {
-        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
-        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-        IsRotationTimerRunning = false;
-    }
+    //if (IsRotationTimerRunning)
+    //{
+    //    GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+    //    IsRotationTimerRunning = false;
+    //}
 
 
 
@@ -685,15 +703,26 @@ void AGameField::OnSpeedUp()
 void AGameField::OnDrop()
 {
     UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrop()"));
-    if (IsRotationTimerRunning)
-    {
-        GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
-        Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-        IsRotationTimerRunning = false;
-    }
+    //if (IsRotationTimerRunning)
+    //{
+    //    GetWorld()->GetTimerManager().ClearTimer(RotationTimer);
+    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
+    //    IsRotationTimerRunning = false;
+    //}
 
 
     ResetFloor();
+}
+
+void AGameField::StartItemAnimationTimer()
+{
+    IsRotationTimerRunning = true;
+    GetWorld()->GetTimerManager().SetTimer(
+        RotationTimer,
+        this,
+        &AGameField::OnAnimateRotation,
+        GetWorld()->GetDeltaSeconds(),
+        true);
 }
 
 void AGameField::OnAnimateRotation()
@@ -706,9 +735,9 @@ void AGameField::OnAnimateRotation()
     FVector NewLocation = FMath::Lerp(StartLocation, TargetLocation, Alpha);
     FRotator NewRotation = FMath::Lerp(StartRotation, TargetRotation, Alpha);
 
-    UE_LOG(LogTemp, Log, TEXT("Tetris> NewLoc=(%f, %f, %f) - NewRot=(%f, %f, %f)"),
-        NewLocation.X, NewLocation.Y, NewLocation.Z,
-        NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> NewLoc=(%f, %f, %f) - NewRot=(%f, %f, %f)"),
+    //    NewLocation.X, NewLocation.Y, NewLocation.Z,
+    //    NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
 
     // Set the new rotation for the actor
     Current->SetActorLocationAndRotation(NewLocation, NewRotation);
