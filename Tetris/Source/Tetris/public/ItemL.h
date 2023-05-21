@@ -14,6 +14,9 @@ class TETRIS_API AItemL : public AItemBase
 {
 	GENERATED_BODY()
 
+public:
+    virtual void BeginPlay() override;
+
 private:
     FMatrix44f La = FMatrix44f(
         FPlane4f(1, 1, 1, 0),
@@ -51,6 +54,7 @@ public:
     FMatrix44f GetShape(int Rotation) override;
     EShapeKind GetShapeKind() override;
     bool GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator) override;
+    void TetrisRotate(int Rotation) override;
 
 	
 };

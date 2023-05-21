@@ -76,6 +76,22 @@ void AItemBase::ApplyMaterial(UMaterialInterface* material)
     }
 }
 
+void AItemBase::ShiftChildrenActors(FVector RelativeOffset)
+{
+    TArray<UChildActorComponent*> AllChildren;
+    GetComponents<UChildActorComponent>(AllChildren);
+    for (const auto& actorComponent : AllChildren)
+    {
+        auto child = Cast<AItemBase>(actorComponent->GetChildActor());
+        child->SetActorRelativeLocation(RelativeOffset);
+    }
+}
+
+void AItemBase::TetrisRotate(int Rotation)
+{
+}
+
+
 bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
 {
     // GetComponentsByClass is obsolete and can be replaced as follows
@@ -100,7 +116,6 @@ bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
 
 void AItemBase::Rotate()
 {
-
 }
 
 void AItemBase::SetTileStatus()

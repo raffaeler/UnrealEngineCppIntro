@@ -83,6 +83,8 @@ public:
 private:
 	// The floor tiles are stored as a matrix
 	// 0,0 is the upper left tile
+	FVector Zero = FVector(50, 50, 122);
+	FVector GetLocationByXY(int32 X, int32 Y);
 	TArray<int32> Floor;
 	const int32 Rows = 20;
 	const int32 Columns = 10;
@@ -90,7 +92,22 @@ private:
 	__forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;
 	void ResetFloor();
 	bool UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind);
+	void CrystalizeFloor();
 	void DumpFloor();
+
+private:
+	// RotateAround variables
+	float AngleAxis;
+	FVector Distance;
+	FVector RotationAxis = FVector(0, 0, 1);	// Around Z
+	float Multiplier = 1;
+	void PrepareRotateAround();
+	void RotateAround();
+
+private:
+	// debug
+	int counter = 0;
+	FVector Temp;
 
 private:
 	// Rotation animation
@@ -105,6 +122,14 @@ private:
 	float AnimationDuration;
 	float CurrentTime;
 	bool IsRotationTimerRunning;
+
+private:
+	// Item Fall Timer
+	FTimerHandle ItemFallTimer;
+	void StartItemFallTimer();
+	void OnStartItemFall();
+	bool IsItemFallTimerRunning();
+	float ItemFallInterval;
 
 public:
 

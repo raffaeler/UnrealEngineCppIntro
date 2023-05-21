@@ -54,6 +54,8 @@ public:
 	virtual FMatrix44f GetShape(int Rotation);
 	virtual EShapeKind GetShapeKind();
 	virtual bool GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator);
+	void ShiftChildrenActors(FVector Offset);
+	virtual void TetrisRotate(int Rotation);
 
 public:
 	// Movements

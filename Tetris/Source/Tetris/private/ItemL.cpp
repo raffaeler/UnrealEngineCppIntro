@@ -3,6 +3,12 @@
 
 #include "ItemL.h"
 
+void AItemL::BeginPlay()
+{
+    Super::BeginPlay();
+
+}
+
 FMatrix44f AItemL::GetShape(int Rotation)
 {
     switch (Rotation)
@@ -55,4 +61,34 @@ bool AItemL::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FR
     }
 
     return true;
+}
+
+void AItemL::TetrisRotate(int Rotation)
+{
+    UE_LOG(LogTemp, Log, TEXT("Tetris> ItemL::TetrisRotate rotation: %d"), Rotation);
+    switch (Rotation)
+    {
+    case 0:
+        ShiftChildrenActors(FVector(-100, -100, 0));
+        SetActorRotation(RotatorA);
+        ShiftChildrenActors(FVector(100, 100, 0));
+        break;
+    case 1:
+        ShiftChildrenActors(FVector(-100, -100, 0));
+        SetActorRotation(RotatorB);
+        ShiftChildrenActors(FVector(100, 100, 0));
+        break;
+    case 2:
+        ShiftChildrenActors(FVector(-100, -200, 0));
+        SetActorRotation(RotatorC);
+        break;
+    case 3:
+        ShiftChildrenActors(FVector(-100, -200, 0));
+        SetActorRotation(RotatorD);
+        break;
+
+    default:
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemL::GetShape - Bad rotation: %d"), Rotation);
+        return;
+    }
 }

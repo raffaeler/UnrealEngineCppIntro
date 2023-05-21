@@ -13,7 +13,10 @@ UCLASS()
 class TETRIS_API AItemS : public AItemBase
 {
 	GENERATED_BODY()
-	
+
+public:
+    virtual void BeginPlay() override;
+
 private:
 
     FMatrix44f Sa = FMatrix44f(
@@ -53,6 +56,7 @@ public:
 	FMatrix44f GetShape(int Rotation) override;
     EShapeKind GetShapeKind() override;
     bool GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator) override;
+    void TetrisRotate(int Rotation) override;
 
 
 };
