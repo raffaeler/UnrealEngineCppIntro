@@ -14,6 +14,7 @@
 #include "Camera/CameraComponent.h"
 
 #include "ItemBase.h"
+#include "BlocksManager.h"
 #include "Helpers.h"
 
 #include "GameField.generated.h"
@@ -33,6 +34,9 @@ public:
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
+
+    UPROPERTY()
+        UBlocksManager* BlocksManager;
 
 public:
     // Called every frame
@@ -81,19 +85,21 @@ public:
     UPROPERTY() AItemBase* Current;
 
 private:
-    // The floor tiles are stored as a matrix
-    // 0,0 is the upper left tile
-    FVector Zero = FVector(0, 0, 122);
-    FVector GetLocationByXY(int32 X, int32 Y);
-    TArray<int32> Floor;
     const int32 Rows = 20;
     const int32 Columns = 10;
     const int32 ItemSize = 4;	// 4x4
-    __forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;
-    void ResetFloor();
-    bool UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind);
-    void CrystalizeFloor();
-    void DumpFloor();
+    FVector Zero = FVector(0, 0, 122);
+
+    // The floor tiles are stored as a matrix
+    // 0,0 is the upper left tile
+    //FVector GetLocationByXY(int32 X, int32 Y);
+    //TTuple<int32, int32> GetXYByLocation(FVector Location);
+    //TArray<int32> Floor;
+    //__forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;
+    //void ResetFloor();
+    //bool UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind);
+    //void CrystalizeFloor();
+    //void DumpFloor();
 
 private:
     // debug

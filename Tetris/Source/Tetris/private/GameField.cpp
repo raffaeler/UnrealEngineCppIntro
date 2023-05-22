@@ -77,224 +77,15 @@ void AGameField::BeginPlay()
 {
     Super::BeginPlay();
 
-    DbgDraw();
+    //DbgDraw();
 
-    UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField Primary material:%s"),
-        *(PrimaryMaterial->GetFName().ToString()));
+    //UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField Primary material:%s"),
+    //    *(PrimaryMaterial->GetFName().ToString()));
 
-    //auto mesh = Helpers::GetRootMeshComponent(this);
-    //mesh->SetMaterial(0, PrimaryMaterial);
+    BlocksManager = NewObject<UBlocksManager>();
+    BlocksManager->InitializeBlocks(Rows, Columns, ItemSize, Zero);
 
-    //FMatrix44f La = FMatrix44f(
-    //    FPlane4f(1, 1, 1, 0),
-    //    FPlane4f(1, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Lb = FMatrix44f(
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Lc = FMatrix44f(
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(1, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Ld = FMatrix44f(
-    //    FPlane4f(1, 1, 0, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-
-    //FMatrix44f Ja = FMatrix44f(
-    //    FPlane4f(1, 1, 1, 0),
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Jb = FMatrix44f(
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Jc = FMatrix44f(
-    //    FPlane4f(1, 0, 0, 0),
-    //    FPlane4f(1, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Jd = FMatrix44f(
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(1, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-
-    //FMatrix44f Ia = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(1, 1, 1, 1),
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Ib = FMatrix44f(
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 1, 0));
-
-    //FMatrix44f Ic = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(1, 1, 1, 1),
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Id = FMatrix44f(
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 1, 0));
-
-
-    //FMatrix44f Oa = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Ob = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Oc = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Od = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-
-    //FMatrix44f Za = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(1, 1, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Zb = FMatrix44f(
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Zc = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(1, 1, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Zd = FMatrix44f(
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-
-    //FMatrix44f Sa = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(1, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Sb = FMatrix44f(
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Sc = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(1, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Sd = FMatrix44f(
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 0, 1, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-
-    //FMatrix44f Ta = FMatrix44f(
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(1, 1, 1, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Tb = FMatrix44f(
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 1, 1, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Tc = FMatrix44f(
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(1, 1, 1, 0),
-    //    FPlane4f(0, 0, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //FMatrix44f Td = FMatrix44f(
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(1, 1, 0, 0),
-    //    FPlane4f(0, 1, 0, 0),
-    //    FPlane4f(0, 0, 0, 0));
-
-    //L.Push(La);
-    //L.Push(Lb);
-    //L.Push(Lc);
-    //L.Push(Ld);
-
-    //J.Push(Ja);
-    //J.Push(Jb);
-    //J.Push(Jc);
-    //J.Push(Jd);
-
-    //I.Push(Ia);
-    //I.Push(Ib);
-    //I.Push(Ic);
-    //I.Push(Id);
-
-    //O.Push(Oa);
-    //O.Push(Ob);
-    //O.Push(Oc);
-    //O.Push(Od);
-
-    //Z.Push(Za);
-    //Z.Push(Zb);
-    //Z.Push(Zc);
-    //Z.Push(Zd);
-
-    //S.Push(Sa);
-    //S.Push(Sb);
-    //S.Push(Sc);
-    //S.Push(Sd);
-
-    //T.Push(Ta);
-    //T.Push(Tb);
-    //T.Push(Tc);
-    //T.Push(Td);
-
-    ResetFloor();
+    BlocksManager->ResetFloor();
 }
 
 // Called every frame
@@ -308,15 +99,13 @@ void AGameField::Tick(float DeltaTime)
         FVector To = From + FVector(0, 0, 200);
 
         DrawDebugDirectionalArrow(GetWorld(),
-            From, To, 50, FColor::Yellow, false, -1, 0, 2);
+            From, To, 50, FColor::Red, false, -1, 0, 4);
 
-        FVector From2 = Current->GetActorLocation() + FVector(100, 100, 0);
-        FVector To2 = From2 + FVector(0, 0, 200);
+        //FVector From2 = Current->GetActorLocation() + FVector(100, 100, 0);
+        //FVector To2 = From2 + FVector(0, 0, 200);
 
-        DrawDebugDirectionalArrow(GetWorld(),
-            From2, To2, 50, FColor::Red, false, -1, 0, 2);
-
-
+        //DrawDebugDirectionalArrow(GetWorld(),
+        //    From2, To2, 50, FColor::Yellow, false, -1, 0, 2);
     }
 }
 
@@ -404,181 +193,230 @@ void AGameField::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 void AGameField::StartGame()
 {
-    //ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
-    //auto world = GetWorld();
-    //FVector Pos(350, 50, 122);
-    //FRotator Rotator;// (0, -90, 0);
-    ////auto ItemClass = GameMode->ItemClasses[FString("I")];
-    ////auto ItemClass = GameMode->ItemClasses[FString("J")];
-    ////auto ItemClass = GameMode->ItemClasses[FString("L")];
-    ////auto ItemClass = GameMode->ItemClasses[FString("O")];
-    ////auto ItemClass = GameMode->ItemClasses[FString("S")];
-    ////auto ItemClass = GameMode->ItemClasses[FString("T")];
-    //auto ItemClass = GameMode->ItemClasses[FString("Z")];
-    //Current = Cast<AItemBase>(world->SpawnActor(ItemClass, &Pos, &Rotator));
-    //Current->SetTileStatus();
-    //TargetLocation = Current->GetActorLocation();
-
     StartItemFallTimer();
 }
 
-int32 AGameField::GetFloorIndexByXY(int32 x, int32 y) const
-{
-    return y * Columns + x;
-}
+//int32 AGameField::GetFloorIndexByXY(int32 x, int32 y) const
+//{
+//    return y * Columns + x;
+//}
 
-void AGameField::ResetFloor()
-{
-    Floor.Empty();
-    auto count = Rows * Columns;
-    Floor.Reserve(count);
-    for (int i = 0; i < count; i++)
-    {
-        Floor.Push(0);
-    }
-}
+//void AGameField::ResetFloor()
+//{
+//    Floor.Empty();
+//    auto count = Rows * Columns;
+//    Floor.Reserve(count);
+//    for (int i = 0; i < count; i++)
+//    {
+//        Floor.Push(0);
+//    }
+//}
 
-FVector AGameField::GetLocationByXY(int32 X, int32 Y)
-{
-    return FVector(X * 100 + Zero.X, Y * 100 + Zero.Y, Zero.Z);
-}
+//FVector AGameField::GetLocationByXY(int32 X, int32 Y)
+//{
+//    return FVector(X * 100 + Zero.X, Y * 100 + Zero.Y, Zero.Z);
+//}
 
-// X can span to negative beyond the field (negative values) because the
-// matrix may have zeroes on the left and the leftmost tile of the item
-// must be able to reach the 0 column.
-// TileKind is a number < 100 representing the shape
-// The matrix add 100 to the Tile Kind to represent the shape that is moving
-bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind)
-{
-    int32 mx = 0;   // x coordinate of the shape matrix
-    int32 my = 0;   // y coordinate of the shape matrix
-    int32 mxF = 0;  // x offset of the shape matrix
-    int32 myF = 0;  // y offset of the shape matrix
+//TTuple<int32, int32> AGameField::GetXYByLocation(FVector Location)
+//{
+//    int32 X = (int32)((Location.X - Zero.X) / 100);
+//    int32 Y = (int32)((Location.Y - Zero.Y) / 100);
+//    return { X, Y };
+//}
 
-    TArray<TTuple<int32, int32>> Changes;
-    Changes.Reserve(16);
+//// X can span to negative beyond the field (negative values) because the
+//// matrix may have zeroes on the left and the leftmost tile of the item
+//// must be able to reach the 0 column.
+//// TileKind is a number < 100 representing the shape
+//// The matrix add 100 to the Tile Kind to represent the shape that is moving
+//bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind)
+//{
+//    int32 mx = 0;   // x coordinate of the shape matrix
+//    int32 my = 0;   // y coordinate of the shape matrix
+//    int32 mxF = 0;  // x offset of the shape matrix
+//    int32 myF = 0;  // y offset of the shape matrix
+//
+//    TArray<TTuple<int32, int32>> Changes;
+//    Changes.Reserve(16);
+//
+//    if (X < 0)
+//    {
+//        mxF = FMath::Abs(X);
+//        X = 0;
+//        if (mxF >= ItemSize) return false;
+//
+//        // check if the Shape would collide with the left margin
+//        for (int r = 0; r < 4; r++)
+//        {
+//            for (int c = 0; c < mxF; c++)
+//            {
+//                if (Shape.M[r][c] != 0) return false;
+//            }
+//        }
+//    }
+//
+//    if (Y < 0)
+//    {
+//        myF = FMath::Abs(Y);
+//        Y = 0;
+//        if (myF >= ItemSize) return false;
+//
+//        // check if the Shape would collide with the bottom margin
+//        for (int c = ItemSize - 1; c >= myF; c--)
+//        {
+//            for (int r = 0; r < 4; r++)
+//            {
+//                if (Shape.M[r][c] != 0) return false;
+//            }
+//        }
+//    }
+//
+//    my = myF;
+//    for (int j = Y; j < Y + ItemSize && my < ItemSize; j++)
+//    {
+//        mx = mxF;
+//        for (int i = X; i < X + ItemSize && mx < ItemSize; i++)
+//        {
+//            int32 index = GetFloorIndexByXY(i, j);
+//            bool isFilled = Shape.M[my][mx] != 0;
+//
+//            if (isFilled)
+//            {
+//                if (i >= Columns) return false;    // found a tile beyond the right margin
+//                if (j >= Rows) return false;
+//                const int32 content = Floor[index];
+//                if (content > 0 && content < 100) return false;    // tile is already busy
+//                Changes.Push({ index, (int32)ShapeKind });
+//            }
+//
+//            mx++;
+//        }
+//
+//        my++;
+//    }
+//
+//    // If there are overlaps, the function already returned false
+//    // Otherwise Changes contains the list of indices to be overwritten
+//
+//    // delete the current moving shape
+//    for (int i = 0; i < Floor.Num(); i++)
+//    {
+//        if (Floor[i] >= 100) Floor[i] = 0;
+//    }
+//
+//    // draw the current moving shape in the updated position
+//    for (const auto& tp : Changes)
+//    {
+//        Floor[tp.Get<0>()] = tp.Get<1>() + 100;
+//    }
+//
+//    return true;
+//}
 
-    if (X < 0)
-    {
-        mxF = FMath::Abs(X);
-        X = 0;
-        if (mxF >= ItemSize) return false;
-
-        // check if the Shape would collide with the left margin
-        for (int r = 0; r < 4; r++)
-        {
-            for (int c = 0; c < mxF; c++)
-            {
-                if (Shape.M[r][c] != 0) return false;
-            }
-        }
-    }
-
-    if (Y < 0)
-    {
-        myF = FMath::Abs(Y);
-        Y = 0;
-        if (myF >= ItemSize) return false;
-
-        // check if the Shape would collide with the bottom margin
-        for (int c = ItemSize - 1; c >= myF; c--)
-        {
-            for (int r = 0; r < 4; r++)
-            {
-                if (Shape.M[r][c] != 0) return false;
-            }
-        }
-    }
-
-    my = myF;
-    for (int j = Y; j < Y + ItemSize && my < ItemSize; j++)
-    {
-        mx = mxF;
-        for (int i = X; i < X + ItemSize && mx < ItemSize; i++)
-        {
-            int32 index = GetFloorIndexByXY(i, j);
-            bool isFilled = Shape.M[my][mx] != 0;
-
-            if (isFilled)
-            {
-                if (i >= Columns) return false;    // found a tile beyond the right margin
-                if (j >= Rows) return false;
-                const int32 content = Floor[index];
-                if (content > 0 && content < 100) return false;    // tile is already busy
-                Changes.Push({ index, (int32)ShapeKind });
-            }
-
-            mx++;
-        }
-
-        my++;
-    }
-
-    // If there are overlaps, the function already returned false
-    // Otherwise Changes contains the list of indices to be overwritten
-
-    // delete the current moving shape
-    for (int i = 0; i < Floor.Num(); i++)
-    {
-        if (Floor[i] >= 100) Floor[i] = 0;
-    }
-
-    // draw the current moving shape in the updated position
-    for (const auto& tp : Changes)
-    {
-        Floor[tp.Get<0>()] = tp.Get<1>() + 100;
-    }
-
-    return true;
-}
-
-void AGameField::CrystalizeFloor()
-{
-    for (int i = 0; i < Floor.Num(); i++)
-    {
-        int32& value = Floor[i];
-        if (value >= 100)
-        {
-            Floor[i] = value - 100;
-        }
-    }
-
-    //Current->Ungroup()
-}
-
-void AGameField::DumpFloor()
-{
-    FString dump = " \n  |0123456789|\n";
-    dump.Reserve(Rows * Columns + 200);
-    for (int j = 0; j < Rows; j++)
-    {
-        auto line = FString::FromInt(j);
-        if (line.Len() == 1) dump += FString(" ");
-        dump += line;
-        dump += FString("|");
-
-        for (int i = 0; i < Columns; i++)
-        {
-            int32 index = GetFloorIndexByXY(i, j);
-            int32 value = Floor[index];
-            if (value >= 100)
-            {
-                dump += TEXT("*");
-            }
-            else
-            {
-                dump += Helpers::ToString((EShapeKind)value);
-            }
-        }
-
-        dump += TEXT("|\n");
-    }
-
-    dump += "  |0123456789|";
-    UE_LOG(LogTemp, Log, TEXT("%s"), *dump);
-
-}
-
+//void AGameField::CrystalizeFloor()
+//{
+//    // when a shape stops falling down, it gets crystalized
+//    for (int i = 0; i < Floor.Num(); i++)
+//    {
+//        int32& value = Floor[i];
+//        if (value >= 100)
+//        {
+//            Floor[i] = value - 100;
+//        }
+//    }
+//
+//    // shapes get ungrouped into simple blocks (cubes)
+//    int32 MinY = INT_MAX;
+//    int32 MaxY = 0;
+//    TArray<AActor*> Detached;
+//    Current->Ungroup(this, Detached);
+//
+//    if (Detached.IsEmpty())
+//    {
+//        UE_LOG(LogTemp, Log, TEXT("AGameField::CrystalizeFloor - Detached is empty"));
+//        return;
+//    }
+//
+//    // ungrouped blocks are then added to the Blocks Manager to keep track of their position
+//    for (const auto actor : Detached)
+//    {
+//        auto XY = GetXYByLocation(actor->GetActorLocation());
+//        auto x = XY.Get<0>();
+//        auto y = XY.Get<1>();
+//
+//        MinY = FMath::Min(MinY, y);
+//        MaxY = FMath::Max(MaxY, y);
+//
+//        BlocksManager->SetBlock(x, y, actor);
+//    }
+//
+//    // Floor indexes are from top to bottom
+//    // Blocks indexes are from bottom to top (to ease shifting the actors)
+//    int32 start = Rows - MinY;
+//    int32 end = Rows - MaxY;
+//
+//    // The Floor array is used to verify whether there are full lines to remove
+//    TArray<int32> FullRows;
+//    for (int j = start; j < end; j++)
+//    {
+//        int counter = 0;
+//        for (int i = 0; i < Columns; i++)
+//        {
+//            int32 index = GetFloorIndexByXY(i, j);
+//            int32 value = Floor[index];
+//
+//            if (value > 0) counter++;
+//        }
+//
+//        if (counter == Columns)
+//        {
+//            // full row => to remove
+//            FullRows.Push(j);
+//        }
+//    }
+//
+//    // full lines are removed from the BlocksManager
+//    for (auto row : FullRows)
+//    {
+//        int32 blockRow = Rows - row;
+//        TArray<AActor*> removedActors = BlocksManager->RemoveLine(blockRow);
+//    }
+//
+//
+//}
+//
+//void AGameField::DumpFloor()
+//{
+//    FString dump = " \n  |0123456789|\n";
+//    dump.Reserve(Rows * Columns + 200);
+//    for (int j = 0; j < Rows; j++)
+//    {
+//        auto line = FString::FromInt(j);
+//        if (line.Len() == 1) dump += FString(" ");
+//        dump += line;
+//        dump += FString("|");
+//
+//        for (int i = 0; i < Columns; i++)
+//        {
+//            int32 index = GetFloorIndexByXY(i, j);
+//            int32 value = Floor[index];
+//            if (value >= 100)
+//            {
+//                dump += TEXT("*");
+//            }
+//            else
+//            {
+//                dump += Helpers::ToString((EShapeKind)value);
+//            }
+//        }
+//
+//        dump += TEXT("|\n");
+//    }
+//
+//    dump += "  |0123456789|";
+//    UE_LOG(LogTemp, Log, TEXT("%s"), *dump);
+//}
+//
 
 void AGameField::OnLeft()
 {
@@ -592,15 +430,15 @@ void AGameField::OnLeft()
     //}
 
     XC--;
-    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
-        DumpFloor();
+        BlocksManager->DumpFloor();
 
         CurrentTime = 0.0f;
         StartLocation = Current->GetActorLocation();
         StartRotation = Current->GetActorRotation();
-        TargetLocation = GetLocationByXY(XC, YC);
+        TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
         //TargetLocation = TargetLocation - FVector(100, 0, 0);
         if (!IsMovementTimerRunning())
         {
@@ -625,15 +463,15 @@ void AGameField::OnRight()
     //}
 
     XC++;
-    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
-        DumpFloor();
+        BlocksManager->DumpFloor();
 
         CurrentTime = 0.0f;
         StartLocation = Current->GetActorLocation();
         StartRotation = Current->GetActorRotation();
-        TargetLocation = GetLocationByXY(XC, YC);
+        TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
         //TargetLocation = TargetLocation + FVector(100, 0, 0);
         if (!IsMovementTimerRunning())
         {
@@ -658,10 +496,10 @@ void AGameField::OnRotate()
 
     Rot++;
     if (Rot == 4) Rot = 0;
-    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
-        DumpFloor();
+        BlocksManager->DumpFloor();
 
         FVector PreOffset;
         FVector PostOffset;
@@ -671,7 +509,7 @@ void AGameField::OnRotate()
         CurrentTime = 0.0f;
         StartLocation = Current->GetActorLocation();
         StartRotation = Current->GetActorRotation();
-        TargetLocation = GetLocationByXY(XC, YC);
+        TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
         TargetRotation = Rotator;
         TargetPostOffset = PostOffset;
         if (!IsMovementTimerRunning())
@@ -714,14 +552,14 @@ void AGameField::OnDrawNext()
     //}
 
     YC++;
-    if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
-        DumpFloor();
+        BlocksManager->DumpFloor();
         CurrentTime = 0.0f;
         StartLocation = Current->GetActorLocation();
         StartRotation = Current->GetActorRotation();
-        TargetLocation = GetLocationByXY(XC, YC);
+        TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
         //TargetLocation = TargetLocation + FVector(0, 100, 0);
         if (!IsMovementTimerRunning())
         {
@@ -788,7 +626,7 @@ void AGameField::OnDrop()
     
     //AActor::AddActorWorldRotation()
 
-    ResetFloor();
+    BlocksManager->ResetFloor();
 }
 
 void AGameField::StartMovementTimer()
@@ -871,7 +709,7 @@ AItemBase* AGameField::CreateItem(const EShapeKind ShapeKind, int Y, int X)
     ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
     FString ShapeName = Helpers::ToString(ShapeKind);
     auto ItemClass = GameMode->ItemClasses[ShapeName];
-    auto InitialPosition = GetLocationByXY(XC, YC);
+    auto InitialPosition = BlocksManager->GetLocationByXY(XC, YC);
     auto Item = Cast<AItemBase>(GetWorld()->SpawnActor(ItemClass));
     FVector PreOffset;
     FRotator Rotator;
@@ -905,15 +743,15 @@ void AGameField::OnItemFall()
     {
         // move the item down
         YC++;
-        if (UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+        if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
         {
             // Item can go down
             UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
-            DumpFloor();
+            BlocksManager->DumpFloor();
             CurrentTime = 0.0f;
             StartLocation = Current->GetActorLocation();
             StartRotation = Current->GetActorRotation();
-            TargetLocation = GetLocationByXY(XC, YC);
+            TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
             //TargetLocation = TargetLocation + FVector(0, 100, 0);
             if (!IsMovementTimerRunning())
             {
@@ -927,7 +765,7 @@ void AGameField::OnItemFall()
             // Finalize the location/rotation despite the ongoing animation
             CancelMovementTimer();
             Current->SetActorLocationAndRotation(TargetLocation + TargetPostOffset, TargetRotation);
-            CrystalizeFloor();
+            BlocksManager->CrystalizeFloor(Current, this);
             Current = nullptr;
         }
     }
