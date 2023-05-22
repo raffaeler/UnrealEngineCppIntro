@@ -4,68 +4,63 @@
 
 #include "CoreMinimal.h"
 #include "ItemBase.h"
-#include "ItemZ.generated.h"
+#include "ItemI.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class TETRIS_API AItemZ : public AItemBase
+class TETRIS_API AItemI : public AItemBase
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
     virtual void BeginPlay() override;
-	
-private:
 
-    FMatrix44f Za = FMatrix44f(
+private:
+    FMatrix44f Ia = FMatrix44f(
         FPlane4f(0, 0, 0, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
+        FPlane4f(1, 1, 1, 1),
+        FPlane4f(0, 0, 0, 0),
         FPlane4f(0, 0, 0, 0));
-        //FVector PreOffsetA = FVector(-300, 0, 0);
+
         FVector PreOffsetA = FVector(0, 0, 0);
         FRotator RotatorA = FRotator(0, 0, 0);
-        FVector PostOffsetA = FVector(0, 0, 0);
+        FVector PostOffsetA = FVector(-50, 50, 0);
 
-    FMatrix44f Zb = FMatrix44f(
+    FMatrix44f Ib = FMatrix44f(
         FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0));
         FVector PreOffsetB = FVector(0, 0, 0);
-        //FVector PreOffsetB = FVector(0, 200, 0);
         FRotator RotatorB = FRotator(0, -90, 0);
-        FVector PostOffsetB = FVector(0, 0, 0);
+        FVector PostOffsetB = FVector(150, 350, 0);
 
-    FMatrix44f Zc = FMatrix44f(
+    FMatrix44f Ic = FMatrix44f(
         FPlane4f(0, 0, 0, 0),
-        FPlane4f(1, 1, 0, 0),
-        FPlane4f(0, 1, 1, 0),
+        FPlane4f(1, 1, 1, 1),
+        FPlane4f(0, 0, 0, 0),
         FPlane4f(0, 0, 0, 0));
         FVector PreOffsetC = FVector(0, 0, 0);
-        //FVector PreOffsetC = FVector(200, 100, 0);
         FRotator RotatorC = FRotator(0, -180, 0);
-        FVector PostOffsetC = FVector(0, 0, 0);
+        FVector PostOffsetC = FVector(350, 150, 0);
 
-    FMatrix44f Zd = FMatrix44f(
+    FMatrix44f Id = FMatrix44f(
         FPlane4f(0, 0, 1, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 0, 0),
-        FPlane4f(0, 0, 0, 0));
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0),
+        FPlane4f(0, 0, 1, 0));
         FVector PreOffsetD = FVector(0, 0, 0);
-        //FVector PreOffsetD = FVector(100, -300, 0);
         FRotator RotatorD = FRotator(0, 90, 0);
-        FVector PostOffsetD = FVector(0, 0, 0);
+        FVector PostOffsetD = FVector(250, -50, 0);
 
 
 
 public:
-	FMatrix44f GetShape(int Rotation) override;
+    FMatrix44f GetShape(int Rotation) override;
     EShapeKind GetShapeKind() override;
     bool GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, FRotator* Rotator, FVector* PostOffset) override;
-
     void TetrisRotate(int Rotation) override;
 
 };

@@ -83,7 +83,7 @@ public:
 private:
     // The floor tiles are stored as a matrix
     // 0,0 is the upper left tile
-    FVector Zero = FVector(50, 50, 122);
+    FVector Zero = FVector(0, 0, 122);
     FVector GetLocationByXY(int32 X, int32 Y);
     TArray<int32> Floor;
     const int32 Rows = 20;
@@ -96,41 +96,34 @@ private:
     void DumpFloor();
 
 private:
-    // RotateAround variables
-    float AngleAxis;
-    FVector Distance;
-    FVector RotationAxis = FVector(0, 0, 1);	// Around Z
-    float Multiplier = 1;
-    void PrepareRotateAround();
-    void RotateAround();
-
-private:
     // debug
     int counter = 0;
     FVector Temp;
 
 private:
-    // Rotation animation
-    FTimerHandle RotationTimer;
-    void StartItemAnimationTimer();
-    void OnAnimateRotation();
+    // Movement animation
+    FTimerHandle MovementTimer;
+    void StartMovementTimer();
+    bool IsMovementTimerRunning();
+    void CancelMovementTimer();
+    void OnMovement();
     FRotator StartRotation;
     FRotator TargetRotation;
     FVector StartLocation;
     FVector TargetLocation;
     FVector TargetPostOffset;
 
-    float AnimationDuration;
+    float MovementDuration;
     float CurrentTime;
-    bool IsRotationTimerRunning;
 
 private:
     // Item Fall Timer
     FTimerHandle ItemFallTimer;
     void StartItemFallTimer();
-    void OnStartItemFall();
     bool IsItemFallTimerRunning();
-    float ItemFallInterval;
+    void CancelItemFallTimer();
+    void OnItemFall();
+    float ItemFallDuration;
 
 
 private:
@@ -139,16 +132,6 @@ private:
     AItemBase* CreateItem(const EShapeKind ShapeKind, int X, int Y);
 
 public:
-
-
-    //TArray<FMatrix44f> L;
-    //TArray<FMatrix44f> J;
-    //TArray<FMatrix44f> I;
-    //TArray<FMatrix44f> O;
-    //TArray<FMatrix44f> Z;
-    //TArray<FMatrix44f> S;
-    //TArray<FMatrix44f> T;
-
     int32 XC = 3, YC = 0;
     int32 Rot = 0;
 
