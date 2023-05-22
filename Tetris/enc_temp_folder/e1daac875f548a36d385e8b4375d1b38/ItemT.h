@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "ItemBase.h"
-#include "ItemO.generated.h"
+#include "ItemT.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API AItemO : public AItemBase
+class TETRIS_API AItemT : public AItemBase
 {
 	GENERATED_BODY()
 
@@ -18,41 +18,42 @@ public:
     virtual void BeginPlay() override;
 
 private:
-    FMatrix44f Oa = FMatrix44f(
+
+    FMatrix44f Ta = FMatrix44f(
         FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
+        FPlane4f(1, 1, 1, 0),
+        FPlane4f(0, 1, 0, 0),
         FPlane4f(0, 0, 0, 0));
     FVector PreOffsetA = FVector(0, 0, 0);
     FRotator RotatorA = FRotator(0, 0, 0);
-    FVector PostOffsetA = FVector(-50, -50, 0);
+    FVector PostOffsetA = FVector(0, 0, 0);
 
-    FMatrix44f Ob = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
+    FMatrix44f Tb = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
         FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
+        FPlane4f(0, 1, 0, 0),
         FPlane4f(0, 0, 0, 0));
     FVector PreOffsetB = FVector(0, 0, 0);
     FRotator RotatorB = FRotator(0, -90, 0);
-    FVector PostOffsetB = FVector(-50, 150, 0);
+    FVector PostOffsetB = FVector(0, 0, 0);
 
-    FMatrix44f Oc = FMatrix44f(
+    FMatrix44f Tc = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(1, 1, 1, 0),
         FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
         FPlane4f(0, 0, 0, 0));
     FVector PreOffsetC = FVector(0, 0, 0);
     FRotator RotatorC = FRotator(0, -180, 0);
-    FVector PostOffsetC = FVector(150, 150, 0);
+    FVector PostOffsetC = FVector(0, 0, 0);
 
-    FMatrix44f Od = FMatrix44f(
-        FPlane4f(0, 0, 0, 0),
-        FPlane4f(0, 1, 1, 0),
-        FPlane4f(0, 1, 1, 0),
+    FMatrix44f Td = FMatrix44f(
+        FPlane4f(0, 1, 0, 0),
+        FPlane4f(1, 1, 0, 0),
+        FPlane4f(0, 1, 0, 0),
         FPlane4f(0, 0, 0, 0));
     FVector PreOffsetD = FVector(0, 0, 0);
     FRotator RotatorD = FRotator(0, 90, 0);
-    FVector PostOffsetD = FVector(150, -50, 0);
+    FVector PostOffsetD = FVector(0, 0, 0);
 
 
 public:

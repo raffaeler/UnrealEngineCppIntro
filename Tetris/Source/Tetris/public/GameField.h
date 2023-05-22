@@ -118,6 +118,7 @@ private:
     FRotator TargetRotation;
     FVector StartLocation;
     FVector TargetLocation;
+    FVector TargetPostOffset;
 
     float AnimationDuration;
     float CurrentTime;

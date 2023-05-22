@@ -33,26 +33,30 @@ EShapeKind AItemL::GetShapeKind()
     return EShapeKind::L;
 }
 
-bool AItemL::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
+bool AItemL::GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, FRotator* Rotator, FVector* PostOffset)
 {
-    if (Location == nullptr || Rotator == nullptr) return false;
+    if (PreOffset == nullptr || Rotator == nullptr) return false;
     switch (Rotation)
     {
     case 0:
-        *Location = LocationA;
+        *PreOffset= PreOffsetA;
         *Rotator = RotatorA;
+        *PostOffset = PostOffsetA;
         break;
     case 1:
-        *Location = LocationB;
+        *PreOffset= PreOffsetB;
         *Rotator = RotatorB;
+        *PostOffset = PostOffsetB;
         break;
     case 2:
-        *Location = LocationC;
+        *PreOffset= PreOffsetC;
         *Rotator = RotatorC;
+        *PostOffset = PostOffsetC;
         break;
     case 3:
-        *Location = LocationD;
+        *PreOffset= PreOffsetD;
         *Rotator = RotatorD;
+        *PostOffset = PostOffsetD;
         break;
 
     default:
@@ -74,9 +78,10 @@ void AItemL::TetrisRotate(int Rotation)
         //ShiftChildrenActors(FVector(100, 100, 0));
         break;
     case 1:
-        ShiftChildrenActors(FVector(0, 0, 0));
+        ShiftChildrenActors(FVector(-150, -50, 0));
         SetActorRotation(RotatorB);
         //ShiftChildrenActors(FVector(100, 100, 0));
+        SetActorLocation(GetActorLocation() + FVector(150, 50, 0));
         break;
     case 2:
         ShiftChildrenActors(FVector(0, 0, 0));

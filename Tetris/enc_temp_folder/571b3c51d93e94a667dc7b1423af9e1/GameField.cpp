@@ -871,7 +871,7 @@ AItemBase* AGameField::CreateItem(const EShapeKind ShapeKind, int Y, int X)
     FVector PostOffset;
     Item->GetLocationAndRotatorbyRotation(Rot, &PreOffset, &Rotator, &PostOffset);
     PreOffset.Z = 122;
-    Item->SetActorLocationAndRotation(PostOffset, Rotator);
+    Item->SetActorLocationAndRotation(PreOffset, Rotator);
     Item->SetTileStatus();
 
     TargetLocation = PreOffset;

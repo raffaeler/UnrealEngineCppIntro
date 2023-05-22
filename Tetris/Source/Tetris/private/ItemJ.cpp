@@ -33,26 +33,30 @@ EShapeKind AItemJ::GetShapeKind()
     return EShapeKind::J;
 }
 
-bool AItemJ::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
+bool AItemJ::GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, FRotator* Rotator, FVector* PostOffset)
 {
-    if (Location == nullptr || Rotator == nullptr) return false;
+    if (PreOffset == nullptr || Rotator == nullptr) return false;
     switch (Rotation)
     {
     case 0:
-        *Location = LocationA;
+        *PreOffset= PreOffsetA;
         *Rotator = RotatorA;
+        *PostOffset = PostOffsetA;
         break;
     case 1:
-        *Location = LocationB;
+        *PreOffset= PreOffsetB;
         *Rotator = RotatorB;
+        *PostOffset = PostOffsetB;
         break;
     case 2:
-        *Location = LocationC;
+        *PreOffset= PreOffsetC;
         *Rotator = RotatorC;
+        *PostOffset = PostOffsetC;
         break;
     case 3:
-        *Location = LocationD;
+        *PreOffset= PreOffsetD;
         *Rotator = RotatorD;
+        *PostOffset = PostOffsetD;
         break;
 
     default:

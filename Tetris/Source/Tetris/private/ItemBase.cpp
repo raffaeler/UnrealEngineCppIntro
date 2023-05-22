@@ -44,11 +44,12 @@ EShapeKind AItemBase::GetShapeKind()
     return EShapeKind::L;
 }
 
-bool AItemBase::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
+bool AItemBase::GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, FRotator* Rotator, FVector* PostOffset)
 {
-    if (Location == nullptr) return false;
-    *Location = FVector();
+    if (PreOffset == nullptr) return false;
+    *PreOffset = FVector();
     *Rotator = FRotator();
+    *PostOffset = FVector();
     return true;
 }
 

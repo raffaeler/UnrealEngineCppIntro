@@ -26,7 +26,7 @@ private:
 
         FVector PreOffsetA = FVector(0, 0, 0);
         FRotator RotatorA = FRotator(0, 0, 0);
-        FVector PostOffsetA = FVector(-50, 50, 0);
+        FVector PostOffsetA = FVector(0, 0, 0);
 
     FMatrix44f Ib = FMatrix44f(
         FPlane4f(0, 0, 1, 0),
@@ -35,7 +35,7 @@ private:
         FPlane4f(0, 0, 1, 0));
         FVector PreOffsetB = FVector(0, 0, 0);
         FRotator RotatorB = FRotator(0, -90, 0);
-        FVector PostOffsetB = FVector(150, 350, 0);
+        FVector PostOffsetB = FVector(0, 0, 0);
 
     FMatrix44f Ic = FMatrix44f(
         FPlane4f(0, 0, 0, 0),
@@ -44,7 +44,7 @@ private:
         FPlane4f(0, 0, 0, 0));
         FVector PreOffsetC = FVector(0, 0, 0);
         FRotator RotatorC = FRotator(0, -180, 0);
-        FVector PostOffsetC = FVector(350, 150, 0);
+        FVector PostOffsetC = FVector(0, 0, 0);
 
     FMatrix44f Id = FMatrix44f(
         FPlane4f(0, 0, 1, 0),
@@ -53,7 +53,7 @@ private:
         FPlane4f(0, 0, 1, 0));
         FVector PreOffsetD = FVector(0, 0, 0);
         FRotator RotatorD = FRotator(0, 90, 0);
-        FVector PostOffsetD = FVector(250, -50, 0);
+        FVector PostOffsetD = FVector(0, 0, 0);
 
 
 
