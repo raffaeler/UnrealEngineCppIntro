@@ -96,8 +96,11 @@ TTuple<int32, int32> UBlocksManager::GetXYByLocation(const FVector& Location)
 // must be able to reach the 0 column.
 // TileKind is a number < 100 representing the shape
 // The matrix add 100 to the Tile Kind to represent the shape that is moving
-bool UBlocksManager::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind)
+bool UBlocksManager::UpdateFloor(int32 X, int32 Y, int32 Rot, AItemBase* Item)
 {
+    const FMatrix44f& Shape = Item->GetShape(Rot);
+    EShapeKind ShapeKind = Item->GetShapeKind();
+
     int32 mx = 0;   // x coordinate of the shape matrix
     int32 my = 0;   // y coordinate of the shape matrix
     int32 mxF = 0;  // x offset of the shape matrix

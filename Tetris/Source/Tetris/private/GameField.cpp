@@ -430,7 +430,7 @@ void AGameField::OnLeft()
     //}
 
     XC--;
-    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
@@ -463,7 +463,7 @@ void AGameField::OnRight()
     //}
 
     XC++;
-    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
@@ -496,7 +496,7 @@ void AGameField::OnRotate()
 
     Rot++;
     if (Rot == 4) Rot = 0;
-    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
@@ -552,7 +552,7 @@ void AGameField::OnDrawNext()
     //}
 
     YC++;
-    if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+    if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
         UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
@@ -743,7 +743,7 @@ void AGameField::OnItemFall()
     {
         // move the item down
         YC++;
-        if (BlocksManager->UpdateFloor(XC, YC, Current->GetShape(Rot), Current->GetShapeKind()))
+        if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
         {
             // Item can go down
             UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);

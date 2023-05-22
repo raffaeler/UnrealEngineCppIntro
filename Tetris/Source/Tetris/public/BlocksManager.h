@@ -33,7 +33,7 @@ public:
     __forceinline TTuple<int32, int32> GetXYByLocation(const FVector& Location);
     __forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;
     void ResetFloor();
-    bool UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind);
+    bool UpdateFloor(int32 X, int32 Y, int32 Rot, AItemBase* Item);
     void CrystalizeFloor(AItemBase* Item, AActor* NewParent);
     void DumpFloor();
 
