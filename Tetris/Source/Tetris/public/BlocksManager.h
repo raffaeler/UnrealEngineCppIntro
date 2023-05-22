@@ -25,7 +25,7 @@ private:
 
     // The floor tiles are stored as a matrix
     // 0,0 is the upper left tile
-    TArray<int32> Floor;
+    TArray<TTuple<int32, AActor*>> Floor;
 
 public:
     void InitializeBlocks(int32 FieldRows, int32 FieldColumns, int32 ShapItemSize, const FVector& PositionZero);

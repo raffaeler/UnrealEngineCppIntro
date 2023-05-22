@@ -70,7 +70,7 @@ void UBlocksManager::ResetFloor()
     Floor.Reserve(count);
     for (int i = 0; i < count; i++)
     {
-        Floor.Push(0);
+        Floor.Push({ 0, nullptr });
     }
 }
 
@@ -154,7 +154,7 @@ bool UBlocksManager::UpdateFloor(int32 X, int32 Y, int32 Rot, AItemBase* Item)
             {
                 if (i >= Columns) return false;    // found a tile beyond the right margin
                 if (j >= Rows) return false;
-                const int32 content = Floor[index];
+                const int32 content = Floor[index].Key;
                 if (content > 0 && content < 100) return false;    // tile is already busy
                 Changes.Push({ index, (int32)ShapeKind });
             }
@@ -171,13 +171,13 @@ bool UBlocksManager::UpdateFloor(int32 X, int32 Y, int32 Rot, AItemBase* Item)
     // delete the current moving shape
     for (int i = 0; i < Floor.Num(); i++)
     {
-        if (Floor[i] >= 100) Floor[i] = 0;
+        if (Floor[i].Key >= 100) Floor[i] = { 0, nullptr };
     }
 
     // draw the current moving shape in the updated position
     for (const auto& tp : Changes)
     {
-        Floor[tp.Get<0>()] = tp.Get<1>() + 100;
+        Floor[tp.Get<0>()] = { tp.Get<1>() + 100, Item };
     }
 
     return true;
@@ -197,13 +197,15 @@ void UBlocksManager::DumpFloor()
         for (int i = 0; i < Columns; i++)
         {
             int32 index = GetFloorIndexByXY(i, j);
-            int32 value = Floor[index];
+            int32 value = Floor[index].Key;
             if (value >= 100)
             {
+                if (Floor[index].Value == nullptr) dump += TEXT("&"); else
                 dump += TEXT("*");
             }
             else
             {
+                if (Floor[index].Value == nullptr) dump += TEXT("&"); else
                 dump += Helpers::ToString((EShapeKind)value);
             }
         }
@@ -220,10 +222,10 @@ void UBlocksManager::CrystalizeFloor(AItemBase* Item, AActor* NewParent)
     // when a shape stops falling down, it gets crystalized
     for (int i = 0; i < Floor.Num(); i++)
     {
-        int32& value = Floor[i];
+        int32& value = Floor[i].Key;
         if (value >= 100)
         {
-            Floor[i] = value - 100;
+            Floor[i] = { value - 100, Floor[i].Value };
         }
     }
 
@@ -265,7 +267,7 @@ void UBlocksManager::CrystalizeFloor(AItemBase* Item, AActor* NewParent)
         for (int i = 0; i < Columns; i++)
         {
             int32 index = GetFloorIndexByXY(i, j);
-            int32 value = Floor[index];
+            int32 value = Floor[index].Key;
 
             if (value > 0) counter++;
         }
