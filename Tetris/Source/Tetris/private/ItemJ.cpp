@@ -69,19 +69,19 @@ void AItemJ::TetrisRotate(int Rotation)
     switch (Rotation)
     {
     case 0:
-        ShiftChildrenActors(FVector(-100, -200, 0));
+        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorA);
         break;
     case 1:
-        ShiftChildrenActors(FVector(-100, -200, 0));
+        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorB);
         break;
     case 2:
-        ShiftChildrenActors(FVector(-100, -200, 0));
+        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorC);
         break;
     case 3:
-        ShiftChildrenActors(FVector(-100, -200, 0));
+        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorD);
         break;
 

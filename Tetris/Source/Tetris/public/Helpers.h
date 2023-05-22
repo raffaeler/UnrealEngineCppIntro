@@ -8,6 +8,7 @@
 enum class EShapeKind : uint8
 {
 	None = 0,
+	MIN = 1,
 	L = 1,
 	J = 2,
 	Z = 3,
@@ -15,6 +16,7 @@ enum class EShapeKind : uint8
 	I = 5,
 	O = 6,
 	T = 7,
+	MAX = 7,
 };
 
 /**

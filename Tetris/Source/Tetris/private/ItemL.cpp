@@ -69,21 +69,21 @@ void AItemL::TetrisRotate(int Rotation)
     switch (Rotation)
     {
     case 0:
-        ShiftChildrenActors(FVector(-100, -100, 0));
+        ShiftChildrenActors(FVector(0, 0, 0));
         SetActorRotation(RotatorA);
-        ShiftChildrenActors(FVector(100, 100, 0));
+        //ShiftChildrenActors(FVector(100, 100, 0));
         break;
     case 1:
-        ShiftChildrenActors(FVector(-100, -100, 0));
+        ShiftChildrenActors(FVector(0, 0, 0));
         SetActorRotation(RotatorB);
-        ShiftChildrenActors(FVector(100, 100, 0));
+        //ShiftChildrenActors(FVector(100, 100, 0));
         break;
     case 2:
-        ShiftChildrenActors(FVector(-100, -200, 0));
+        ShiftChildrenActors(FVector(0, 0, 0));
         SetActorRotation(RotatorC);
         break;
     case 3:
-        ShiftChildrenActors(FVector(-100, -200, 0));
+        ShiftChildrenActors(FVector(0, 0, 0));
         SetActorRotation(RotatorD);
         break;
 

@@ -784,8 +784,11 @@ void AGameField::OnSpeedUp()
     //    IsRotationTimerRunning = false;
     //}
 
+    if (Current != nullptr) Current->Destroy();
+    Current = CreateItem((EShapeKind)ItemCounter, 0, 0);
+    ItemCounter++;
 
-
+    if (ItemCounter - 1 == (int32)EShapeKind::MAX) ItemCounter = (int32)EShapeKind::MIN;
 }
 
 void AGameField::OnDrop()
@@ -888,6 +891,35 @@ bool AGameField::IsItemFallTimerRunning()
     return GetWorld()->GetTimerManager().IsTimerActive(ItemFallTimer);
 }
 
+AItemBase* AGameField::CreateItem(const EShapeKind ShapeKind, int Y, int X)
+{
+    XC = X;
+    YC = Y;
+    Rot = 0;
+
+    ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
+    FString ShapeName = Helpers::ToString(ShapeKind);
+    auto ItemClass = GameMode->ItemClasses[ShapeName];
+    auto Item = Cast<AItemBase>(GetWorld()->SpawnActor(ItemClass));
+    FVector Location;
+    FRotator Rotator;
+    Item->GetLocationAndRotatorbyRotation(Rot, &Location, &Rotator);
+    Location.Z = 122;
+    Item->SetActorLocationAndRotation(Location, Rotator);
+    Item->SetTileStatus();
+
+    TargetLocation = Location;
+    TargetRotation = Rotator;
+
+    return Item;
+}
+
+AItemBase* AGameField::CreateRandomItem(int X, int Y)
+{
+    int32 index = FMath::RandRange((int32)EShapeKind::MIN, (int32)EShapeKind::MAX);
+    return CreateItem((EShapeKind)index, X, Y);
+}
+
 void AGameField::OnStartItemFall()
 {
     if (Current == nullptr)
@@ -900,7 +932,7 @@ void AGameField::OnStartItemFall()
         ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
         auto world = GetWorld();
         //FVector Pos(350, 50, 122);
-        FVector Pos(50, 50, 122);
+        FVector Pos(0, 0, 122);
         FRotator Rotator;// (0, -90, 0);
         //auto ItemClass = GameMode->ItemClasses[FString("I")];
         //auto ItemClass = GameMode->ItemClasses[FString("J")];

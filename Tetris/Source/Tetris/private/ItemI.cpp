@@ -7,7 +7,7 @@ void AItemI::BeginPlay()
 {
     Super::BeginPlay();
 
-    ShiftChildrenActors(FVector(-300, -200, 0));
+    //ShiftChildrenActors(FVector(-300, -200, 0));
 }
 
 FMatrix44f AItemI::GetShape(int Rotation)

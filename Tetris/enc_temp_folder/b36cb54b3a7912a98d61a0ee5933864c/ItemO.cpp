@@ -1,40 +1,40 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ItemZ.h"
+#include "ItemO.h"
 
-void AItemZ::BeginPlay()
+void AItemO::BeginPlay()
 {
     Super::BeginPlay();
 
-    //ShiftChildrenActors(FVector(-100, -200, 0));
+    ShiftChildrenActors(FVector(-50, -50, 0));
 }
 
-FMatrix44f AItemZ::GetShape(int Rotation)
+FMatrix44f AItemO::GetShape(int Rotation)
 {
     switch (Rotation)
     {
     case 0:
-        return Za;
+        return Oa;
     case 1:
-        return Zb;
+        return Ob;
     case 2:
-        return Zc;
+        return Oc;
     case 3:
-        return Zd;
+        return Od;
 
     default:
-        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemZ::GetShape - Bad rotation: %d"), Rotation);
-        return Za;
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::GetShape - Bad rotation: %d"), Rotation);
+        return Oa;
     }
 }
 
-EShapeKind AItemZ::GetShapeKind()
+EShapeKind AItemO::GetShapeKind()
 {
-    return EShapeKind::Z;
+    return EShapeKind::O;
 }
 
-bool AItemZ::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
+bool AItemO::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FRotator* Rotator)
 {
     if (Location == nullptr || Rotator == nullptr) return false;
     switch (Rotation)
@@ -57,16 +57,16 @@ bool AItemZ::GetLocationAndRotatorbyRotation(int Rotation, FVector* Location, FR
         break;
 
     default:
-        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemZ::GetLocationAndRotatorbyRotation - Bad rotation: %d"), Rotation);
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::GetLocationAndRotatorbyRotation - Bad rotation: %d"), Rotation);
         return false;
     }
 
     return true;
 }
 
-void AItemZ::TetrisRotate(int Rotation)
+void AItemO::TetrisRotate(int Rotation)
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> ItemZ::TetrisRotate rotation: %d"), Rotation);
+    UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::TetrisRotate rotation: %d"), Rotation);
     switch (Rotation)
     {
     case 0:
@@ -87,7 +87,7 @@ void AItemZ::TetrisRotate(int Rotation)
         break;
 
     default:
-        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemZ::GetShape - Bad rotation: %d"), Rotation);
+        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemO::GetShape - Bad rotation: %d"), Rotation);
         return;
     }
 }

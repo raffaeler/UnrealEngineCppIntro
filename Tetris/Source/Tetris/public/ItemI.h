@@ -25,7 +25,7 @@ private:
         FPlane4f(0, 0, 0, 0));
 
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
-        FVector LocationA = FVector(-300, 0, 0);
+        FVector LocationA = FVector(0, 0, 0);
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
         FRotator RotatorA = FRotator(0, 0, 0);
 
@@ -35,7 +35,7 @@ private:
         FPlane4f(0, 0, 1, 0),
         FPlane4f(0, 0, 1, 0));
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
-        FVector LocationB = FVector(100, 300, 0);
+        FVector LocationB = FVector(0, 0, 0);
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
         FRotator RotatorB = FRotator(0, -90, 0);
 
@@ -45,7 +45,7 @@ private:
         FPlane4f(0, 0, 0, 0),
         FPlane4f(0, 0, 0, 0));
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
-        FVector LocationC = FVector(200, -100, 0);
+        FVector LocationC = FVector(0, 0, 0);
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
         FRotator RotatorC = FRotator(0, -180, 0);
 
@@ -55,7 +55,7 @@ private:
         FPlane4f(0, 0, 1, 0),
         FPlane4f(0, 0, 1, 0));
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
-        FVector LocationD = FVector(0, -200, 0);
+        FVector LocationD = FVector(0, 0, 0);
     UPROPERTY(EditAnywhere, Transient, Category = "TetrisRotation")
         FRotator RotatorD = FRotator(0, 90, 0);
 
