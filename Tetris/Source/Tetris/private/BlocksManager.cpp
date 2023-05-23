@@ -79,6 +79,13 @@ int32 UBlocksManager::GetFloorIndexByXY(int32 x, int32 y) const
     return y * Columns + x;
 }
 
+TTuple<int32, int32> UBlocksManager::GetXYByFloorIndex(int32 index) const
+{
+    int x = index / Columns;
+    int y = index % Columns;
+    return { x, y };
+}
+
 FVector UBlocksManager::GetLocationByXY(int32 X, int32 Y)
 {
     return FVector(X * 100 + Zero.X, Y * 100 + Zero.Y, Zero.Z);
@@ -200,13 +207,14 @@ void UBlocksManager::DumpFloor()
             int32 value = Floor[index].Key;
             if (value >= 100)
             {
-                if (Floor[index].Value == nullptr) dump += TEXT("&"); else
-                dump += TEXT("*");
+                if (Floor[index].Value == nullptr) dump += TEXT("$"); else
+                    dump += TEXT("*");
             }
             else
             {
-                if (Floor[index].Value == nullptr) dump += TEXT("&"); else
-                dump += Helpers::ToString((EShapeKind)value);
+                EShapeKind kind = (EShapeKind)value;
+                if (kind != EShapeKind::None && Floor[index].Value == nullptr) dump += TEXT("%"); else
+                    dump += Helpers::ToString(kind);
             }
         }
 
@@ -217,75 +225,129 @@ void UBlocksManager::DumpFloor()
     UE_LOG(LogTemp, Log, TEXT("%s"), *dump);
 }
 
-void UBlocksManager::CrystalizeFloor(AItemBase* Item, AActor* NewParent)
+void UBlocksManager::CrystalizeFloor(AItemBase* Item, AActor* NewParent,
+    TArray<AActor*>& Removed, TArray<AActor*>& Shifted)
 {
-    // when a shape stops falling down, it gets crystalized
-    for (int i = 0; i < Floor.Num(); i++)
+    // shapes get ungrouped into simple blocks (cubes)
+    TArray<AActor*> Detached;
+    Item->Ungroup(NewParent, Detached);
+
+    // placing the simple blocks (cubes) into a map by their position (index of the floor array)
+    TMap<int32, AActor*> PositionMap;
+    for (auto actor : Detached)
+    {
+        auto XY = GetXYByLocation(actor->GetActorLocation());
+        auto index = GetFloorIndexByXY(XY.Get<0>(), XY.Get<1>());
+        PositionMap.Add(index, actor);
+
+        UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - Detached[%f, %f]"),
+            XY.Key, XY.Value);
+    }
+
+    // This is the crystalization:
+    // replacing the * with the ShapeKind and
+    // replacing the shape pointer with the block pointer
+    // The loop is reversed because it's more probable the
+    // items stay at the bottom of the game field
+    int32 replacement = 0;
+    int32 minIndex = INT_MAX;
+    int32 maxIndex = 0;
+    for (int i = Floor.Num() - 1; i >= 0; --i)
     {
         int32& value = Floor[i].Key;
         if (value >= 100)
         {
-            Floor[i] = { value - 100, Floor[i].Value };
+            AActor* newPointer = PositionMap[i];
+            Floor[i] = { value - 100, newPointer };
+            minIndex = FMath::Min(minIndex, i);
+            maxIndex = FMath::Max(maxIndex, i);
+
+            UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - ReplacedFloor[%d]"),
+                i);
+
+            replacement++;
+            if (replacement == Detached.Num()) break;
         }
     }
 
-    // shapes get ungrouped into simple blocks (cubes)
-    int32 MinY = INT_MAX;
-    int32 MaxY = 0;
-    TArray<AActor*> Detached;
-    Item->Ungroup(NewParent, Detached);
+    DumpFloor();
 
-    if (Detached.IsEmpty())
+    // The Floor is now updated with the blocks and the new pointers
+    int32 minRow = minIndex / Columns;
+    int32 maxRow = maxIndex / Columns;
+
+    // Find the complete rows in the minRow to maxRow range
+    int32 row = minRow;
+    TArray<int32> toRemove;
+    while (row <= maxRow)
     {
-        UE_LOG(LogTemp, Log, TEXT("AGameField::CrystalizeFloor - Detached is empty"));
-        return;
-    }
-
-    // ungrouped blocks are then added to the Blocks Manager to keep track of their position
-    for (const auto actor : Detached)
-    {
-        auto XY = GetXYByLocation(actor->GetActorLocation());
-        auto x = XY.Get<0>();
-        auto y = XY.Get<1>();
-
-        MinY = FMath::Min(MinY, y);
-        MaxY = FMath::Max(MaxY, y);
-
-        //BlocksManager->SetBlock(x, y, actor);
-    }
-
-    // Floor indexes are from top to bottom
-    // Blocks indexes are from bottom to top (to ease shifting the actors)
-    int32 start = Rows - MinY;
-    int32 end = Rows - MaxY;
-
-    // The Floor array is used to verify whether there are full lines to remove
-    TArray<int32> FullRows;
-    for (int j = start; j < end; j++)
-    {
-        int counter = 0;
+        auto index = row * Columns;
+        int isComplete = true;
         for (int i = 0; i < Columns; i++)
         {
-            int32 index = GetFloorIndexByXY(i, j);
-            int32 value = Floor[index].Key;
-
-            if (value > 0) counter++;
+            if (Floor[index + i].Key == 0)
+            {
+                isComplete = false;
+                break;
+            }
         }
 
-        if (counter == Columns)
+        if (isComplete)
         {
-            // full row => to remove
-            FullRows.Push(j);
+            UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - RowToRemove[%d]"),
+                row);
+
+            toRemove.Push(row);
+        }
+
+        row++;
+    }
+
+    for (int i = 0; i < toRemove.Num(); i++)
+    {
+        DeleteAndShift(toRemove[i], true, Removed, Shifted);
+    }
+
+    DumpFloor();
+}
+
+void UBlocksManager::DeleteAndShift(int32 Row, bool DoRemove,
+    TArray<AActor*>& Removed, TArray<AActor*>& Shifted)
+{
+    if (Row == 0) return;
+    int32 startIndex = Row * Columns;
+    int32 endIndex = startIndex + Columns;
+
+    for (int i = startIndex; i < endIndex; i++)
+    {
+        if (DoRemove)
+        {
+            AActor* actor = Floor[i].Value;
+            if (actor != nullptr)
+            {
+                Removed.Push(actor);
+            }
+            else
+            {
+                UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - actor is null: %d"), i);
+            }
+        }
+
+        Floor[i] = Floor[i - Columns];  // shift
+        AActor* shiftedActor = Floor[i].Value;
+        AItemBase* shiftedItemBase = Cast<AItemBase>(Floor[i].Value);
+        if (shiftedItemBase != nullptr)
+        {
+            auto XY = GetXYByFloorIndex(i);
+            shiftedItemBase->CandidateLocation = GetLocationByXY(XY.Key, XY.Value);
+            Shifted.Push(shiftedActor);
         }
     }
 
-    // full lines are removed from the BlocksManager
-    for (auto row : FullRows)
-    {
-        int32 blockRow = Rows - row;
-        //TArray<AActor*> removedActors = BlocksManager->RemoveLine(blockRow);
-    }
-
-
+    DeleteAndShift(Row - 1, false, Removed, Shifted);
 }
+
+
+
+
 

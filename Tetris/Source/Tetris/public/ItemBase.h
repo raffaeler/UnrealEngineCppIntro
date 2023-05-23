@@ -56,6 +56,7 @@ public:
 	virtual bool GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, FRotator* Rotator, FVector* PostOffset);
 	void ShiftChildrenActors(FVector Offset);
 	virtual void TetrisRotate(int Rotation);
+	FVector CandidateLocation;
 
 public:
 	// Movements

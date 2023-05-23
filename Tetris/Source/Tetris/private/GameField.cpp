@@ -420,8 +420,8 @@ void AGameField::StartGame()
 
 void AGameField::OnLeft()
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
     if (Current == nullptr) return;
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
 
     //if (IsMovementTimerRunning())
     //{
@@ -432,7 +432,7 @@ void AGameField::OnLeft()
     XC--;
     if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
-        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+        //UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
 
         CurrentTime = 0.0f;
@@ -453,8 +453,8 @@ void AGameField::OnLeft()
 
 void AGameField::OnRight()
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
     if (Current == nullptr) return;
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
 
     //if (IsMovementTimerRunning())
     //{
@@ -465,7 +465,7 @@ void AGameField::OnRight()
     XC++;
     if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
-        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+        //UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
 
         CurrentTime = 0.0f;
@@ -486,8 +486,8 @@ void AGameField::OnRight()
 
 void AGameField::OnRotate()
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
     if (Current == nullptr) return;
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
 
     //if (GetWorld()->GetTimerManager().IsTimerActive(MovementTimer)) {
     //    CancelMovementTimer();
@@ -498,7 +498,7 @@ void AGameField::OnRotate()
     if (Rot == 4) Rot = 0;
     if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
-        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+        //UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
 
         FVector PreOffset;
@@ -517,7 +517,6 @@ void AGameField::OnRotate()
             StartMovementTimer();
         }
 
-
         //UE_LOG(LogTemp, Log, TEXT("Tetris> StartLoc=(%f, %f, %f) - StartRot=(%f, %f, %f)"),
         //    StartLocation.X, StartLocation.Y, StartLocation.Z,
         //    StartRotation.Pitch, StartRotation.Yaw, StartRotation.Roll);
@@ -525,15 +524,6 @@ void AGameField::OnRotate()
         //UE_LOG(LogTemp, Log, TEXT("Tetris> TargetLoc=(%f, %f, %f) - TargetRot=(%f, %f, %f)"),
         //    TargetLocation.X, TargetLocation.Y, TargetLocation.Z,
         //    TargetRotation.Pitch, TargetRotation.Yaw, TargetRotation.Roll);
-
-
-        //StartMovementTimer();
-
-        //FVector Location;
-        //FRotator Rotator;
-        //Current->GetLocationAndRotatorbyRotation(Rot, &Location, &Rotator);
-        //Location += Current->GetActorLocation();
-        //Current->SetActorLocationAndRotation(Location, Rotator);
     }
     else
     {
@@ -544,7 +534,8 @@ void AGameField::OnRotate()
 
 void AGameField::OnDrawNext()
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
+
     //if (IsMovementTimerRunning())
     //{
     //    CancelMovementTimer();
@@ -554,13 +545,13 @@ void AGameField::OnDrawNext()
     YC++;
     if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
-        UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+        //UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
         BlocksManager->DumpFloor();
         CurrentTime = 0.0f;
         StartLocation = Current->GetActorLocation();
         StartRotation = Current->GetActorRotation();
         TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
-        //TargetLocation = TargetLocation + FVector(0, 100, 0);
+
         if (!IsMovementTimerRunning())
         {
             StartMovementTimer();
@@ -574,7 +565,8 @@ void AGameField::OnDrawNext()
 
 void AGameField::OnSpeedUp()
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnSpeedUp()"));
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnSpeedUp()"));
+
     //if (IsMovementTimerRunning())
     //{
     //    CancelMovementTimer();
@@ -590,8 +582,8 @@ void AGameField::OnSpeedUp()
 
 void AGameField::OnDrop()
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrop()"));
     if (Current == nullptr) return;
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrop()"));
 
     //if (IsMovementTimerRunning())
     //{
@@ -746,7 +738,7 @@ void AGameField::OnItemFall()
         if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
         {
             // Item can go down
-            UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
+            //UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
             BlocksManager->DumpFloor();
             CurrentTime = 0.0f;
             StartLocation = Current->GetActorLocation();
@@ -765,7 +757,10 @@ void AGameField::OnItemFall()
             // Finalize the location/rotation despite the ongoing animation
             CancelMovementTimer();
             Current->SetActorLocationAndRotation(TargetLocation + TargetPostOffset, TargetRotation);
-            BlocksManager->CrystalizeFloor(Current, this);
+
+            TArray<AActor*> Removed;
+            TArray<AActor*> Shifted;
+            BlocksManager->CrystalizeFloor(Current, this, Removed, Shifted);
             Current = nullptr;
         }
     }
