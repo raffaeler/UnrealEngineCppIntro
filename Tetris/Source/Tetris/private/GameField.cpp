@@ -612,22 +612,24 @@ void AGameField::OnCrush()
         newScale = FMath::Lerp(scale, FVector(scale.X, 0, scale.Z), Alpha);
         newHeight = newScale.Y * CubeSize;  // 100 is the size of our cube
     }
-
-    for (auto actor : Removed)
+    else
     {
-        auto location = actor->GetActorLocation();
-        auto newY = location.Y + (CrushingHeight - newHeight) / 2;
+        for (auto actor : Removed)
+        {
+            auto location = actor->GetActorLocation();
+            auto newY = location.Y + (CrushingHeight - newHeight) / 2;
 
-        actor->SetActorRelativeScale3D(newScale);
-        actor->SetActorLocation(FVector(location.X, newY, location.Z));
+            actor->SetActorRelativeScale3D(newScale);
+            actor->SetActorLocation(FVector(location.X, newY, location.Z));
 
-        UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Removed Loc[%f,%f] New[%f,%f] Scale[%f,%f]"),
-            location.X, location.Y,
-            location.X, newY,
-            newScale.X, newScale.Y);
+            UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Removed Loc[%f,%f] New[%f,%f] Scale[%f,%f]"),
+                location.X, location.Y,
+                location.X, newY,
+                newScale.X, newScale.Y);
+        }
+
+        CrushingHeight = newHeight;
     }
-
-    CrushingHeight = newHeight;
 
     for (auto actor : Shifted)
     {
@@ -642,7 +644,6 @@ void AGameField::OnCrush()
             location.X, location.Y,
             newLocation.X, newLocation.Y,
             candidate.X, candidate.Y);
-
     }
 
 
