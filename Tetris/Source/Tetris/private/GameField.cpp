@@ -364,30 +364,21 @@ void AGameField::OnDrop()
     if (Current == nullptr) return;
     //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrop()"));
 
-    //if (IsMovementTimerRunning())
-    //{
-    //    CancelMovementTimer();
-    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-    //}
-
-    auto Loc = FVector(100, 100, 0);//Current->GetActorLocation();
-    Temp = Loc;
-    auto Back = FVector(-Loc.X, -Loc.Y, Loc.Z);
-    //if (counter == 0) Current->AddActorWorldOffset(Back);
-    //if (counter == 1) Current->AddActorWorldRotation(FRotator(0, -90, 0));
-    //if (counter == 2) Current->AddActorWorldOffset(Temp);
-
-    if (counter == 0) Current->TetrisRotate(counter);
-    if (counter == 1) Current->TetrisRotate(counter);
-    if (counter == 2) Current->TetrisRotate(counter);
-    if (counter == 3)
+    do
     {
-        Current->TetrisRotate(counter);
-        counter = 0;
-    }
-    else
+        YC++;
+    } while (BlocksManager->UpdateFloor(XC, YC, Rot, Current));
+
+    YC--;
+    BlocksManager->DumpFloor();
+    CurrentTime = 0.0f;
+    StartLocation = Current->GetActorLocation();
+    StartRotation = Current->GetActorRotation();
+    TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
+    TargetRotation = StartRotation;
+    if (!IsMovementTimerRunning())
     {
-        counter++;
+        StartMovementTimer();
     }
 
     //Current->AddActorLocalRotation
@@ -397,7 +388,7 @@ void AGameField::OnDrop()
 
     //AActor::AddActorWorldRotation()
 
-    BlocksManager->ResetFloor();
+    //BlocksManager->ResetFloor();
 }
 
 void AGameField::StartMovementTimer()
@@ -597,6 +588,17 @@ void AGameField::OnCrush()
 {
     CurrentTime += GetWorld()->GetDeltaSeconds();
 
+    // Check if the animation is finished
+    if (CurrentTime >= CrushDuration)
+    {
+        // Stop the animation timer
+        CancelCrushTimer();
+
+        // Restart game
+        StartItemFallTimer();
+        return;
+    }
+
     // Delta of time
     float Alpha = FMath::Clamp(CurrentTime / CrushDuration, 0.0f, 1.0f);
 
@@ -609,8 +611,20 @@ void AGameField::OnCrush()
         // These vars can be computed once for all
         auto firstActor = Removed[0];
         scale = firstActor->GetActorRelativeScale3D();
-        newScale = FMath::Lerp(scale, FVector(scale.X, 0, scale.Z), Alpha);
+        newScale = FMath::Lerp(scale, FVector(scale.X, 0.0f, scale.Z), Alpha);
         newHeight = newScale.Y * CubeSize;  // 100 is the size of our cube
+    }
+
+    // Below a certain scale the there is visual difference
+    // therefore it's better to remove the items
+    if (newScale.Y < 0.03f)
+    {
+        for (auto actor : Removed)
+        {
+            actor->Destroy();   // remove the crushed actors
+        }
+
+        Removed.Empty();
     }
 
     for (auto actor : Removed)
@@ -646,19 +660,5 @@ void AGameField::OnCrush()
     }
 
 
-    // Check if the animation is finished
-    if (CurrentTime >= CrushDuration)
-    {
-        // Stop the animation timer
-        CancelCrushTimer();
-
-        for (auto actor : Removed)
-        {
-            actor->Destroy();   // remove the crushed actors
-        }
-
-        // Restart game
-        StartItemFallTimer();
-    }
 }
 

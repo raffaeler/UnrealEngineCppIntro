@@ -8,8 +8,8 @@
 // Sets default values
 AItemBase::AItemBase()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = true;
+    // restore to activate the Tick and the debug info
+    PrimaryActorTick.bCanEverTick = false;
 
     //auto MeshName = GetName() + TEXT("Mesh");
     //auto mesh = CreateDefaultSubobject<UPrimitiveComponent>(*MeshName);
@@ -97,6 +97,7 @@ bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
 {
     // GetComponentsByClass is obsolete and can be replaced as follows
     //auto AllChildren = GetComponentsByClass(UChildActorComponent::StaticClass());
+
     TArray<UChildActorComponent*> AllChildren;
     GetComponents<UChildActorComponent>(AllChildren);
     if (AllChildren.IsEmpty()) return false;
@@ -124,52 +125,10 @@ void AItemBase::SetTileStatus()
     UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Primary material:%s"),
         *(PrimaryMaterial->GetFName().ToString()));
 
-    //auto mesh = Helpers::GetRootMeshComponent(this);
-
     ApplyMaterial(PrimaryMaterial);
-    ////TArray<AActor*> AllChildren;
-    ////GetAllChildActors(AllChildren);
-    ////for (const auto& actor : AllChildren)
-    ////{
-    ////    const auto& item = Cast<AItemBase>(actor);
-    ////    auto mesh = Cast<UStaticMeshComponent>(
-    ////        item->GetComponentByClass(UStaticMeshComponent::StaticClass()));
-
-    ////    //const auto& mesh = Cast<UStaticMeshComponent>(component);
-    ////    UE_LOG(LogTemp, Display, TEXT("Tetris> Child:%s"),
-    ////        *(mesh->GetFName().ToString()));
-    ////    mesh->SetMaterial(0, PrimaryMaterial);
-    ////}
-
-    //auto mesh = Cast<UStaticMeshComponent>(GetComponentByClass(UStaticMeshComponent::StaticClass()));
-    //mesh->SetMaterial(0, PrimaryMaterial);
-
-    /*
-    //StaticMeshComponent->SetMaterial(0, PrimaryMaterial);
-    auto mesh = Cast<UStaticMeshComponent>(RootComponent);
-    if (mesh != nullptr)
-    {
-        //static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(
-        //	TEXT("StaticMesh'/Game/Meshes/SM_ItemI"));
-        //UStaticMesh* Asset = MeshAsset.Object;
-
-        //mesh->SetStaticMesh(Asset);
-
-
-        mesh->SetMaterial(0, PrimaryMaterial);
-        auto mat = mesh->GetMaterial(0);
-        UE_LOG(LogTemp, Display, TEXT("Tetris> Read material:%s"),
-            *(mat->GetFName().ToString()));
-    }
-
-    //StaticMeshComponent->SetMaterial(1, PrimaryMaterial);
-
-    //FOutputDevice* OutputDevice = FGenericPlatformOutputDevices::GetLog();
-    //StaticMeshComponent->LogMaterialsAndTextures(*OutputDevice, 0);
-    */
 }
 
-// Called every frame
+// Called every frame only if bCanEverTick is true
 void AItemBase::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
