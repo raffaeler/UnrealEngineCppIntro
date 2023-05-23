@@ -603,7 +603,7 @@ void AGameField::OnCrush()
     // Removed items are crushed
     FVector scale;
     FVector newScale;
-    float newHeight;
+    float newHeight = 0.f;
     if (!Removed.IsEmpty())
     {
         // These vars can be computed once for all
@@ -612,24 +612,22 @@ void AGameField::OnCrush()
         newScale = FMath::Lerp(scale, FVector(scale.X, 0, scale.Z), Alpha);
         newHeight = newScale.Y * CubeSize;  // 100 is the size of our cube
     }
-    else
+
+    for (auto actor : Removed)
     {
-        for (auto actor : Removed)
-        {
-            auto location = actor->GetActorLocation();
-            auto newY = location.Y + (CrushingHeight - newHeight) / 2;
+        auto location = actor->GetActorLocation();
+        auto newY = location.Y + (CrushingHeight - newHeight) / 2;
 
-            actor->SetActorRelativeScale3D(newScale);
-            actor->SetActorLocation(FVector(location.X, newY, location.Z));
+        actor->SetActorRelativeScale3D(newScale);
+        actor->SetActorLocation(FVector(location.X, newY, location.Z));
 
-            UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Removed Loc[%f,%f] New[%f,%f] Scale[%f,%f]"),
-                location.X, location.Y,
-                location.X, newY,
-                newScale.X, newScale.Y);
-        }
-
-        CrushingHeight = newHeight;
+        UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Removed Loc[%f,%f] New[%f,%f] Scale[%f,%f]"),
+            location.X, location.Y,
+            location.X, newY,
+            newScale.X, newScale.Y);
     }
+
+    CrushingHeight = newHeight;
 
     for (auto actor : Shifted)
     {
@@ -644,6 +642,7 @@ void AGameField::OnCrush()
             location.X, location.Y,
             newLocation.X, newLocation.Y,
             candidate.X, candidate.Y);
+
     }
 
 
