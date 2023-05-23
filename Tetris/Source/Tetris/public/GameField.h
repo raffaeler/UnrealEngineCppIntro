@@ -88,6 +88,8 @@ private:
     const int32 Rows = 20;
     const int32 Columns = 10;
     const int32 ItemSize = 4;	// 4x4
+    const int32 CubeSize = 100;
+    const float CubeScale = 0.95f;
     FVector Zero = FVector(0, 0, 122);
 
     // The floor tiles are stored as a matrix
@@ -130,6 +132,18 @@ private:
     void CancelItemFallTimer();
     void OnItemFall();
     float ItemFallDuration;
+
+private:
+    TArray<AActor*> Removed;
+    TArray<AActor*> Shifted;
+
+    FTimerHandle CrushTimer;
+    void StartCrushTimer();
+    bool IsCrushTimerRunning();
+    void CancelCrushTimer();
+    void OnCrush();
+    float CrushDuration;
+    float CrushingHeight;
 
 
 private:

@@ -174,5 +174,11 @@ void AItemBase::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
+    FVector From = GetActorLocation();
+    FVector To = From + FVector(0, 0, 200);
+
+    DrawDebugDirectionalArrow(GetWorld(),
+        From, To, 50, FColor::Magenta, false, -1, 0, 4);
+
 }
 

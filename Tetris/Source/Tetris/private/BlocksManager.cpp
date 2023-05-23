@@ -54,11 +54,14 @@
 //    return actors;
 //}
 
-void UBlocksManager::InitializeBlocks(int32 FieldRows, int32 FieldColumns, int32 ShapeItemSize, const FVector& PositionZero)
+void UBlocksManager::InitializeBlocks(int32 FieldRows, int32 FieldColumns, int32 ShapeItemSize,
+    int32 BlockCubeSize, float BlockCubeScale, const FVector& PositionZero)
 {
     Rows = FieldRows;
     Columns = FieldColumns;
     ItemSize = ShapeItemSize;
+    CubeSize = BlockCubeSize;
+    CubeScale = BlockCubeScale;
     Zero = PositionZero;
     ResetFloor();
 }
@@ -236,6 +239,7 @@ void UBlocksManager::CrystalizeFloor(AItemBase* Item, AActor* NewParent,
     TMap<int32, AActor*> PositionMap;
     for (auto actor : Detached)
     {
+        actor->SetActorRotation(FRotator(0, 0, 0)); // remove any rotation
         auto XY = GetXYByLocation(actor->GetActorLocation());
         auto index = GetFloorIndexByXY(XY.Get<0>(), XY.Get<1>());
         PositionMap.Add(index, actor);
@@ -338,8 +342,9 @@ void UBlocksManager::DeleteAndShift(int32 Row, bool DoRemove,
         AItemBase* shiftedItemBase = Cast<AItemBase>(Floor[i].Value);
         if (shiftedItemBase != nullptr)
         {
-            auto XY = GetXYByFloorIndex(i);
-            shiftedItemBase->CandidateLocation = GetLocationByXY(XY.Key, XY.Value);
+            auto XY = GetXYByFloorIndex(i); // These coordinates are reversed x/y
+            shiftedItemBase->CandidateLocation = 
+                GetLocationByXY(XY.Value, XY.Key) + FVector(CubeSize/2, CubeSize / 2, 0);
             Shifted.Push(shiftedActor);
         }
     }

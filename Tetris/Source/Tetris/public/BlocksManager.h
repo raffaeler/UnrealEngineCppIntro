@@ -22,6 +22,8 @@ private:
     int32 Rows;
     int32 Columns;
     int32 ItemSize;
+    int32 CubeSize;
+    float CubeScale;
     FVector Zero;
 
     // The floor tiles are stored as a matrix
@@ -31,7 +33,8 @@ private:
     void DeleteAndShift(int32 Row, bool DoRemove, TArray<AActor*>& Removed, TArray<AActor*>& Shifted);
 
 public:
-    void InitializeBlocks(int32 FieldRows, int32 FieldColumns, int32 ShapItemSize, const FVector& PositionZero);
+    void InitializeBlocks(int32 FieldRows, int32 FieldColumns, int32 ShapItemSize,
+        int32 BlockCubeSize, float BlockCubeScale, const FVector& PositionZero);
     __forceinline FVector GetLocationByXY(int32 X, int32 Y);
     __forceinline TTuple<int32, int32> GetXYByLocation(const FVector& Location);
     __forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;

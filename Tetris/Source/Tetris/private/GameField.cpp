@@ -83,7 +83,7 @@ void AGameField::BeginPlay()
     //    *(PrimaryMaterial->GetFName().ToString()));
 
     BlocksManager = NewObject<UBlocksManager>();
-    BlocksManager->InitializeBlocks(Rows, Columns, ItemSize, Zero);
+    BlocksManager->InitializeBlocks(Rows, Columns, ItemSize, CubeSize, CubeScale, Zero);
 
     BlocksManager->ResetFloor();
 }
@@ -196,227 +196,6 @@ void AGameField::StartGame()
     StartItemFallTimer();
 }
 
-//int32 AGameField::GetFloorIndexByXY(int32 x, int32 y) const
-//{
-//    return y * Columns + x;
-//}
-
-//void AGameField::ResetFloor()
-//{
-//    Floor.Empty();
-//    auto count = Rows * Columns;
-//    Floor.Reserve(count);
-//    for (int i = 0; i < count; i++)
-//    {
-//        Floor.Push(0);
-//    }
-//}
-
-//FVector AGameField::GetLocationByXY(int32 X, int32 Y)
-//{
-//    return FVector(X * 100 + Zero.X, Y * 100 + Zero.Y, Zero.Z);
-//}
-
-//TTuple<int32, int32> AGameField::GetXYByLocation(FVector Location)
-//{
-//    int32 X = (int32)((Location.X - Zero.X) / 100);
-//    int32 Y = (int32)((Location.Y - Zero.Y) / 100);
-//    return { X, Y };
-//}
-
-//// X can span to negative beyond the field (negative values) because the
-//// matrix may have zeroes on the left and the leftmost tile of the item
-//// must be able to reach the 0 column.
-//// TileKind is a number < 100 representing the shape
-//// The matrix add 100 to the Tile Kind to represent the shape that is moving
-//bool AGameField::UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind)
-//{
-//    int32 mx = 0;   // x coordinate of the shape matrix
-//    int32 my = 0;   // y coordinate of the shape matrix
-//    int32 mxF = 0;  // x offset of the shape matrix
-//    int32 myF = 0;  // y offset of the shape matrix
-//
-//    TArray<TTuple<int32, int32>> Changes;
-//    Changes.Reserve(16);
-//
-//    if (X < 0)
-//    {
-//        mxF = FMath::Abs(X);
-//        X = 0;
-//        if (mxF >= ItemSize) return false;
-//
-//        // check if the Shape would collide with the left margin
-//        for (int r = 0; r < 4; r++)
-//        {
-//            for (int c = 0; c < mxF; c++)
-//            {
-//                if (Shape.M[r][c] != 0) return false;
-//            }
-//        }
-//    }
-//
-//    if (Y < 0)
-//    {
-//        myF = FMath::Abs(Y);
-//        Y = 0;
-//        if (myF >= ItemSize) return false;
-//
-//        // check if the Shape would collide with the bottom margin
-//        for (int c = ItemSize - 1; c >= myF; c--)
-//        {
-//            for (int r = 0; r < 4; r++)
-//            {
-//                if (Shape.M[r][c] != 0) return false;
-//            }
-//        }
-//    }
-//
-//    my = myF;
-//    for (int j = Y; j < Y + ItemSize && my < ItemSize; j++)
-//    {
-//        mx = mxF;
-//        for (int i = X; i < X + ItemSize && mx < ItemSize; i++)
-//        {
-//            int32 index = GetFloorIndexByXY(i, j);
-//            bool isFilled = Shape.M[my][mx] != 0;
-//
-//            if (isFilled)
-//            {
-//                if (i >= Columns) return false;    // found a tile beyond the right margin
-//                if (j >= Rows) return false;
-//                const int32 content = Floor[index];
-//                if (content > 0 && content < 100) return false;    // tile is already busy
-//                Changes.Push({ index, (int32)ShapeKind });
-//            }
-//
-//            mx++;
-//        }
-//
-//        my++;
-//    }
-//
-//    // If there are overlaps, the function already returned false
-//    // Otherwise Changes contains the list of indices to be overwritten
-//
-//    // delete the current moving shape
-//    for (int i = 0; i < Floor.Num(); i++)
-//    {
-//        if (Floor[i] >= 100) Floor[i] = 0;
-//    }
-//
-//    // draw the current moving shape in the updated position
-//    for (const auto& tp : Changes)
-//    {
-//        Floor[tp.Get<0>()] = tp.Get<1>() + 100;
-//    }
-//
-//    return true;
-//}
-
-//void AGameField::CrystalizeFloor()
-//{
-//    // when a shape stops falling down, it gets crystalized
-//    for (int i = 0; i < Floor.Num(); i++)
-//    {
-//        int32& value = Floor[i];
-//        if (value >= 100)
-//        {
-//            Floor[i] = value - 100;
-//        }
-//    }
-//
-//    // shapes get ungrouped into simple blocks (cubes)
-//    int32 MinY = INT_MAX;
-//    int32 MaxY = 0;
-//    TArray<AActor*> Detached;
-//    Current->Ungroup(this, Detached);
-//
-//    if (Detached.IsEmpty())
-//    {
-//        UE_LOG(LogTemp, Log, TEXT("AGameField::CrystalizeFloor - Detached is empty"));
-//        return;
-//    }
-//
-//    // ungrouped blocks are then added to the Blocks Manager to keep track of their position
-//    for (const auto actor : Detached)
-//    {
-//        auto XY = GetXYByLocation(actor->GetActorLocation());
-//        auto x = XY.Get<0>();
-//        auto y = XY.Get<1>();
-//
-//        MinY = FMath::Min(MinY, y);
-//        MaxY = FMath::Max(MaxY, y);
-//
-//        BlocksManager->SetBlock(x, y, actor);
-//    }
-//
-//    // Floor indexes are from top to bottom
-//    // Blocks indexes are from bottom to top (to ease shifting the actors)
-//    int32 start = Rows - MinY;
-//    int32 end = Rows - MaxY;
-//
-//    // The Floor array is used to verify whether there are full lines to remove
-//    TArray<int32> FullRows;
-//    for (int j = start; j < end; j++)
-//    {
-//        int counter = 0;
-//        for (int i = 0; i < Columns; i++)
-//        {
-//            int32 index = GetFloorIndexByXY(i, j);
-//            int32 value = Floor[index];
-//
-//            if (value > 0) counter++;
-//        }
-//
-//        if (counter == Columns)
-//        {
-//            // full row => to remove
-//            FullRows.Push(j);
-//        }
-//    }
-//
-//    // full lines are removed from the BlocksManager
-//    for (auto row : FullRows)
-//    {
-//        int32 blockRow = Rows - row;
-//        TArray<AActor*> removedActors = BlocksManager->RemoveLine(blockRow);
-//    }
-//
-//
-//}
-//
-//void AGameField::DumpFloor()
-//{
-//    FString dump = " \n  |0123456789|\n";
-//    dump.Reserve(Rows * Columns + 200);
-//    for (int j = 0; j < Rows; j++)
-//    {
-//        auto line = FString::FromInt(j);
-//        if (line.Len() == 1) dump += FString(" ");
-//        dump += line;
-//        dump += FString("|");
-//
-//        for (int i = 0; i < Columns; i++)
-//        {
-//            int32 index = GetFloorIndexByXY(i, j);
-//            int32 value = Floor[index];
-//            if (value >= 100)
-//            {
-//                dump += TEXT("*");
-//            }
-//            else
-//            {
-//                dump += Helpers::ToString((EShapeKind)value);
-//            }
-//        }
-//
-//        dump += TEXT("|\n");
-//    }
-//
-//    dump += "  |0123456789|";
-//    UE_LOG(LogTemp, Log, TEXT("%s"), *dump);
-//}
-//
 
 void AGameField::OnLeft()
 {
@@ -615,7 +394,7 @@ void AGameField::OnDrop()
     //Current->AddActorLocalOffset
     //Current->AddActorWorldOffset
     //Current->AddActorWorldRotation
-    
+
     //AActor::AddActorWorldRotation()
 
     BlocksManager->ResetFloor();
@@ -725,6 +504,7 @@ AItemBase* AGameField::CreateRandomItem(int X, int Y)
 
 void AGameField::OnItemFall()
 {
+    bool startFallTimer = true;
     if (Current == nullptr)
     {
         // spawn new item
@@ -758,13 +538,127 @@ void AGameField::OnItemFall()
             CancelMovementTimer();
             Current->SetActorLocationAndRotation(TargetLocation + TargetPostOffset, TargetRotation);
 
-            TArray<AActor*> Removed;
-            TArray<AActor*> Shifted;
+            UE_LOG(LogTemp, Display, TEXT("Tetris> Crystalize before:%f"),
+                GetWorld()->GetDeltaSeconds());
+
+            Removed.Empty();
+            Shifted.Empty();
             BlocksManager->CrystalizeFloor(Current, this, Removed, Shifted);
             Current = nullptr;
+
+            UE_LOG(LogTemp, Display, TEXT("Tetris> Crystalize after :%f"),
+                GetWorld()->GetDeltaSeconds());
+
+            if (!Removed.IsEmpty())
+            {
+                // 1. Cancel all the timers
+                CancelItemFallTimer();
+                CancelMovementTimer();
+                startFallTimer = false;
+
+                // 2. Start new animation with:
+                //    - Removed Items collapsing
+                //    - Shifted Items moving down to the CandidateLocation
+                CurrentTime = 0;    // this is shared with MovementTimer because they do not run together
+                CrushDuration = 1.5f;
+                CrushingHeight = CubeSize * CubeScale;   // can take this from the bounds
+                StartCrushTimer();
+
+                // 3. Resume all the timers
+                // This must be done with StartItemFallTimer() at the end of the animation
+            }
         }
     }
 
-    StartItemFallTimer();
+    if (startFallTimer) StartItemFallTimer();
+}
+
+void AGameField::StartCrushTimer()
+{
+    GetWorld()->GetTimerManager().SetTimer(
+        CrushTimer,
+        this,
+        &AGameField::OnCrush,
+        GetWorld()->GetDeltaSeconds(),
+        true);
+}
+
+bool AGameField::IsCrushTimerRunning()
+{
+    return GetWorld()->GetTimerManager().IsTimerActive(CrushTimer);
+}
+
+void AGameField::CancelCrushTimer()
+{
+    GetWorld()->GetTimerManager().ClearTimer(CrushTimer);
+}
+
+void AGameField::OnCrush()
+{
+    CurrentTime += GetWorld()->GetDeltaSeconds();
+
+    // Delta of time
+    float Alpha = FMath::Clamp(CurrentTime / CrushDuration, 0.0f, 1.0f);
+
+    // Removed items are crushed
+    FVector scale;
+    FVector newScale;
+    float newHeight;
+    if (!Removed.IsEmpty())
+    {
+        // These vars can be computed once for all
+        auto firstActor = Removed[0];
+        scale = firstActor->GetActorRelativeScale3D();
+        newScale = FMath::Lerp(scale, FVector(scale.X, 0, scale.Z), Alpha);
+        newHeight = newScale.Y * CubeSize;  // 100 is the size of our cube
+    }
+
+    for (auto actor : Removed)
+    {
+        auto location = actor->GetActorLocation();
+        auto newY = location.Y + (CrushingHeight - newHeight) / 2;
+
+        actor->SetActorRelativeScale3D(newScale);
+        actor->SetActorLocation(FVector(location.X, newY, location.Z));
+
+        UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Removed Loc[%f,%f] New[%f,%f] Scale[%f,%f]"),
+            location.X, location.Y,
+            location.X, newY,
+            newScale.X, newScale.Y);
+    }
+
+    CrushingHeight = newHeight;
+
+    for (auto actor : Shifted)
+    {
+        auto itemBase = Cast<AItemBase>(actor);
+        auto candidate = itemBase->CandidateLocation;
+        auto location = actor->GetActorLocation();
+
+        auto newLocation = FMath::Lerp(location, candidate, Alpha);
+        actor->SetActorLocation(newLocation);
+
+        UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Shifted Loc[%f,%f] New[%f,%f] Cand[%f,%f]"),
+            location.X, location.Y,
+            newLocation.X, newLocation.Y,
+            candidate.X, candidate.Y);
+
+    }
+
+
+    // Check if the animation is finished
+    if (CurrentTime >= CrushDuration)
+    {
+        // Stop the animation timer
+        CancelCrushTimer();
+
+        for (auto actor : Removed)
+        {
+            actor->Destroy();   // remove the crushed actors
+        }
+
+        // Restart game
+        StartItemFallTimer();
+    }
 }
 
