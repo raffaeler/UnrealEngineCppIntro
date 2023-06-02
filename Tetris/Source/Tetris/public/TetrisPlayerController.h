@@ -46,6 +46,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
 		UInputAction* InputDrop;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
+		UInputAction* MaterialSwitch;
+
 	bool ValidateInput(const FInputActionValue& InputValue);
 	void OnNewItem(const FInputActionValue& InputValue);
 
@@ -55,4 +58,5 @@ protected:
 	void OnDrawNext(const FInputActionValue& InputValue);
 	void OnSpeedUp(const FInputActionValue& InputValue);
 	void OnDrop(const FInputActionValue& InputValue);
+	void OnMaterialSwitch(const FInputActionValue& InputValue);
 };

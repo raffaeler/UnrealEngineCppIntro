@@ -42,7 +42,7 @@ public:
 	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
 		UMaterialInterface* ExtraMaterial = nullptr;
 
-	void SetTileStatus();
+	void SetTileStatus(EMaterialKind MaterialKind);
 
 public:
 	FMatrix44f Shape;

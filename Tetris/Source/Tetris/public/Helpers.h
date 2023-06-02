@@ -19,6 +19,12 @@ enum class EShapeKind : uint8
 	MAX = 7,
 };
 
+enum class EMaterialKind : uint8
+{
+	Primary,
+	Secondary,
+};
+
 /**
  * 
  */

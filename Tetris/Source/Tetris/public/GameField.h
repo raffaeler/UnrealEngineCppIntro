@@ -83,6 +83,7 @@ public:
 public:
     void StartGame();
     UPROPERTY() AItemBase* Current;
+    EMaterialKind ItemMaterialKind;
 
 private:
     const int32 Rows = 20;

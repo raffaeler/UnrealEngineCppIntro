@@ -67,6 +67,7 @@ AGameField::AGameField()
     //RootComponent = StaticMeshComponent;
 
     PrimaryMaterial = nullptr;
+    ItemMaterialKind = EMaterialKind::Primary;
     MovementDuration = 0.3f;
     ItemFallDuration = 0.5f;
 
@@ -478,7 +479,7 @@ AItemBase* AGameField::CreateItem(const EShapeKind ShapeKind, int Y, int X)
     FVector PostOffset;
     Item->GetLocationAndRotatorbyRotation(Rot, &PreOffset, &Rotator, &PostOffset);
     Item->SetActorLocationAndRotation(InitialPosition, Rotator);
-    Item->SetTileStatus();
+    Item->SetTileStatus(ItemMaterialKind);
 
     TargetLocation = PreOffset;
     TargetRotation = Rotator;

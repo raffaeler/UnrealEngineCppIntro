@@ -120,12 +120,18 @@ void AItemBase::Rotate()
 {
 }
 
-void AItemBase::SetTileStatus()
+void AItemBase::SetTileStatus(EMaterialKind MaterialKind)
 {
-    UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Primary material:%s"),
-        *(PrimaryMaterial->GetFName().ToString()));
+    UMaterialInterface* material = nullptr;
+    if (MaterialKind == EMaterialKind::Primary)
+        material = PrimaryMaterial;
+    else if (MaterialKind == EMaterialKind::Secondary)
+        material = SecondaryMaterial;
 
-    ApplyMaterial(PrimaryMaterial);
+    UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Primary material:%s"),
+        *(material->GetFName().ToString()));
+
+    ApplyMaterial(material);
 }
 
 // Called every frame only if bCanEverTick is true

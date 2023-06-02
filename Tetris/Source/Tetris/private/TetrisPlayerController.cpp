@@ -44,6 +44,7 @@ void ATetrisPlayerController::SetupInputComponent()
     PEI->BindAction(InputDrawNext, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnDrawNext);
     PEI->BindAction(InputSpeedUp, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnSpeedUp);
     PEI->BindAction(InputDrop, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnDrop);
+    PEI->BindAction(MaterialSwitch, ETriggerEvent::Triggered, this, &ATetrisPlayerController::OnMaterialSwitch);
 
     //// Get the player controller
     //APlayerController* PC = Cast<APlayerController>(GetController());
@@ -129,6 +130,20 @@ void ATetrisPlayerController::OnDrop(const FInputActionValue& InputValue)
 
     auto GameField = Cast<AGameField>(GetPawn());
     if (Value) GameField->OnDrop();
+}
+
+void ATetrisPlayerController::OnMaterialSwitch(const FInputActionValue& InputValue)
+{
+    bool Value = ValidateInput(InputValue);
+
+    auto GameField = Cast<AGameField>(GetPawn());
+    if (Value)
+    {
+        if(GameField->ItemMaterialKind == EMaterialKind::Primary)
+            GameField->ItemMaterialKind = EMaterialKind::Secondary;
+        else
+            GameField->ItemMaterialKind = EMaterialKind::Primary;
+    }
 }
 
 
