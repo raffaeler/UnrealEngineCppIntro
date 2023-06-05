@@ -156,5 +156,8 @@ public:
     int32 XC = 3, YC = 0;
     int32 Rot = 0;
 
-
+public:
+    // Score and HUD
+    void UpdateScore(int32 num);
+    void UpdateHUD();
 };

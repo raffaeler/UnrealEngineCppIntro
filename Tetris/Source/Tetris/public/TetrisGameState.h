@@ -13,5 +13,5 @@ UCLASS()
 class TETRIS_API ATetrisGameState : public AGameState
 {
 	GENERATED_BODY()
-	
+
 };

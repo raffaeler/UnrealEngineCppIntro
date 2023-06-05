@@ -8,6 +8,8 @@
 //#include "EnhancedInputComponent.h"
 
 #include "TetrisGameMode.h"
+#include "TetrisPlayerState.h"
+#include "TetrisHUD.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -390,6 +392,8 @@ void AGameField::OnDrop()
     //AActor::AddActorWorldRotation()
 
     //BlocksManager->ResetFloor();
+
+    UpdateScore(1);
 }
 
 void AGameField::StartMovementTimer()
@@ -660,6 +664,33 @@ void AGameField::OnCrush()
 
     }
 
-
+    UpdateScore(Shifted.Num());
 }
 
+void AGameField::UpdateScore(int32 num)
+{
+    auto playerController = GetWorld()->GetFirstPlayerController();
+    if (!playerController) return;
+    
+    auto playerState = Cast<ATetrisPlayerState>(playerController->PlayerState);
+    if (!playerState) return;
+
+    playerState->IncrementPoints(num);
+    UpdateHUD();
+}
+
+void AGameField::UpdateHUD()
+{
+    auto playerController = GetWorld()->GetFirstPlayerController();
+    if (!playerController) return;
+    
+    auto playerState = Cast<ATetrisPlayerState>(playerController->PlayerState);
+    if (!playerState) return;
+
+    auto score = playerState->GetPoints();
+
+    ATetrisHUD* hud = Cast<ATetrisHUD>(playerController->GetHUD());
+    if (!hud) return;
+
+    hud->UpdateScore(score);
+}
