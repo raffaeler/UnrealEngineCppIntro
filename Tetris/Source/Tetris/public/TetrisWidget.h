@@ -22,6 +22,8 @@ public:
 
 	void UpdateScore(int32 score);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* TBScore;
+
+
 };
