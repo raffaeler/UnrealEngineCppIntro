@@ -11,9 +11,6 @@ UTetrisWidget::UTetrisWidget(const FObjectInitializer& ObjectInitializer)
 void UTetrisWidget::NativeConstruct()
 {
     Super::NativeConstruct();
-
-    if(HeartSizeAnimation)
-        PlayAnimation(HeartSizeAnimation, 0.0f, 0);
 }
 
 void UTetrisWidget::UpdateScore(int32 score)
@@ -28,14 +25,6 @@ void UTetrisWidget::UpdateScore(int32 score)
     
     auto str = FString::FromInt(score);
     auto text = FText::FromString(str);
-    if (score == 0)
-    {
-        TBScore->SetText(FText());
-    }
-    else
-    {
-        TBScore->SetText(text);
-        PlayAnimation(ScoreSizeAnimation, 0.0f, 1);
-    }
+    TBScore->SetText(text);
 }
 

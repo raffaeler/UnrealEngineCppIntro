@@ -25,11 +25,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* TBScore;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,
-		Transient, meta = (BindWidgetAnim))
-	UWidgetAnimation* ScoreSizeAnimation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,
-		Transient, meta = (BindWidgetAnim))
-	UWidgetAnimation* HeartSizeAnimation;
 };
