@@ -67,26 +67,3 @@ bool AItemJ::GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, F
     return true;
 }
 
-void AItemJ::TetrisRotate(int Rotation)
-{
-    //UE_LOG(LogTemp, Log, TEXT("Tetris> ItemJ::TetrisRotate rotation: %d"), Rotation);
-    switch (Rotation)
-    {
-    case 0:
-        SetActorRotation(RotatorA);
-        break;
-    case 1:
-        SetActorRotation(RotatorB);
-        break;
-    case 2:
-        SetActorRotation(RotatorC);
-        break;
-    case 3:
-        SetActorRotation(RotatorD);
-        break;
-
-    default:
-        UE_LOG(LogTemp, Log, TEXT("Tetris> ItemJ::GetShape - Bad rotation: %d"), Rotation);
-        return;
-    }
-}

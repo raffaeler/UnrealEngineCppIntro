@@ -77,11 +77,6 @@ void AItemBase::ShiftChildrenActors(FVector RelativeOffset)
     }
 }
 
-void AItemBase::TetrisRotate(int Rotation)
-{
-}
-
-
 bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
 {
     // GetComponentsByClass is obsolete

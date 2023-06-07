@@ -58,5 +58,5 @@ public:
     FMatrix44f GetShape(int Rotation) override;
     EShapeKind GetShapeKind() override;
     bool GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, FRotator* Rotator, FVector* PostOffset) override;
-    void TetrisRotate(int Rotation) override;
+
 };
