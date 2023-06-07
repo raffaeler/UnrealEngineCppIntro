@@ -69,18 +69,16 @@ bool AItemL::GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, F
 
 void AItemL::TetrisRotate(int Rotation)
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> ItemL::TetrisRotate rotation: %d"), Rotation);
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> ItemL::TetrisRotate rotation: %d"), Rotation);
     switch (Rotation)
     {
     case 0:
         ShiftChildrenActors(FVector(0, 0, 0));
         SetActorRotation(RotatorA);
-        //ShiftChildrenActors(FVector(100, 100, 0));
         break;
     case 1:
         ShiftChildrenActors(FVector(-150, -50, 0));
         SetActorRotation(RotatorB);
-        //ShiftChildrenActors(FVector(100, 100, 0));
         SetActorLocation(GetActorLocation() + FVector(150, 50, 0));
         break;
     case 2:

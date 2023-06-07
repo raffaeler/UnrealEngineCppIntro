@@ -70,23 +70,19 @@ bool AItemZ::GetLocationAndRotatorbyRotation(int Rotation, FVector*PreOffset, FR
 
 void AItemZ::TetrisRotate(int Rotation)
 {
-    UE_LOG(LogTemp, Log, TEXT("Tetris> ItemZ::TetrisRotate rotation: %d"), Rotation);
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> ItemZ::TetrisRotate rotation: %d"), Rotation);
     switch (Rotation)
     {
     case 0:
-        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorA);
         break;
     case 1:
-        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorB);
         break;
     case 2:
-        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorC);
         break;
     case 3:
-        //ShiftChildrenActors(FVector(-100, -200, 0));
         SetActorRotation(RotatorD);
         break;
 

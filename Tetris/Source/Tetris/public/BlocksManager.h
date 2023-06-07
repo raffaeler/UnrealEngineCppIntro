@@ -4,14 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-//#include "Templates/Tuple.h"
 #include "ItemBase.h"
 #include "Helpers.h"
 
 #include "BlocksManager.generated.h"
 
 /**
- *
+ * This class manages the Tetris logic
  */
 UCLASS()
 class TETRIS_API UBlocksManager : public UObject
@@ -28,15 +27,19 @@ private:
 
     // The floor tiles are stored as a matrix
     // 0,0 is the upper left tile
-    //UPROPERTY()
+
+    // TTuple<> are not supported to be UPROPERTY
+    //UPROPERTY(Transient)
     TArray<TTuple<int32, AActor*>> Floor;
     void DeleteAndShift(int32 Row, bool DoRemove, TArray<AActor*>& Removed, TArray<AActor*>& Shifted);
 
 public:
-    void InitializeBlocks(int32 FieldRows, int32 FieldColumns, int32 ShapItemSize,
-        int32 BlockCubeSize, float BlockCubeScale, const FVector& PositionZero);
-    __forceinline FVector GetLocationByXY(int32 X, int32 Y);
-    __forceinline TTuple<int32, int32> GetXYByLocation(const FVector& Location);
+    void InitializeBlocks(int32 FieldRows, int32 FieldColumns,
+        int32 ShapItemSize, int32 BlockCubeSize,
+        float BlockCubeScale, const FVector& PositionZero);
+    __forceinline FVector GetLocationByXY(int32 X, int32 Y) const;
+    __forceinline TTuple<int32, int32> GetXYByLocation(
+        const FVector& Location) const;
     __forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;
     __forceinline TTuple<int32, int32> GetXYByFloorIndex(int32 index) const;
 
@@ -44,24 +47,9 @@ public:
     bool UpdateFloor(int32 X, int32 Y, int32 Rot, AItemBase* Item);
     void CrystalizeFloor(AItemBase* Item, AActor* NewParent,
         TArray<AActor*>& Removed, TArray<AActor*>& Shifted);
-    void DumpFloor();
+    void DumpFloor() const;
 
 
-
-
-    //private:
-    //	TArray<TArray<AActor*>> Blocks;
-    //
-    //	int32 Rows;
-    //	int32 Columns;
-    //
-    //	void EnsureMemoryBlocks();
-    //
-    //public:
-    //	void InitializeBlocks(int32 Rows, int32 Columns);
-    //
-    //	void SetBlock(int Row, int Column, AActor* Actor);
-    //	TArray<AActor*> RemoveLine(int Line);
 };
 
 

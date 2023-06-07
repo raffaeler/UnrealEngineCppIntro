@@ -15,12 +15,7 @@ void ATetrisGameMode::BeginPlay()
     }
 
     auto world = GetWorld();
-    //world->OriginLocation = FIntVector(730, 500, 100);
-
     FVector GameFieldPos(0, 0, 100);
-    //FVector GameFieldPos(730, 500, 100);
-    //GameField = Cast<AGameField>(world->SpawnActor(GameFieldClass, &GameFieldPos));
-    //GameField = Cast<AGameField>(DefaultPawnClass.GetDefaultObject());
     GameField = Cast<AGameField>(*TActorIterator<AGameField>(GetWorld()));
     GameField->SetActorLocation(GameFieldPos);
     GameField->SetActorRotation(FRotator());
@@ -28,16 +23,13 @@ void ATetrisGameMode::BeginPlay()
     //DrawDebugDirectionalArrow(world,
     //    FVector(0, 0, 100), FVector(0, 0, 600), 50, FColor::Orange, true, -1, 0, 10);
 
-
     ItemDropDelegate.BindUFunction(this, "OnItemDropTimer");
-
     StartGameDelegate.BindUFunction(this, "OnStartGameTimer");
     IntervalIndex = 0;
     StartGameIntervals.Push(1);
     //StartGameIntervals.Push(0.9);
     //StartGameIntervals.Push(0.9);
     SetupStartGameTimer();
-
 }
 
 void ATetrisGameMode::SetupStartGameTimer()

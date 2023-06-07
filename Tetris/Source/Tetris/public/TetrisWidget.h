@@ -23,13 +23,13 @@ public:
 	void UpdateScore(int32 score);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* TBScore;
+	class UTextBlock* TBScore = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,
 		Transient, meta = (BindWidgetAnim))
-	UWidgetAnimation* ScoreSizeAnimation;
+	UWidgetAnimation* ScoreSizeAnimation = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,
 		Transient, meta = (BindWidgetAnim))
-	UWidgetAnimation* HeartSizeAnimation;
+	UWidgetAnimation* HeartSizeAnimation = nullptr;
 };

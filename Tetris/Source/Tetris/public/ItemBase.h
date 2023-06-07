@@ -15,20 +15,16 @@ class TETRIS_API AItemBase : public AActor
 private:
 	
 public:	
-	// Sets default values for this actor's properties
 	AItemBase();
 
 	void ApplyMaterial(UMaterialInterface* material);
 	bool Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors);
-	//bool Ungroup2(AActor* NewParent, TArray<AActor*>& detachedActors);
 	void Rotate();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 
@@ -42,14 +38,14 @@ public:
 	UPROPERTY(EditAnywhere, Transient, Category = "TetrisShape")
 		UMaterialInterface* ExtraMaterial = nullptr;
 
-	void SetTileStatus(EMaterialKind MaterialKind);
+	void SetTileStatus(EBlockMaterialKind MaterialKind);
 
 public:
 	FMatrix44f Shape;
 	FIntVector2 Center;
-	int32 ExtentLeft;
-	int32 ExtentBottom;
-	int32 ExtentRight;
+	int32 ExtentLeft = 0;
+	int32 ExtentBottom = 0;
+	int32 ExtentRight = 0;
 
 	virtual FMatrix44f GetShape(int Rotation);
 	virtual EShapeKind GetShapeKind();

@@ -28,18 +28,15 @@ private:
     void DbgDraw();
 
 public:
-    // Sets default values for this pawn's properties
     AGameField();
 
 protected:
-    // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
     UPROPERTY()
-        UBlocksManager* BlocksManager;
+        UBlocksManager* BlocksManager = nullptr;
 
 public:
-    // Called every frame
     virtual void Tick(float DeltaTime) override;
 
     // Called to bind functionality to input
@@ -82,8 +79,9 @@ public:
 
 public:
     void StartGame();
-    UPROPERTY() AItemBase* Current;
-    EMaterialKind ItemMaterialKind;
+    UPROPERTY(Transient) AItemBase* Current = nullptr;
+
+    EBlockMaterialKind ItemMaterialKind;
 
 private:
     const int32 Rows = 20;
@@ -93,19 +91,8 @@ private:
     const float CubeScale = 0.95f;
     FVector Zero = FVector(0, 0, 122);
 
-    // The floor tiles are stored as a matrix
-    // 0,0 is the upper left tile
-    //FVector GetLocationByXY(int32 X, int32 Y);
-    //TTuple<int32, int32> GetXYByLocation(FVector Location);
-    //TArray<int32> Floor;
-    //__forceinline int32 GetFloorIndexByXY(int32 x, int32 y) const;
-    //void ResetFloor();
-    //bool UpdateFloor(int32 X, int32 Y, const FMatrix44f& Shape, EShapeKind ShapeKind);
-    //void CrystalizeFloor();
-    //void DumpFloor();
-
 private:
-    // debug
+    // debug variables
     int counter = 0;
     FVector Temp;
 
@@ -148,7 +135,7 @@ private:
 
 
 private:
-    int ItemCounter = (int32)EShapeKind::MIN;
+    int ItemCounter = (int32)EShapeKind::None + 1;
     AItemBase* CreateRandomItem(int X, int Y);
     AItemBase* CreateItem(const EShapeKind ShapeKind, int X, int Y);
 

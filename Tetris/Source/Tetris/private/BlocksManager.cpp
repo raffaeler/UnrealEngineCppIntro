@@ -3,59 +3,10 @@
 
 #include "BlocksManager.h"
 
-//void UBlocksManager::InitializeBlocks(int32 Rows, int32 Columns)
-//{
-//    this->Rows = Rows;
-//    this->Columns = Columns;
-//    Blocks.Empty();
-//    for (int32 i = 0; i < Rows; i++)
-//    {
-//        TArray<AActor*> Row;
-//        for (int32 j = 0; j < Columns; j++)
-//        {
-//            Row[j] = nullptr;
-//        }
-//
-//        Blocks.Push(Row);
-//    }
-//}
-//
-//void UBlocksManager::EnsureMemoryBlocks()
-//{
-//    auto missing = Rows - Blocks.Num();
-//    if (missing < 0)
-//    {
-//        UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::EnsureMemoryBlocks - too many rows"));
-//        return;
-//    }
-//
-//    for (int32 i = 0; i < missing; i++)
-//    {
-//        TArray<AActor*> Row;
-//        for (int32 j = 0; j < Columns; j++)
-//        {
-//            Row[j] = nullptr;
-//        }
-//
-//        Blocks.Push(Row);
-//    }
-//}
-//
-//void UBlocksManager::SetBlock(int Row, int Column, AActor* Actor)
-//{
-//    Blocks[Row][Column] = Actor;
-//}
-//
-//TArray<AActor*> UBlocksManager::RemoveLine(int Line)
-//{
-//    TArray<AActor*> actors = Blocks[Line];
-//    Blocks.RemoveAt(Line);
-//    EnsureMemoryBlocks();
-//    return actors;
-//}
-
-void UBlocksManager::InitializeBlocks(int32 FieldRows, int32 FieldColumns, int32 ShapeItemSize,
-    int32 BlockCubeSize, float BlockCubeScale, const FVector& PositionZero)
+void UBlocksManager::InitializeBlocks(
+    int32 FieldRows, int32 FieldColumns,
+    int32 ShapeItemSize, int32 BlockCubeSize,
+    float BlockCubeScale, const FVector& PositionZero)
 {
     Rows = FieldRows;
     Columns = FieldColumns;
@@ -89,12 +40,13 @@ TTuple<int32, int32> UBlocksManager::GetXYByFloorIndex(int32 index) const
     return { x, y };
 }
 
-FVector UBlocksManager::GetLocationByXY(int32 X, int32 Y)
+FVector UBlocksManager::GetLocationByXY(int32 X, int32 Y) const
 {
     return FVector(X * 100 + Zero.X, Y * 100 + Zero.Y, Zero.Z);
 }
 
-TTuple<int32, int32> UBlocksManager::GetXYByLocation(const FVector& Location)
+TTuple<int32, int32> UBlocksManager::GetXYByLocation(
+    const FVector& Location) const
 {
     int32 X = (int32)((Location.X - Zero.X) / 100);
     int32 Y = (int32)((Location.Y - Zero.Y) / 100);
@@ -106,7 +58,8 @@ TTuple<int32, int32> UBlocksManager::GetXYByLocation(const FVector& Location)
 // must be able to reach the 0 column.
 // TileKind is a number < 100 representing the shape
 // The matrix add 100 to the Tile Kind to represent the shape that is moving
-bool UBlocksManager::UpdateFloor(int32 X, int32 Y, int32 Rot, AItemBase* Item)
+bool UBlocksManager::UpdateFloor(int32 X, int32 Y, int32 Rot,
+    AItemBase* Item)
 {
     const FMatrix44f& Shape = Item->GetShape(Rot);
     EShapeKind ShapeKind = Item->GetShapeKind();
@@ -193,7 +146,7 @@ bool UBlocksManager::UpdateFloor(int32 X, int32 Y, int32 Rot, AItemBase* Item)
     return true;
 }
 
-void UBlocksManager::DumpFloor()
+void UBlocksManager::DumpFloor() const
 {
     FString dump = " \n  |0123456789|\n";
     dump.Reserve(Rows * Columns + 200);
@@ -216,8 +169,18 @@ void UBlocksManager::DumpFloor()
             else
             {
                 EShapeKind kind = (EShapeKind)value;
-                if (kind != EShapeKind::None && Floor[index].Value == nullptr) dump += TEXT("%"); else
-                    dump += Helpers::ToString(kind);
+                if (kind == EShapeKind::None)
+                {
+                    dump += TEXT(" ");
+                }
+                else if (Floor[index].Value == nullptr)
+                {
+                    dump += TEXT("%");
+                }
+                else
+                {
+                    dump += Helpers::EnumToString(kind);
+                }
             }
         }
 
@@ -298,8 +261,8 @@ void UBlocksManager::CrystalizeFloor(AItemBase* Item, AActor* NewParent,
 
         if (isComplete)
         {
-            UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - RowToRemove[%d]"),
-                row);
+            //UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - RowToRemove[%d]"),
+            //    row);
 
             toRemove.Push(row);
         }
@@ -333,7 +296,7 @@ void UBlocksManager::DeleteAndShift(int32 Row, bool DoRemove,
             }
             else
             {
-                UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - actor is null: %d"), i);
+                //UE_LOG(LogTemp, Log, TEXT("Tetris> UBlocksManager::DeleteAndShift - actor is null: %d"), i);
             }
         }
 
@@ -351,8 +314,3 @@ void UBlocksManager::DeleteAndShift(int32 Row, bool DoRemove,
 
     DeleteAndShift(Row - 1, false, Removed, Shifted);
 }
-
-
-
-
-

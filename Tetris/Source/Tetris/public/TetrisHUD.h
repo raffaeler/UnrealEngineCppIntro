@@ -32,5 +32,5 @@ public:
     TSubclassOf<UTetrisWidget> TetrisWidgetClass;
 
 private:
-    UTetrisWidget* TetrisWidget;
+    UTetrisWidget* TetrisWidget = nullptr;
 };

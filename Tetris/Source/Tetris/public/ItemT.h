@@ -62,5 +62,4 @@ public:
     bool GetLocationAndRotatorbyRotation(int Rotation, FVector* PreOffset, FRotator* Rotator, FVector* PostOffset) override;
     void TetrisRotate(int Rotation) override;
 
-
 };

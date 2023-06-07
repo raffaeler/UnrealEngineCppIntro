@@ -43,18 +43,19 @@ public:
 
     // TSubclassOf is a template class that provides UClass type safety.
     UPROPERTY(EditDefaultsOnly, Category = "TetrisCore")
-        TSubclassOf<AGameField> GameFieldClass;
+    TSubclassOf<AGameField> GameFieldClass;
 
     UPROPERTY(EditDefaultsOnly, Category = "TetrisCore")
-        TMap<FString, TSubclassOf<AItemBase>> ItemClasses;
+    TMap<FString, TSubclassOf<AItemBase>> ItemClasses;
 
     // reference to a GameField object
     UPROPERTY(Transient)
-        AGameField* GameField = nullptr;
+    AGameField* GameField = nullptr;
 
     UPROPERTY(Transient)
-        AItemBase* CurrentItem = nullptr;
+    AItemBase* CurrentItem = nullptr;
 
+    UPROPERTY()
     TArray<AActor*> DetachedActors;
 
 public:

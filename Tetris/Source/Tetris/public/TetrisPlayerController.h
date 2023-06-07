@@ -23,31 +23,31 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		class UInputMappingContext* InputMapping;
+		class UInputMappingContext* InputMapping = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputNewItem;
+		UInputAction* InputNewItem = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputLeft;
+		UInputAction* InputLeft = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputRight;
+		UInputAction* InputRight = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputRotate;
+		UInputAction* InputRotate = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputDrawNext;
+		UInputAction* InputDrawNext = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputSpeedUp;
+		UInputAction* InputSpeedUp = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* InputDrop;
+		UInputAction* InputDrop = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tetris Enhanced Input")
-		UInputAction* MaterialSwitch;
+		UInputAction* MaterialSwitch = nullptr;
 
 	bool ValidateInput(const FInputActionValue& InputValue);
 	void OnNewItem(const FInputActionValue& InputValue);

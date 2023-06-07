@@ -12,12 +12,10 @@
 #include "TetrisHUD.h"
 #include "DrawDebugHelpers.h"
 
-// Sets default values
 AGameField::AGameField()
 {
-    // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = true;
-
+    // Enable/Disable Tick()
+    PrimaryActorTick.bCanEverTick = false;
 
     // Camera settings
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootSceneComponent"));
@@ -29,6 +27,7 @@ AGameField::AGameField()
     ArmComponent->SetupAttachment(StaticMeshComponent);
     CameraComponent->SetupAttachment(ArmComponent, USpringArmComponent::SocketName);
 
+    // Example of manipulating the Camera "Arm"
     //ArmComponent->SetRelativeLocationAndRotation(
     //    FVector(0.0f, 0.0f, 50.0f),
     //    FRotator(0.0f, 90.0f, 0.0f));
@@ -36,46 +35,13 @@ AGameField::AGameField()
     //ArmComponent->bEnableCameraLag = false;
     //ArmComponent->CameraLagSpeed = 3.0f;
 
-    /*
-    RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
-    ArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArm"));
-    ////ArmComponent->SetupAttachment(RootComponent);
-    //ArmComponent->SetAbsolute(true, true, true);
-    //ArmComponent->SetRelativeLocationAndRotation(ArmLocation, ArmRotation);
-    //ArmComponent->TargetArmLength = ArmLength;
-    //ArmComponent->bEnableCameraLag = false;	// was true
-    //ArmComponent->CameraLagSpeed = 0.0f;	// was 6.0f
-    //ArmComponent->bDrawDebugLagMarkers = ShowDebug;
-    Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraMain"));
-    Camera->SetupAttachment(ArmComponent, USpringArmComponent::SocketName);
-    // GameInstance = Cast<UPMGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-    */
-
-    //auto mesh = Cast<UStaticMeshComponent>(GetRootComponent());
-    //if (mesh == nullptr)
-    //{
-    //    mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GameFieldMesh"));
-    //    SetRootComponent(mesh);
-    //}
-
-
-    //StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(
-    //    TEXT("GameFieldMesh"));
-
-    //UE_LOG(LogTemp, Display, TEXT("Tetris> AGameField::AGameField() StaticMesh is %s"), StaticMeshComponent == nullptr ? *FString("null") : *FString("ok"));
-
-    //SetRootComponent(StaticMeshComponent);
-    //RootComponent = StaticMeshComponent;
-
     PrimaryMaterial = nullptr;
-    ItemMaterialKind = EMaterialKind::Primary;
-    MovementDuration = 0.3f;
-    ItemFallDuration = 0.5f;
+    ItemMaterialKind = EBlockMaterialKind::Primary;
+    MovementDuration = 0.2f;
+    ItemFallDuration = 0.4f;
 
 }
 
-// Called when the game starts or when spawned
 void AGameField::BeginPlay()
 {
     Super::BeginPlay();
@@ -89,9 +55,12 @@ void AGameField::BeginPlay()
     BlocksManager->InitializeBlocks(Rows, Columns, ItemSize, CubeSize, CubeScale, Zero);
 
     BlocksManager->ResetFloor();
+
+    auto blocksClass = BlocksManager->GetClass();
+    auto cdo = blocksClass->GetDefaultObject();
+    FString minString = Helpers::EnumToString<EShapeKind>(EShapeKind::None);
 }
 
-// Called every frame
 void AGameField::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -155,8 +124,8 @@ void AGameField::DbgDraw()
 // Called to bind functionality to input
 void AGameField::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
+    //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::SetupPlayerInputComponent()"));
     Super::SetupPlayerInputComponent(PlayerInputComponent);
-    UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::SetupPlayerInputComponent()"));
 
     //// Get the player controller (either the default or the user-defined)
     //APlayerController* PC = Cast<APlayerController>(GetController());
@@ -199,17 +168,10 @@ void AGameField::StartGame()
     StartItemFallTimer();
 }
 
-
 void AGameField::OnLeft()
 {
     if (Current == nullptr) return;
     //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnLeft()"));
-
-    //if (IsMovementTimerRunning())
-    //{
-    //    CancelMovementTimer();
-    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-    //}
 
     XC--;
     if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
@@ -221,7 +183,6 @@ void AGameField::OnLeft()
         StartLocation = Current->GetActorLocation();
         StartRotation = Current->GetActorRotation();
         TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
-        //TargetLocation = TargetLocation - FVector(100, 0, 0);
         if (!IsMovementTimerRunning())
         {
             StartMovementTimer();
@@ -238,12 +199,6 @@ void AGameField::OnRight()
     if (Current == nullptr) return;
     //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRight()"));
 
-    //if (IsMovementTimerRunning())
-    //{
-    //    CancelMovementTimer();
-    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-    //}
-
     XC++;
     if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
@@ -254,7 +209,6 @@ void AGameField::OnRight()
         StartLocation = Current->GetActorLocation();
         StartRotation = Current->GetActorRotation();
         TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
-        //TargetLocation = TargetLocation + FVector(100, 0, 0);
         if (!IsMovementTimerRunning())
         {
             StartMovementTimer();
@@ -270,11 +224,6 @@ void AGameField::OnRotate()
 {
     if (Current == nullptr) return;
     //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnRotate()"));
-
-    //if (GetWorld()->GetTimerManager().IsTimerActive(MovementTimer)) {
-    //    CancelMovementTimer();
-    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-    //}
 
     Rot++;
     if (Rot == 4) Rot = 0;
@@ -318,12 +267,6 @@ void AGameField::OnDrawNext()
 {
     //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnDrawNext()"));
 
-    //if (IsMovementTimerRunning())
-    //{
-    //    CancelMovementTimer();
-    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-    //}
-
     YC++;
     if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
     {
@@ -345,21 +288,17 @@ void AGameField::OnDrawNext()
     }
 }
 
+// speed up is not currently implemented as "speed up" :-)
 void AGameField::OnSpeedUp()
 {
     //UE_LOG(LogTemp, Log, TEXT("Tetris> AGameField::OnSpeedUp()"));
-
-    //if (IsMovementTimerRunning())
-    //{
-    //    CancelMovementTimer();
-    //    Current->SetActorLocationAndRotation(TargetLocation, TargetRotation);
-    //}
 
     if (Current != nullptr) Current->Destroy();
     Current = CreateItem((EShapeKind)ItemCounter, 0, 0);
     ItemCounter++;
 
-    if (ItemCounter - 1 == (int32)EShapeKind::MAX) ItemCounter = (int32)EShapeKind::MIN;
+    if (ItemCounter == (int32)EShapeKind::ABOVEMAX)
+        ItemCounter = (int32)EShapeKind::None + 1;
 }
 
 void AGameField::OnDrop()
@@ -383,15 +322,6 @@ void AGameField::OnDrop()
     {
         StartMovementTimer();
     }
-
-    //Current->AddActorLocalRotation
-    //Current->AddActorLocalOffset
-    //Current->AddActorWorldOffset
-    //Current->AddActorWorldRotation
-
-    //AActor::AddActorWorldRotation()
-
-    //BlocksManager->ResetFloor();
 
     UpdateScore(1);
 }
@@ -432,10 +362,6 @@ void AGameField::OnMovement()
     FVector NewLocation = FMath::Lerp(StartLocation, TotalTargetLocation, Alpha);
     FRotator NewRotation = FMath::Lerp(StartRotation, TargetRotation, Alpha);
 
-    //UE_LOG(LogTemp, Log, TEXT("Tetris> NewLoc=(%f, %f, %f) - NewRot=(%f, %f, %f)"),
-    //    NewLocation.X, NewLocation.Y, NewLocation.Z,
-    //    NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
-
     // Set the new rotation for the actor
     Current->SetActorLocationAndRotation(NewLocation, NewRotation);
 
@@ -474,7 +400,7 @@ AItemBase* AGameField::CreateItem(const EShapeKind ShapeKind, int Y, int X)
     Rot = 0;
 
     ATetrisGameMode* GameMode = Cast<ATetrisGameMode>(GetWorld()->GetAuthGameMode());
-    FString ShapeName = Helpers::ToString(ShapeKind);
+    FString ShapeName = Helpers::EnumToString(ShapeKind);
     auto ItemClass = GameMode->ItemClasses[ShapeName];
     auto InitialPosition = BlocksManager->GetLocationByXY(XC, YC);
     auto Item = Cast<AItemBase>(GetWorld()->SpawnActor(ItemClass));
@@ -494,7 +420,9 @@ AItemBase* AGameField::CreateItem(const EShapeKind ShapeKind, int Y, int X)
 
 AItemBase* AGameField::CreateRandomItem(int X, int Y)
 {
-    int32 index = FMath::RandRange((int32)EShapeKind::MIN, (int32)EShapeKind::MAX);
+    int32 index = FMath::RandRange(
+        (int32)EShapeKind::None + 1,
+        (int32)EShapeKind::ABOVEMAX - 1);
     return CreateItem((EShapeKind)index, X, Y);
 }
 
@@ -514,13 +442,11 @@ void AGameField::OnItemFall()
         if (BlocksManager->UpdateFloor(XC, YC, Rot, Current))
         {
             // Item can go down
-            //UE_LOG(LogTemp, Log, TEXT("Tetris> [%d,%d] R=%d"), XC, YC, Rot);
             BlocksManager->DumpFloor();
             CurrentTime = 0.0f;
             StartLocation = Current->GetActorLocation();
             StartRotation = Current->GetActorRotation();
             TargetLocation = BlocksManager->GetLocationByXY(XC, YC);
-            //TargetLocation = TargetLocation + FVector(0, 100, 0);
             if (!IsMovementTimerRunning())
             {
                 StartMovementTimer();
@@ -534,16 +460,16 @@ void AGameField::OnItemFall()
             CancelMovementTimer();
             Current->SetActorLocationAndRotation(TargetLocation + TargetPostOffset, TargetRotation);
 
-            UE_LOG(LogTemp, Display, TEXT("Tetris> Crystalize before:%f"),
-                GetWorld()->GetDeltaSeconds());
+            //UE_LOG(LogTemp, Display, TEXT("Tetris> Crystalize before:%f"),
+            //    GetWorld()->GetDeltaSeconds());
 
             Removed.Empty();
             Shifted.Empty();
             BlocksManager->CrystalizeFloor(Current, this, Removed, Shifted);
             Current = nullptr;
 
-            UE_LOG(LogTemp, Display, TEXT("Tetris> Crystalize after :%f"),
-                GetWorld()->GetDeltaSeconds());
+            //UE_LOG(LogTemp, Display, TEXT("Tetris> Crystalize after :%f"),
+            //    GetWorld()->GetDeltaSeconds());
 
             if (!Removed.IsEmpty())
             {
@@ -640,10 +566,10 @@ void AGameField::OnCrush()
         actor->SetActorRelativeScale3D(newScale);
         actor->SetActorLocation(FVector(location.X, newY, location.Z));
 
-        UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Removed Loc[%f,%f] New[%f,%f] Scale[%f,%f]"),
-            location.X, location.Y,
-            location.X, newY,
-            newScale.X, newScale.Y);
+        //UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Removed Loc[%f,%f] New[%f,%f] Scale[%f,%f]"),
+        //    location.X, location.Y,
+        //    location.X, newY,
+        //    newScale.X, newScale.Y);
     }
 
     CrushingHeight = newHeight;
@@ -657,10 +583,10 @@ void AGameField::OnCrush()
         auto newLocation = FMath::Lerp(location, candidate, Alpha);
         actor->SetActorLocation(newLocation);
 
-        UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Shifted Loc[%f,%f] New[%f,%f] Cand[%f,%f]"),
-            location.X, location.Y,
-            newLocation.X, newLocation.Y,
-            candidate.X, candidate.Y);
+        //UE_LOG(LogTemp, Display, TEXT("Tetris> Crush-Shifted Loc[%f,%f] New[%f,%f] Cand[%f,%f]"),
+        //    location.X, location.Y,
+        //    newLocation.X, newLocation.Y,
+        //    candidate.X, candidate.Y);
 
     }
 

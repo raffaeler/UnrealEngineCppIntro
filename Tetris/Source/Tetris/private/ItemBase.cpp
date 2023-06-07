@@ -5,27 +5,16 @@
 #include "Helpers.h"
 #include "Elements/Framework/TypedElementHandle.h"
 
-// Sets default values
 AItemBase::AItemBase()
 {
-    // restore to activate the Tick and the debug info
+    // Enable/Disable Tick()
     PrimaryActorTick.bCanEverTick = false;
-
-    //auto MeshName = GetName() + TEXT("Mesh");
-    //auto mesh = CreateDefaultSubobject<UPrimitiveComponent>(*MeshName);
-    //SetRootComponent(mesh);
-    //GetMesh
-
-    PrimaryMaterial = nullptr;
-    SecondaryMaterial = nullptr;
-    ExtraMaterial = nullptr;
 }
 
 // Called when the game starts or when spawned
 void AItemBase::BeginPlay()
 {
     Super::BeginPlay();
-
 }
 
 // This function must be overridden
@@ -95,7 +84,8 @@ void AItemBase::TetrisRotate(int Rotation)
 
 bool AItemBase::Ungroup(AActor* NewParent, TArray<AActor*>& detachedActors)
 {
-    // GetComponentsByClass is obsolete and can be replaced as follows
+    // GetComponentsByClass is obsolete
+    // We must use GetComponents() instead
     //auto AllChildren = GetComponentsByClass(UChildActorComponent::StaticClass());
 
     TArray<UChildActorComponent*> AllChildren;
@@ -120,13 +110,17 @@ void AItemBase::Rotate()
 {
 }
 
-void AItemBase::SetTileStatus(EMaterialKind MaterialKind)
+void AItemBase::SetTileStatus(EBlockMaterialKind MaterialKind)
 {
     UMaterialInterface* material = nullptr;
-    if (MaterialKind == EMaterialKind::Primary)
+    if (MaterialKind == EBlockMaterialKind::Primary)
+    {
         material = PrimaryMaterial;
-    else if (MaterialKind == EMaterialKind::Secondary)
+    }
+    else if (MaterialKind == EBlockMaterialKind::Secondary)
+    {
         material = SecondaryMaterial;
+    }
 
     UE_LOG(LogTemp, Display, TEXT("Tetris> AItemBase Primary material:%s"),
         *(material->GetFName().ToString()));
@@ -144,6 +138,5 @@ void AItemBase::Tick(float DeltaTime)
 
     DrawDebugDirectionalArrow(GetWorld(),
         From, To, 50, FColor::Magenta, false, -1, 0, 4);
-
 }
 

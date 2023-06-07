@@ -139,31 +139,12 @@ void ATetrisPlayerController::OnMaterialSwitch(const FInputActionValue& InputVal
     auto GameField = Cast<AGameField>(GetPawn());
     if (Value)
     {
-        if(GameField->ItemMaterialKind == EMaterialKind::Primary)
-            GameField->ItemMaterialKind = EMaterialKind::Secondary;
+        if(GameField->ItemMaterialKind == EBlockMaterialKind::Primary)
+            GameField->ItemMaterialKind = EBlockMaterialKind::Secondary;
         else
-            GameField->ItemMaterialKind = EMaterialKind::Primary;
+            GameField->ItemMaterialKind = EBlockMaterialKind::Primary;
     }
 }
 
 
 
-//void ATetrisPlayerController::OnNewItem()
-//{
-//    //if (Controller == nullptr)
-//    //{
-//    //    UE_LOG(LogTemp, Log, TEXT("Tetris> ATetrisPlayerController::OnNewItem() - Controller is null"));
-//    //    return;
-//    //}
-//
-//    //if (Value.GetValueType() != EInputActionValueType::Boolean)
-//    //{
-//    //    UE_LOG(LogTemp, Log, TEXT("Tetris> ATetrisPlayerController::OnNewItem() - Value is not boolean"));
-//    //    return;
-//    //}
-//
-//    //bool value = Value.GetMagnitude() != 0;
-//    //UE_LOG(LogTemp, Log, TEXT("Tetris> ATetrisPlayerController::OnNewItem() - Value:%s"),
-//    //    value ? TEXT("On") : TEXT("Off"));
-//
-//}
