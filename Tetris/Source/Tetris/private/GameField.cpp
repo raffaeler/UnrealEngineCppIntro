@@ -433,7 +433,7 @@ void AGameField::OnItemFall()
     {
         // spawn new item
         CancelMovementTimer();
-        Current = CreateRandomItem(0, 0);
+        Current = CreateRandomItem(0, 4);
     }
     else
     {
