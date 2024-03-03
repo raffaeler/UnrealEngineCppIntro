@@ -434,6 +434,9 @@ void AGameField::OnItemFall()
         // spawn new item
         CancelMovementTimer();
         Current = CreateRandomItem(0, 4);
+        //BlocksManager->UpdateFloor(XC, YC, Rot, Current);
+        //auto newItemLocation = BlocksManager->GetLocationByXY(XC, YC);
+        //Current->SetActorLocation(newItemLocation);
     }
     else
     {

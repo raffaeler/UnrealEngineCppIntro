@@ -148,8 +148,9 @@ bool UBlocksManager::UpdateFloor(int32 X, int32 Y, int32 Rot,
 
 void UBlocksManager::DumpFloor() const
 {
-    FString dump = " \n  |0123456789|\n";
+    FString dump;
     dump.Reserve(Rows * Columns + 200);
+    dump = " \n  |0123456789|\n";
     for (int j = 0; j < Rows; j++)
     {
         auto line = FString::FromInt(j);
